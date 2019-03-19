@@ -1,3 +1,54 @@
-<p>
-  register works!
-</p>
+<mat-card>
+  <mat-card-title>Register</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <p>
+        <mat-form-field>
+          <input type="text" matInput placeholder="First Name" formControlName="firstName">
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field>
+          <input type="text" matInput placeholder="Last Name" formControlName="lastName">
+        </mat-form-field>
+      </p>
+      <p>
+        <mat-form-field>
+        <input type="text" matInput placeholder="Email" formControlName="email">
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field>
+          <input type="password" matInput placeholder="Password" formControlName="password">
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field>
+          <input type="password" matInput placeholder="Confirm Password" formControlName="cpassword">
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-checkbox class="checkbox-margin" formControlName="acceptEmails">
+          By checking this box and clicking “Register”, I confirm that I have reached, in my country of residence, the age of majority and I consent to Jelani using the data I provide in this form to profile me and to send me marketing communications, by email or telephone, including targeted marketing communications customised to my interests and shopping habits, as detailed in the Privacy Notice. I understand that I can withdraw my consent at any time by clicking the unsubscribe link in an email.
+        </mat-checkbox>
+      </p>
+
+      <p>
+        <mat-checkbox class="checkbox-margin" formControlName="acceptEmails">
+            I consent to the processing of my personal data by Jelani for customer satisfaction purposes and for customizing my user experience to my interests or my shopping habits.
+        </mat-checkbox>
+      </p>
+
+      <p *ngIf="error" class="error">
+        {{ error }}
+      </p>
+
+      <div class="button">
+        <button type="submit" mat-button class="mat-elevation-z3">Register</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

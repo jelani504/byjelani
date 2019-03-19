@@ -1,17 +1,25 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MatInputModule, MatButtonModule } from '@angular/material';
+import {
+  MatInputModule,
+  MatButtonModule,
+  MatIconModule,
+  MatCardModule,
+} from '@angular/material';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
+const modules = [
+  MatInputModule,
+  MatButtonModule,
+  MatToolbarModule,
+  MatIconModule,
+  MatCardModule,
+  MatCheckboxModule
+];
 
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-    MatInputModule,
-    MatButtonModule
-  ],
-  exports: [
-    MatInputModule,
-    MatButtonModule
-  ]
+  imports: modules,
+  exports: modules
 })
 export class AppMaterialModule { }

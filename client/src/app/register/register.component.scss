@@ -1,0 +1,49 @@
+:host {
+    display: flex;
+    justify-content: center;
+    margin: 100px 0px;
+}
+
+.mat-form-field {
+    width: 100%;
+    min-width: 300px;
+}
+/deep/
+label{
+    color: black !important; 
+    text-align: center;
+    white-space: normal !important;
+}
+/deep/ .mat-form-field-appearance-legacy .mat-form-field-underline {
+    background-color:  #686868 !important;
+}
+/deep/ .mat-form-field.mat-focused .mat-form-field-ripple {
+    background-color: black !important;
+}
+mat-card-title,
+mat-card-content {
+    display: flex;
+    justify-content: center;
+}
+
+mat-card{
+    background-color: ghostwhite;
+    color: black;
+    width: 450px !important;
+}
+
+.error {
+    padding: 16px;
+    width: 300px;
+    color: white;
+    background-color: red;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+}
+
+.checkbox-margin {
+    margin: 0 10px;
+  }
