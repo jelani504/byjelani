@@ -27,7 +27,7 @@ mat-card-content {
 }
 
 mat-card{
-    background-color: ghostwhite;
+    background-color: white;
     color: black;
     width: 450px !important;
 }
@@ -46,4 +46,13 @@ mat-card{
 
 .checkbox-margin {
     margin: 0 10px;
-  }
+}
+.spacer{
+    height: 10px;
+}
+.title{
+    text-align: center
+}
+.login-register-button{
+    margin: 10px
+}

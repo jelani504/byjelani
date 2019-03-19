@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppMaterialModule } from './app-material.module';
@@ -30,7 +32,8 @@ import { SidenavComponent } from './sidenav/sidenav.component';
     AppMaterialModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    FlexLayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]

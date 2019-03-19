@@ -1,5 +1,6 @@
 import { Input, Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -18,14 +19,18 @@ export class LoginComponent implements OnInit {
 
   @Output() submitEM = new EventEmitter();
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
 
-  submit() {
+  login() {
     if (this.form.valid) {
       this.submitEM.emit(this.form.value);
     }
+  }
+
+  navigateToRegister() {
+    this.router.navigate(['/register']);
   }
 }
