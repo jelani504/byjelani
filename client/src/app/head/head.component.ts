@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { IconService } from '../icon.service';
 
 @Component({
   selector: 'app-head',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeadComponent implements OnInit {
 
-  constructor() { }
+  constructor(public iconService: IconService) { }
 
   ngOnInit() {
   }

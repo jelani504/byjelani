@@ -1,10 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
-
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppMaterialModule } from './app-material.module';
@@ -15,6 +15,8 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { ProfileComponent } from './profile/profile.component';
 import { HeadComponent } from './head/head.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
+import { RegisterService } from './register/register.service';
+import { IconService } from './icon.service';
 
 @NgModule({
   declarations: [
@@ -33,9 +35,10 @@ import { SidenavComponent } from './sidenav/sidenav.component';
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [RegisterService, IconService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -2,11 +2,13 @@ import { NgModule } from '@angular/core';
 import {
   MatInputModule,
   MatButtonModule,
-  MatIconModule,
   MatCardModule,
+  MatRadioModule,
 } from '@angular/material';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
+import { IconService } from './icon.service';
 
 const modules = [
   MatInputModule,
@@ -14,7 +16,8 @@ const modules = [
   MatToolbarModule,
   MatIconModule,
   MatCardModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatRadioModule
 ];
 
 @NgModule({
@@ -22,4 +25,8 @@ const modules = [
   imports: modules,
   exports: modules
 })
-export class AppMaterialModule { }
+export class AppMaterialModule { 
+  constructor( private iconService: IconService){
+    iconService.registerIcons();
+  }
+}

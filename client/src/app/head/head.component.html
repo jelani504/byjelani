@@ -1,9 +1,7 @@
 <mat-toolbar class="mat-elevation-z2">
   <mat-toolbar-row>
-    <span>Jelani</span>
+    <span class="title-font">JELANI</span>
     <span class="example-spacer"></span>
-    <span>My Account</span>
-    <mat-icon class="example-icon" aria-hidden="false" aria-label="Example heart icon">cart</mat-icon>
-    <mat-icon class="example-icon" aria-hidden="false" aria-label="Example delete icon">sidenav</mat-icon>
+    <mat-icon *ngFor="let icon of iconService.icons.header" class="svgicon" svgIcon="{{icon}}"></mat-icon>
   </mat-toolbar-row>
 </mat-toolbar>

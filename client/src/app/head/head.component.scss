@@ -1,12 +1,18 @@
-.example-icon {
+.svgicon {
     padding: 0 14px;
+    width: 50px;
+    margin-top: 5px;
   }
   
   .example-spacer {
     flex: 1 1 auto;
   }
 
+  .title-font{
+    font: 500 80px "Block Shadow";
+  }
   mat-toolbar{
       background: white;
       color: black;
+      font: 500 16px/32px "Helvetica",sans-serif;
   }

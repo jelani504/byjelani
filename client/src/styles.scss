@@ -1,2 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@font-face {
+  font-family: "Block Shadow";
+  src: url("assets/fonts/BlockShadow-Regular.ttf") format("truetype");
+}
+.blockshadow {
+  font-family: "Block Shadow";
+}

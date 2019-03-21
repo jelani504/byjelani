@@ -1,7 +1,7 @@
 :host {
     display: flex;
     justify-content: center;
-    margin: 100px 0px;
+    margin: 40px 0px;
 }
 
 .mat-form-field {
@@ -25,7 +25,9 @@ mat-card-content {
     display: flex;
     justify-content: center;
 }
-
+mat-radio-button {
+    margin-left: 16.5%;
+}
 mat-card{
     background-color: white;
     color: black;

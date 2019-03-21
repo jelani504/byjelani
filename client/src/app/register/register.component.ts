@@ -2,6 +2,8 @@ import { Input, Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { RegisterService } from './register.service';
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -16,8 +18,7 @@ export class RegisterComponent implements OnInit {
     password: new FormControl(null, [Validators.required]),
     cpassword: new FormControl(null, [Validators.required]),
     acceptContact: new FormControl(true),
-    mr: new FormControl(null, [Validators.required]),
-    miss: new FormControl(null, [Validators.required]),
+    title: new FormControl(null, [Validators.required]),
     proccessPersonalData: new FormControl(null, [Validators.required])
   });
 
@@ -25,7 +26,9 @@ export class RegisterComponent implements OnInit {
 
   @Output() submitEM = new EventEmitter();
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, public registerService: RegisterService) {
+    console.log(registerService);
+   }
 
   ngOnInit() {
   }
@@ -35,6 +38,7 @@ export class RegisterComponent implements OnInit {
     console.log('Form Invalid');
     return;
     }
+    console.log(this.registerForm);
     this.submitEM.emit(this.registerForm.value);
   }
 
