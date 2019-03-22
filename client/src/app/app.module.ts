@@ -17,6 +17,7 @@ import { HeadComponent } from './head/head.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { RegisterService } from './register/register.service';
 import { IconService } from './icon.service';
+import { LoginService } from './login/login.service';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,7 @@ import { IconService } from './icon.service';
     FlexLayoutModule,
     HttpClientModule
   ],
-  providers: [RegisterService, IconService],
+  providers: [RegisterService, IconService, LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -26,24 +26,9 @@ export class RegisterComponent implements OnInit {
 
   @Output() submitEM = new EventEmitter();
 
-  constructor(private router: Router, public registerService: RegisterService) {
-    console.log(registerService);
-   }
+  constructor(public registerService: RegisterService) {}
 
   ngOnInit() {
-  }
-
-  register(): void {
-    if (!this.registerForm.valid || (this.registerForm.controls.password.value !== this.registerForm.controls.cpassword.value)) {
-    console.log('Form Invalid');
-    return;
-    }
-    console.log(this.registerForm);
-    this.submitEM.emit(this.registerForm.value);
-  }
-
-  navigateToLogin() {
-    this.router.navigate(['/login']);
   }
 
 }

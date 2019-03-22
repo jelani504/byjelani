@@ -1,6 +1,6 @@
 import { Input, Component, Output, EventEmitter, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { LoginService } from './login.service';
 
 
 @Component({
@@ -10,27 +10,18 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  form: FormGroup = new FormGroup({
-    email: new FormControl(''),
-    password: new FormControl(''),
+  loginForm: FormGroup = new FormGroup({
+    email: new FormControl(null, [Validators.email, Validators.required]),
+    password: new FormControl(null, Validators.required),
   });
 
   @Input() error: string | null;
 
   @Output() submitEM = new EventEmitter();
 
-  constructor(private router: Router) { }
+  constructor(public loginService: LoginService) { }
 
   ngOnInit() {
   }
 
-  login() {
-    if (this.form.valid) {
-      this.submitEM.emit(this.form.value);
-    }
-  }
-
-  navigateToRegister() {
-    this.router.navigate(['/register']);
-  }
 }
