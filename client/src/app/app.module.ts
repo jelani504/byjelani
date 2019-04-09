@@ -15,6 +15,7 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { ProfileComponent } from './profile/profile.component';
 import { HeadComponent } from './head/head.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
+import { ShopComponent } from './shop/shop.component';
 import { RegisterService } from './register/register.service';
 import { IconService } from './icon.service';
 import { LoginService } from './login/login.service';
@@ -28,6 +29,7 @@ import { LoginService } from './login/login.service';
     ProfileComponent,
     HeadComponent,
     SidenavComponent,
+    ShopComponent,
   ],
   imports: [
     BrowserModule,

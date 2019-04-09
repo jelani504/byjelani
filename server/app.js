@@ -8,6 +8,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
+const { setupPassport } = require('./passport-config');
 
 const setupRoutes = require('./routes');
 const MongoStore = require('connect-mongo')(session);
@@ -17,7 +18,7 @@ const app = express();
 app.use(passport.initialize());
 app.use(passport.session());
 
-const { setupPassport } = require('./passport-config');
+// setupPassport(app);
 
 mongoose.connect('mongodb://jelani504:123dieb4utri@ds211083.mlab.com:11083/byjelani', { useNewUrlParser: true });
 app.use(cors({

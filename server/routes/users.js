@@ -27,9 +27,11 @@ router.post('/register', (req, res, next) => {
     title,
     creation_dt: Date.now(),
   };
+  console.log(user);
   try {
     return res.status(201).json(userHelpers.createUser(user));
   } catch (err) {
+    console.log('ERROR CREATING USER');
     return res.status(501).json(err);
   }
 });

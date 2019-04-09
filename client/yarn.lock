@@ -100,6 +100,11 @@
     "@angular-devkit/core" "7.3.6"
     rxjs "6.3.3"
 
+"@angular-guru/electron-builder@^6.1.7":
+  version "6.1.7"
+  resolved "https://registry.yarnpkg.com/@angular-guru/electron-builder/-/electron-builder-6.1.7.tgz#98022e6f6d24b12746794748552bd0648f6912af"
+  integrity sha512-nw5IztqbV0t3zUdfo5/1sXGy1bJDPeb4yIrggnCe7vaZpLXAeWY20F9Og6QF20PWfaG25H887YLDeAcBxPk64Q==
+
 "@angular/animations@^7.2.9":
   version "7.2.9"
   resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-7.2.9.tgz#1bfacb76dfd80656e28edb4efdfd3154e56f1c29"
