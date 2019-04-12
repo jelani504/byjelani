@@ -1,0 +1,32 @@
+.container{
+    height: 750px;
+    margin: 30px;
+}
+
+.category-card{
+    height: 100%;
+    width: 30%;
+    margin: 30px;
+    text-align: center;
+    font-size: 72px;
+}
+
+mat-card.unaccess{
+    opacity: .25;
+}
+
+.durable-goods{
+    font-family: 'Stardos Stencil', cursive;
+}
+.unsought-goods{
+    font-family: 'Timmana', sans-serif;
+    top: 40% !important;
+}
+.nondurable-goods{
+    font-family: 'Open Sans Condensed', sans-serif;
+}
+p.title{
+    position: absolute;
+    top: 33%;
+
+}
