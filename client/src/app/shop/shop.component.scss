@@ -1,14 +1,29 @@
 .container{
     height: 750px;
     margin: 30px;
+    font-family: 'Helvetica', sans-serif;
+    text-align: center;
+}
+
+.product{
+    align-content: center;
 }
 
 .category-card{
-    height: 100%;
+    height: 50%;
     width: 30%;
     margin: 30px;
-    text-align: center;
-    font-size: 72px;
+    font-size: 40px;
+    font-family: 'Anton', sans-serif;
+}
+
+p.product-model{
+    font-size: 20px;
+    padding-bottom: 25px;
+}
+
+button.price{
+    padding-top: 25px;
 }
 
 mat-card.unaccess{
@@ -20,13 +35,12 @@ mat-card.unaccess{
 }
 .unsought-goods{
     font-family: 'Timmana', sans-serif;
-    top: 40% !important;
+    font-size: 60px;
+    // top: 40% !important;
 }
 .nondurable-goods{
     font-family: 'Open Sans Condensed', sans-serif;
 }
-p.title{
-    position: absolute;
-    top: 33%;
-
+p{
+    margin : 0;
 }
