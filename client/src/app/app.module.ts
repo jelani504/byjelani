@@ -19,6 +19,7 @@ import { ShopComponent } from './shop/shop.component';
 import { RegisterService } from './register/register.service';
 import { IconService } from './icon.service';
 import { LoginService } from './login/login.service';
+import { ProductDetailsComponent } from './shop/product-details/product-details.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { LoginService } from './login/login.service';
     HeadComponent,
     SidenavComponent,
     ShopComponent,
+    ProductDetailsComponent,
   ],
   imports: [
     BrowserModule,

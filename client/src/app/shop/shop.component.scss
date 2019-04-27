@@ -5,25 +5,26 @@
     text-align: center;
 }
 
-.product{
+mat-card.product {
+    cursor: pointer;
     align-content: center;
-}
-
-.category-card{
-    height: 50%;
-    width: 30%;
-    margin: 30px;
-    font-size: 40px;
-    font-family: 'Anton', sans-serif;
 }
 
 p.product-model{
     font-size: 20px;
     padding-bottom: 25px;
 }
+div.product-row{
+    justify-content: center !important;
+}
 
-button.price{
-    padding-top: 25px;
+p.product-title{
+    padding-top: 15px;
+}
+p.price{
+    font-size: 40px;
+    font-family: 'Anton', sans-serif;
+    text-align: center;
 }
 
 mat-card.unaccess{
