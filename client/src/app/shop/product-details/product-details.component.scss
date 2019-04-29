@@ -4,7 +4,6 @@
     margin-right: 0px !important; 
     padding-left: 10px;
     padding-right: 10px; 
-    display: flex;
     flex-direction: column;
     justify-content: center;
 }
@@ -31,10 +30,11 @@ p.product-color{
 }
 
 .details-container{
-    display: flex;
     flex-direction: column;
     justify-content: center;
     height: 80%;
+    text-align: center;
+
 }
 div.product-purchase{
     display: flex;
@@ -46,4 +46,7 @@ p.price{
 }
 p.free-shipping{
     font-family: 'Cairo';
+}
+p.no-product{
+    cursor: pointer;
 }

@@ -15,7 +15,7 @@ export class AppComponent {
     snackbarService.snackBarMessage.subscribe( message => {
       if(message){
         snackBar.open(message, '', {
-          duration: 5000,
+          duration: 5000, verticalPosition: "top"
         });
       }
     });

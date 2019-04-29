@@ -6,6 +6,7 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { AccountComponent } from './account/account.component';
 import { ShopComponent } from './shop/shop.component';
 import { ShoppingBagComponent } from './shopping-bag/shopping-bag.component';
+import { ProductDetailsComponent } from './shop/product-details/product-details.component';
 
 const routes: Routes = [
   { path: '', component: HomepageComponent, pathMatch: 'full'},
@@ -13,7 +14,8 @@ const routes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'account', component: AccountComponent },
   {path: 'shop', component: ShopComponent },
-  {path: 'shopping-bag', component: ShoppingBagComponent}
+  {path: 'shopping-bag', component: ShoppingBagComponent},
+  {path: 'shop/:productSubBrand/:productModelID/:modelVersionID', component: ProductDetailsComponent }
 ];
 
 @NgModule({

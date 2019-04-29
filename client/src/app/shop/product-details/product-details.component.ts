@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { UserbagService } from 'src/app/userbag.service';
 import { SnackbarService } from 'src/app/snackbar.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ProductService } from 'src/app/product.service';
 
 @Component({
   selector: 'app-product-details',
@@ -10,14 +12,29 @@ import { SnackbarService } from 'src/app/snackbar.service';
 export class ProductDetailsComponent implements OnInit {
   @Input() product;
   @Input() productModel;
-  @Input() productSubBrand;
   public selectedSize;
   constructor(
-    private userbagService: UserbagService, private snackBarService: SnackbarService
+    private userbagService: UserbagService,
+    private snackBarService: SnackbarService,
+    private route: ActivatedRoute,
+    private productService: ProductService,
+    private router: Router
   ) {
   }
 
   ngOnInit() {
+    this.route.params.subscribe( params => {
+      const { modelVersionID, productModelID, productSubBrand } = params;
+      const productModel = this.productService.getProductModel(productModelID);
+      if(productModel.subBrand.split(' ').join('') === productSubBrand){
+        this.productModel = productModel;
+        this.product = this.productService.getProduct(modelVersionID);
+      }
+    });
+  }
+
+  navigateToShop(){
+    this.router.navigate(['shop'])
   }
 
   addToBag(){

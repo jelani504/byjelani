@@ -23,6 +23,7 @@ import { UserbagService } from './userbag.service';
 import { SnackbarService } from './snackbar.service';
 import { AccountComponent } from './account/account.component';
 import { ShoppingBagComponent } from './shopping-bag/shopping-bag.component';
+import { ProductService } from './product.service';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,14 @@ import { ShoppingBagComponent } from './shopping-bag/shopping-bag.component';
     FlexLayoutModule,
     HttpClientModule
   ],
-  providers: [RegisterService, IconService, LoginService, UserbagService, SnackbarService],
+  providers: [
+    RegisterService,
+    IconService,
+    LoginService,
+    UserbagService,
+    SnackbarService,
+    ProductService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
