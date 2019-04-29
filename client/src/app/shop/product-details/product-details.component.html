@@ -1,3 +1,58 @@
-<p>
-  product-details works!
-</p>
+<div class="details-container">
+
+    <div 
+    fxLayout="row"
+    fxLayoutGap="32px"
+    fxLayoutAlign="flex-start"
+    fxLayout.xs="column"
+    class=""
+    >
+        <div
+            class="product-description"
+            fxFlex="0 1 calc(25% - 32px)"
+        >   
+            <p class="product-model">{{productModel}}</p>
+            <p class="product-name">{{product.name}}</p>
+            <p class="product-color">{{product.color}}</p>
+            <div *ngFor="let link of product.story.links" >
+                <a href="{{link.url}}">{{link.title}}</a>
+                <br>
+            </div>
+            <p>
+                <b>{{product.story.text}}</b>
+            </p>
+            <p>
+                {{product.description}}
+            </p>
+        </div>
+        <div 
+            class="product-image"
+            fxFlex="0 1 calc(50% - 32px)"
+        >
+        <img
+        [ngStyle.xs]="{ 'height.px': 145 }"
+        src="{{product.img}}"
+        height="450"
+        >
+        </div>
+        <div 
+            class="product-purchase"
+            fxFlex="0 1 calc(25% - 32px)"
+        >
+            <p class="price">{{product.price.usd.string}}</p>
+            <p class="free-shipping" *ngIf="product.freeShipping">
+                Free shipping and returns in the United States.
+            </p>
+            <mat-form-field>
+                <mat-label>SELECT A SIZE</mat-label>
+                <mat-select [(value)]="selectedSize">
+                    <mat-option *ngFor="let size of product.sizes" [disabled]="size.quantity < 1" value="{{size.size}}">
+                    {{size.size}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button  mat-raised-button (click)=addToBag()> ADD TO BAG</button>
+            Wishlist
+        </div>
+    </div>
+</div>

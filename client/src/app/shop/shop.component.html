@@ -2,23 +2,36 @@
   <div>
     <p class="unsought-goods"> UNSOUGHT GOODS </p>
   </div>
-  <div> <p class="product-model">MAXIMUM VIABLE PRODUCT</p> </div>
-  
-  <div 
-  fxLayout="row wrap"
-  fxLayoutGap="32px"
-  fxLayoutAlign="flex-start"
-  fxLayout.xs="column"
-  class="product-row"
-  >
-    <mat-card  fxFlex="0 1 calc(33.3% - 32px)"class="product">
-      <img
-      [ngStyle.xs]="{ 'height.px': 145 }"
-      src="/assets/products/maximumviableproduct/matzeliger.png"
-      height="300"
+  <div *ngIf="!selectedProduct">
+    <div *ngFor="let model of products">
+      <div> <p class="product-model">{{model.productModel}}</p> </div>
+      <div 
+      fxLayout="row wrap"
+      fxLayoutGap="32px"
+      fxLayoutAlign="flex-start"
+      fxLayout.xs="column"
+      class="product-row"
       >
-      <p class="product-title"><b>"MATZELIGER"</b></p>
-      <p class="price">$295</p>
-    </mat-card>
+        <mat-card
+          fxFlex="0 1 calc(33.3% - 32px)"
+          class="product"
+          (click)="selectProduct(version, model.productModel)"
+          *ngFor="let version of model.versions"
+        >
+          <img
+          [ngStyle.xs]="{ 'height.px': 145 }"
+          src="{{version.img}}"
+          height="300"
+          >
+          <p class="product-title"><b>"{{version.name}}"</b></p>
+          <p class="price">${{version.price.usd.number}}</p>
+        </mat-card>
+      </div>
+    </div>
   </div>
+  <app-product-details
+  *ngIf="selectedProduct"
+  [product]="selectedProduct"
+  [productModel]="selectedProductModel"
+  ></app-product-details>
 </div>

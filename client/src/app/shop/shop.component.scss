@@ -11,8 +11,8 @@ mat-card.product {
 }
 
 p.product-model{
-    font-size: 20px;
-    padding-bottom: 25px;
+    font-size: 24px;
+    padding-bottom: 50px;
 }
 div.product-row{
     justify-content: center !important;
@@ -25,6 +25,11 @@ p.price{
     font-size: 40px;
     font-family: 'Anton', sans-serif;
     text-align: center;
+}
+
+app-product-details{
+    flex-direction: column;
+    justify-content: center;
 }
 
 mat-card.unaccess{

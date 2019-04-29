@@ -20,6 +20,8 @@ import { RegisterService } from './register/register.service';
 import { IconService } from './icon.service';
 import { LoginService } from './login/login.service';
 import { ProductDetailsComponent } from './shop/product-details/product-details.component';
+import { UserbagService } from './userbag.service';
+import { SnackbarService } from './snackbar.service';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,7 @@ import { ProductDetailsComponent } from './shop/product-details/product-details.
     FlexLayoutModule,
     HttpClientModule
   ],
-  providers: [RegisterService, IconService, LoginService],
+  providers: [RegisterService, IconService, LoginService, UserbagService, SnackbarService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

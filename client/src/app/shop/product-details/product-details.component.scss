@@ -1,0 +1,44 @@
+.product-description{
+    font-size: 11px;
+    font-family: 'Cairo', 'sans-serif';
+    margin-right: 0px !important; 
+    padding-left: 10px;
+    padding-right: 10px; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+p.product-model{
+    font-family: 'Oswald';
+    font-size: 20px;
+}
+
+p.product-name{
+    font-family: 'Quicksand';
+    font-size: 20px;
+    margin-bottom: 0px;
+}
+
+p.product-color{
+    margin-top: 5px;
+    margin-bottom: 35px;
+}
+
+.details-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 80%;
+}
+div.product-purchase{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+p.price{
+    font-family: 'Oswald';
+}
+p.free-shipping{
+    font-family: 'Cairo';
+}
