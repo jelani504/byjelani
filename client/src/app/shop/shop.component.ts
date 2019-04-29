@@ -10,6 +10,7 @@ export class ShopComponent implements OnInit {
   public products = [
     {
       productModel:'Maximum Viable Product',
+      subBrand: 'UNSOUGHT GOODS',
       versions: [
         {
           name: 'MATZELIGER',
@@ -52,13 +53,15 @@ export class ShopComponent implements OnInit {
   ];
   public selectedProduct;
   public selectedProductModel;
+  public selectedProductSubBrand;
   constructor() { }
 
   ngOnInit() {
   }
 
-  selectProduct = (product, productModel) => {
+  selectProduct = (product, productModel, subBrand) => {
     this.selectedProduct = product;
     this.selectedProductModel = productModel;
+    this.selectedProductSubBrand = subBrand;
   }
 }

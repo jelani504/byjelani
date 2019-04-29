@@ -12,7 +12,6 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HomepageComponent } from './homepage/homepage.component';
-import { ProfileComponent } from './profile/profile.component';
 import { HeadComponent } from './head/head.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { ShopComponent } from './shop/shop.component';
@@ -22,6 +21,8 @@ import { LoginService } from './login/login.service';
 import { ProductDetailsComponent } from './shop/product-details/product-details.component';
 import { UserbagService } from './userbag.service';
 import { SnackbarService } from './snackbar.service';
+import { AccountComponent } from './account/account.component';
+import { ShoppingBagComponent } from './shopping-bag/shopping-bag.component';
 
 @NgModule({
   declarations: [
@@ -29,11 +30,12 @@ import { SnackbarService } from './snackbar.service';
     LoginComponent,
     RegisterComponent,
     HomepageComponent,
-    ProfileComponent,
     HeadComponent,
     SidenavComponent,
     ShopComponent,
     ProductDetailsComponent,
+    AccountComponent,
+    ShoppingBagComponent,
   ],
   imports: [
     BrowserModule,

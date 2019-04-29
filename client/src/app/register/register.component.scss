@@ -6,7 +6,7 @@
 
 .mat-form-field {
     width: 100%;
-    min-width: 300px;
+    min-width: 50%;
 }
 /deep/
 label{
@@ -26,12 +26,11 @@ mat-card-content {
     justify-content: center;
 }
 mat-radio-button {
-    margin-left: 16.5%;
+    margin-left: 20%;
 }
 mat-card{
     background-color: white;
     color: black;
-    width: 450px !important;
 }
 
 .error {

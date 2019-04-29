@@ -1,6 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { modelGroupProvider } from '@angular/forms/src/directives/ng_model_group';
-import { BehaviorSubject } from 'rxjs';
 import { UserbagService } from 'src/app/userbag.service';
 import { SnackbarService } from 'src/app/snackbar.service';
 
@@ -12,6 +10,7 @@ import { SnackbarService } from 'src/app/snackbar.service';
 export class ProductDetailsComponent implements OnInit {
   @Input() product;
   @Input() productModel;
+  @Input() productSubBrand;
   public selectedSize;
   constructor(
     private userbagService: UserbagService, private snackBarService: SnackbarService

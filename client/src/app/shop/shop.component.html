@@ -1,9 +1,9 @@
 <div class="container" >
   <div>
-    <p class="unsought-goods"> UNSOUGHT GOODS </p>
   </div>
   <div *ngIf="!selectedProduct">
     <div *ngFor="let model of products">
+        <p class="subbrand"> {{model.subBrand}} </p>
       <div> <p class="product-model">{{model.productModel}}</p> </div>
       <div 
       fxLayout="row wrap"
@@ -15,7 +15,7 @@
         <mat-card
           fxFlex="0 1 calc(33.3% - 32px)"
           class="product"
-          (click)="selectProduct(version, model.productModel)"
+          (click)="selectProduct(version, model.productModel, model.subBrand)"
           *ngFor="let version of model.versions"
         >
           <img
@@ -33,5 +33,6 @@
   *ngIf="selectedProduct"
   [product]="selectedProduct"
   [productModel]="selectedProductModel"
+  [productSubBrand]="selectedProductSubbrand"
   ></app-product-details>
 </div>
