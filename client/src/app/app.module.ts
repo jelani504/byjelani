@@ -19,7 +19,6 @@ import { RegisterService } from './register/register.service';
 import { IconService } from './icon.service';
 import { LoginService } from './login/login.service';
 import { ProductDetailsComponent } from './shop/product-details/product-details.component';
-import { UserbagService } from './userbag.service';
 import { SnackbarService } from './snackbar.service';
 import { AccountComponent } from './account/account.component';
 import { ShoppingBagComponent } from './shopping-bag/shopping-bag.component';
@@ -52,7 +51,6 @@ import { ProductService } from './product.service';
     RegisterService,
     IconService,
     LoginService,
-    UserbagService,
     SnackbarService,
     ProductService
   ],

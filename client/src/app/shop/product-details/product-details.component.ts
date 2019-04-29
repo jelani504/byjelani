@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { UserbagService } from 'src/app/userbag.service';
 import { SnackbarService } from 'src/app/snackbar.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from 'src/app/product.service';
+import { UserService } from 'src/app/user.service';
 
 @Component({
   selector: 'app-product-details',
@@ -14,7 +14,7 @@ export class ProductDetailsComponent implements OnInit {
   @Input() productModel;
   public selectedSize;
   constructor(
-    private userbagService: UserbagService,
+    private userService: UserService,
     private snackBarService: SnackbarService,
     private route: ActivatedRoute,
     private productService: ProductService,
@@ -39,7 +39,7 @@ export class ProductDetailsComponent implements OnInit {
 
   addToBag(){
     if(this.selectedSize){
-      this.userbagService.addProductToBag(this.product, this.selectedSize);
+      this.userService.addProductToBag(this.product, this.selectedSize);
       this.snackBarService.snackBarMessage.next('This item has been added to your bag.');
     } else {
       this.snackBarService.snackBarMessage.next('Please select a size.');
