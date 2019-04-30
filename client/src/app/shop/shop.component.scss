@@ -11,8 +11,9 @@ mat-card.product {
 }
 
 p.product-model{
-    font-size: 24px;
+    font-size: 34px;
     padding-bottom: 50px;
+    font-family: 'Oswald';
 }
 div.product-row{
     justify-content: center !important;
@@ -20,6 +21,8 @@ div.product-row{
 
 p.product-title{
     padding-top: 15px;
+    font-size: 22px;
+    font-family: 'Oswald';
 }
 p.price{
     font-size: 40px;

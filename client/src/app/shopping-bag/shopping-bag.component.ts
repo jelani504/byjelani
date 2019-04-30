@@ -15,8 +15,8 @@ export class ShoppingBagComponent implements OnInit {
   public orderTotal = new BehaviorSubject(0);
   public vmOrderTotal;
   constructor(private userService: UserService) {
+    this.userService.userBag.subscribe(()=> this.getOrderTotal())
     this.orderTotal.subscribe(orderTotal => {
-      console.log(orderTotal);
       this.vmOrderTotal = {orderTotal, bagSubtotal: this.bagSubtotal.getValue(), shippingEstimate: this.shippingEstimate.getValue()}
     })
   }
@@ -31,7 +31,6 @@ export class ShoppingBagComponent implements OnInit {
       bagSubtotal += item.product.price.usd.number * item.quantity;
     });
     this.bagSubtotal.next(bagSubtotal);
-    console.log(bagSubtotal, 'bagSubtotal');
     return bagSubtotal;
   }
 

@@ -39,7 +39,7 @@ export class ProductDetailsComponent implements OnInit {
 
   addToBag(){
     if(this.selectedSize){
-      this.userService.addProductToBag(this.product, this.selectedSize);
+      this.userService.addProductToBag(this.product, this.selectedSize, this.productModel.subBrand);
       this.snackBarService.snackBarMessage.next('This item has been added to your bag.');
     } else {
       this.snackBarService.snackBarMessage.next('Please select a size.');
