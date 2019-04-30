@@ -18,7 +18,7 @@ export class ProductService {
           soleMaterials: ['Rubber'],
           upperMaterials: ['Cow Suede','Lambskin Lining','Matte Finish Leather','Balistic Nylon','Epoxy Resin','3M','Metal Hardware'],
           img: '/assets/products/maximumviableproduct/matzeliger.png',
-          price: { usd: {string: '$295 USD', number: 295}},
+          price: { usd: {string: '$295 USD', number: 295.00}},
           description: `Low-top leather, technical mesh, and ballistic nylon upper on chunky rubber sole, all black.
           Reflective 3M piping in black. Epoxy resin vanity details. Padded tongue, collar and heel tab. Metal Hardware.
           `, 

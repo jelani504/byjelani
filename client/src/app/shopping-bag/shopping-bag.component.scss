@@ -1,0 +1,35 @@
+table {
+    width: 60%;
+    margin-top: 25px;
+    min-height: 75%;
+}
+
+.shopping-bag-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.mat-column-QUANTITY {
+    width: 50px !important;
+    flex: 0 0 50px !important;
+    white-space: unset !important;
+    flex-direction: row;
+}
+
+.space-container{
+    margin-top: 10%;
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    button{
+        width: 50%;
+    }
+}
