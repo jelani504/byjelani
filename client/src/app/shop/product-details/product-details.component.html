@@ -21,7 +21,7 @@
                 class="product-description"
                 fxFlex="0 1 calc(25% - 32px)"
             >   
-                <p class="product-model" [ngStyle.xs]="{'margin-top': '5px'}">{{productModel.productModel}}</p>
+                <p class="product-model" [ngStyle.xs]="{'margin-top': '5px', 'margin-bottom': '30px'}">{{productModel.productModel}}</p>
                 <p class="product-name">{{product.name}}</p>
                 <p class="product-color">{{product.color}}</p>
                 <div *ngFor="let link of product.story.links" >
