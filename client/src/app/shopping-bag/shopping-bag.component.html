@@ -25,13 +25,17 @@
          <ng-container matColumnDef="QUANTITY">
             <th mat-header-cell *matHeaderCellDef> QUANTITY </th>
             <td mat-cell *matCellDef="let product"> 
-              <button (click)="userService.editQuantityInBag(product.product.id, product.selectedSize, 'incriment')" class="quantity" mat-button>
-                +
-              </button>
+              <button
+                (click)="userService.editQuantityInBag(product.product.id, product.selectedSize, 'incriment')"
+                class="quantity incriment"
+                mat-raised-button
+              >+</button>
               {{product.quantity}} 
-              <button (click)="userService.editQuantityInBag(product.product.id, product.selectedSize ,'decriment')" class="quantity" mat-button>
-                -
-              </button>
+              <button
+                (click)="userService.editQuantityInBag(product.product.id, product.selectedSize ,'decriment')"
+                class="quantity decriment"
+                mat-raised-button
+              >-</button>
             </td>
           </ng-container>
       
@@ -50,7 +54,7 @@
         </div>
     </div>
     <div fxLayout="column" fxHide fxShow.xs class="shopping-bag-container">
-      <div *ngFor="let product of userBag">
+      <div *ngFor="let product of userBag" class="item-container">
         <img src="{{product.product.img}}">
         <div fxLayout="column" class="item-details xs">
           <p class="description-item-first-xs xs"><b>{{product.subBrand}}</b></p>
@@ -60,13 +64,17 @@
           <p class="description-item xs">{{product.product.price.usd.string}}</p>
           <p class="product-quantity-label xs">Quantity</p>
           <div class="product-quantity">
-            <button (click)="userService.editQuantityInBag(product.product.id, product.selectedSize, 'incriment')" class="quantity" mat-button>
-              +
-            </button>
+            <button
+              (click)="userService.editQuantityInBag(product.product.id, product.selectedSize, 'incriment')"
+              class="quantity incriment"
+              mat-raised-button
+            >+</button>
             {{product.quantity}} 
-            <button (click)="userService.editQuantityInBag(product.product.id, product.selectedSize ,'decriment')" class="quantity" mat-button>
-              -
-            </button>
+            <button
+              (click)="userService.editQuantityInBag(product.product.id, product.selectedSize ,'decriment')"
+              class="quantity decriment"
+              mat-raised-button
+            >-</button>
           </div>
         </div>
       </div>

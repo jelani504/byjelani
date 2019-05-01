@@ -3,7 +3,7 @@ table {
     min-height: 75%;
 }
 p.shopping-bag-title{
-    margin-top: 50px;
+    margin-top: 30px;
     font-family: 'Oswald';
     font-size: 22px;
 }
@@ -26,7 +26,7 @@ p.shopping-bag-title{
 }
 
 .mat-column-QUANTITY {
-    width: 100px !important;
+    width: 120px !important;
     flex: 0 0 50px !important;
     white-space: unset !important;
     flex-direction: row;
@@ -39,8 +39,16 @@ p.shopping-bag-title{
 }
 
 .product-quantity-label{
+    margin-bottom: 5px;
     font-size: 14px !important;
-    margin-bottom: 0px;
+}
+
+.incriment{
+    margin-right: 10px
+}
+
+.decriment{
+    margin-left: 10px
 }
 
 .empty-bag{
@@ -67,6 +75,10 @@ p.shopping-bag-title{
         width: 100%;
         text-align: center !important;
     }
+}
+
+.item-container{
+    margin-bottom: 20px;
 }
 
 .checkout-card{
@@ -108,11 +120,11 @@ mat-card{
         margin-left: 30px; 
     }
     p.description-item-first{
-        margin-top: 30px;        
+        margin-top: 20px;        
         margin-bottom: 0px !important;
     }
     p.description-item-first-xs{
-        margin-top: 20px;        
+        margin-top: 5px;        
         margin-bottom: 0px !important;
     }
     p.description-item-last{
