@@ -43,7 +43,7 @@
           <p>Shipping Estimate: ${{vmOrderTotal.shippingEstimate}}</p>
           <p>Order Total: ${{vmOrderTotal.orderTotal}}</p>
           <div>
-            <button class="checkout-button" mat-button>Checkout</button>
+            <button class="checkout-button" (click)="navigateToCheckout()" mat-button>Checkout</button>
           </div>
         </mat-card>
       </div>

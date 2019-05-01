@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
 import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-shopping-bag',
@@ -14,7 +15,7 @@ export class ShoppingBagComponent implements OnInit {
   public shippingEstimate = new BehaviorSubject(0);
   public orderTotal = new BehaviorSubject(0);
   public vmOrderTotal;
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService ,private router: Router) {
     this.userService.userBag.subscribe(()=> this.getOrderTotal())
     this.orderTotal.subscribe(orderTotal => {
       this.vmOrderTotal = {orderTotal, bagSubtotal: this.bagSubtotal.getValue(), shippingEstimate: this.shippingEstimate.getValue()}
@@ -38,6 +39,10 @@ export class ShoppingBagComponent implements OnInit {
     const orderTotal = this.getBagSubtotal() + this.shippingEstimate.getValue();
     this.orderTotal.next(orderTotal);
     return orderTotal;
+  }
+
+  navigateToCheckout(){
+    this.router.navigate(['checkout']);
   }
 
 }
