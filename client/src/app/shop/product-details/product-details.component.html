@@ -1,6 +1,15 @@
 <div class="details-container">
     <div *ngIf="product">
-        <p class="product-subbrand"> {{productModel.subBrand}} </p>
+        <p 
+          class="product-subbrand"
+          [ngStyle.xs]="
+            {
+                'font-size': '45px',
+                'margin-bottom': '0px'
+            }"
+        > 
+          {{productModel.subBrand}} 
+        </p>
         <div 
         fxLayout="row"
         fxLayoutGap="32px"
@@ -12,7 +21,7 @@
                 class="product-description"
                 fxFlex="0 1 calc(25% - 32px)"
             >   
-                <p class="product-model">{{productModel.productModel}}</p>
+                <p class="product-model" [ngStyle.xs]="{'margin-top': '5px'}">{{productModel.productModel}}</p>
                 <p class="product-name">{{product.name}}</p>
                 <p class="product-color">{{product.color}}</p>
                 <div *ngFor="let link of product.story.links" >

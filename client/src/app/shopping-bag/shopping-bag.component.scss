@@ -11,6 +11,7 @@ p.shopping-bag-title{
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: center;
 }
 
 .container{
@@ -32,12 +33,32 @@ p.shopping-bag-title{
     text-align: center;
 }
 
+.product-quantity{
+    font-family: "Roboto","Helvetica Neue","sans-serif";
+    text-align: center;
+}
+
+.product-quantity-label{
+    font-size: 14px !important;
+    margin-bottom: 0px;
+}
+
+.empty-bag{
+    align-items: center;
+    text-align: center;
+    font-family: 'Oswald';
+    margin-top: 50px;
+    button{
+        font-family: 'Oswald';
+        width: 10%;
+    }
+}
+
 .space-container{
-    margin-top: 10%;
+    margin-top: 0px;
     width: 20%;
     display: flex;
     flex-direction: column;
-    text-align: right;
     align-items: center;
     button{
         font-family: "Roboto","Helvetica Neue","sans-serif";
@@ -48,35 +69,63 @@ p.shopping-bag-title{
     }
 }
 
+.checkout-card{
+    text-align: right;
+}
+
+.checkout-card-xs{
+    bottom: 20px;
+    // position: fixed;
+    width: 80%;
+    margin-top: 20px;
+}
+
+.checkout-button{
+    text-align: center;
+    width: 100%
+}
+
 mat-card{
     p{
         font-family: "Roboto","Helvetica Neue","sans-serif";
         font-size: 14px;
         color: rgba(0,0,0,.6) !important;
     }
-    position: fixed;
+    // position: fixed;
 }
 
 .item-details{
+    .xs{
+        text-align: center
+    }
+    text-align: left;
+    p.xs{
+        margin-left: 0px;
+    }
     p{
         font-family: "Roboto","Helvetica Neue","sans-serif";
         font-size: 12px;
         margin-left: 30px; 
-        
-        
     }
-    p.subbrand{
+    p.description-item-first{
         margin-top: 30px;        
         margin-bottom: 0px !important;
     }
-    p.product-name{
+    p.description-item-first-xs{
+        margin-top: 20px;        
         margin-bottom: 0px !important;
+    }
+    p.description-item-last{
         margin-top: 5px !important;
     }
-    p.product-size{
+    p.description-item{
         margin-top: 5px !important;
+        margin-bottom: 0px !important;
+
     }
 }
+
+
 
 button.quantity{
     min-width: 40px;

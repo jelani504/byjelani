@@ -52,7 +52,11 @@ export class UserService {
         } else if (option === 'decriment'){
           if(itemCopy.quantity !== 0){ itemCopy.quantity += -1;}
         }
-        userBag[index] = itemCopy;
+        if(itemCopy.quantity === 0){
+          userBag.splice(index, 1);
+        } else {
+          userBag[index] = itemCopy;
+        }
         this.userBag.next(userBag);
       }
     });

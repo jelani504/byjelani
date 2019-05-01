@@ -10,13 +10,14 @@ import { Router } from '@angular/router';
 })
 export class ShoppingBagComponent implements OnInit {
 
-  public displayedColumns = ['ITEM', 'PRICE', 'QUANTITY'];
+  public userBag: any[] = [];
+  public displayedColumns: String[] = ['ITEM', 'PRICE', 'QUANTITY'];
   public bagSubtotal = new BehaviorSubject(0);
   public shippingEstimate = new BehaviorSubject(0);
   public orderTotal = new BehaviorSubject(0);
   public vmOrderTotal;
   constructor(private userService: UserService ,private router: Router) {
-    this.userService.userBag.subscribe(()=> this.getOrderTotal())
+    this.userService.userBag.subscribe(bag => {this.getOrderTotal(); this.userBag = bag;})
     this.orderTotal.subscribe(orderTotal => {
       this.vmOrderTotal = {orderTotal, bagSubtotal: this.bagSubtotal.getValue(), shippingEstimate: this.shippingEstimate.getValue()}
     })
@@ -43,6 +44,9 @@ export class ShoppingBagComponent implements OnInit {
 
   navigateToCheckout(){
     this.router.navigate(['checkout']);
+  }
+  navigateToShop(){
+    this.router.navigate(['shop']);
   }
 
 }

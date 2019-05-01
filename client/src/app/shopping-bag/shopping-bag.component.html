@@ -1,29 +1,65 @@
 <div class="container" fxLayout.xs="column">
-  <p class="shopping-bag-title">Shopping Bag</p>
-  <div [ngStyle.xs]="{'flex-direction': 'column', 'align-items': 'center'}" class="shopping-bag-container" >
-      <div class="space-container"></div>
-      <table [fxFlex.xs]="95" mat-table [dataSource]="userService.userBag" class="mat-elevation-z4">
-
-      <ng-container matColumnDef="ITEM">
-        <th mat-header-cell *matHeaderCellDef> ITEM </th>
-        <td mat-cell *matCellDef="let product" fxLayout="row">
-          <img src="{{product.product.img}}">
-          <div fxLayout="column" class="item-details">
-            <p class="subbrand">{{product.subBrand}}</p>
-            <p class="product-name">{{product.product.name}}</p>
-            <p class="product-size">Size: US {{product.selectedSize}}</p>
-          </div>
-        </td>
-      </ng-container>
-    
-      <ng-container matColumnDef="PRICE">
-        <th mat-header-cell *matHeaderCellDef> PRICE </th>
-        <td mat-cell *matCellDef="let product"> {{product.product.price.usd.string}} </td>
-      </ng-container>
-
-       <ng-container matColumnDef="QUANTITY">
-          <th mat-header-cell *matHeaderCellDef> QUANTITY </th>
-          <td mat-cell *matCellDef="let product"> 
+  <div *ngIf="userBag.length > 0">
+    <p class="shopping-bag-title">Shopping Bag</p>
+    <div fxShow fxHide.xs [ngStyle.xs]="{'flex-direction': 'column', 'align-items': 'center'}" class="shopping-bag-container" >
+        <div class="space-container"></div>
+        <table [fxFlex.xs]="95" mat-table [dataSource]="userService.userBag" class="mat-elevation-z4">
+        <ng-container matColumnDef="ITEM">
+          <th mat-header-cell *matHeaderCellDef> ITEM </th>
+          <td mat-cell *matCellDef="let product" fxLayout="row">
+            <img src="{{product.product.img}}">
+            <div fxLayout="column" class="item-details">
+              <p class="description-item-first">{{product.subBrand}}</p>
+              <p class="description-item">{{product.product.name}}</p>
+              <p class="description-item">{{product.product.color}}</p>
+              <p class="description-item-last">US {{product.selectedSize}}</p>
+            </div>
+          </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="PRICE">
+          <th mat-header-cell *matHeaderCellDef> PRICE </th>
+          <td mat-cell *matCellDef="let product"> {{product.product.price.usd.string}} </td>
+        </ng-container>
+  
+         <ng-container matColumnDef="QUANTITY">
+            <th mat-header-cell *matHeaderCellDef> QUANTITY </th>
+            <td mat-cell *matCellDef="let product"> 
+              <button (click)="userService.editQuantityInBag(product.product.id, product.selectedSize, 'incriment')" class="quantity" mat-button>
+                +
+              </button>
+              {{product.quantity}} 
+              <button (click)="userService.editQuantityInBag(product.product.id, product.selectedSize ,'decriment')" class="quantity" mat-button>
+                -
+              </button>
+            </td>
+          </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <div class="space-container">
+          <mat-card class="checkout-card">
+            <p>Total: ${{vmOrderTotal.bagSubtotal}}</p>
+            <p>Shipping Estimate: ${{vmOrderTotal.shippingEstimate}}</p>
+            <p>Order Total: ${{vmOrderTotal.orderTotal}}</p>
+            <div>
+              <button class="checkout-button" (click)="navigateToCheckout()" mat-button>Checkout</button>
+            </div>
+          </mat-card>
+        </div>
+    </div>
+    <div fxLayout="column" fxHide fxShow.xs class="shopping-bag-container">
+      <div *ngFor="let product of userBag">
+        <img src="{{product.product.img}}">
+        <div fxLayout="column" class="item-details xs">
+          <p class="description-item-first-xs xs"><b>{{product.subBrand}}</b></p>
+          <p class="description-item xs">{{product.product.name}}</p>
+          <p class="description-item xs">{{product.product.color}}</p>
+          <p class="description-item-last xs">US {{product.selectedSize}}</p>
+          <p class="description-item xs">{{product.product.price.usd.string}}</p>
+          <p class="product-quantity-label xs">Quantity</p>
+          <div class="product-quantity">
             <button (click)="userService.editQuantityInBag(product.product.id, product.selectedSize, 'incriment')" class="quantity" mat-button>
               +
             </button>
@@ -31,21 +67,25 @@
             <button (click)="userService.editQuantityInBag(product.product.id, product.selectedSize ,'decriment')" class="quantity" mat-button>
               -
             </button>
-          </td>
-        </ng-container>
-    
-      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-      <div class="space-container">
-        <mat-card>
-          <p>Total: ${{vmOrderTotal.bagSubtotal}}</p>
-          <p>Shipping Estimate: ${{vmOrderTotal.shippingEstimate}}</p>
-          <p>Order Total: ${{vmOrderTotal.orderTotal}}</p>
-          <div>
-            <button class="checkout-button" (click)="navigateToCheckout()" mat-button>Checkout</button>
           </div>
-        </mat-card>
+        </div>
       </div>
+      <mat-card class="checkout-card checkout-card-xs">
+        <p>Total: ${{vmOrderTotal.bagSubtotal}}</p>
+        <p>Shipping Estimate: ${{vmOrderTotal.shippingEstimate}}</p>
+        <p>Order Total: ${{vmOrderTotal.orderTotal}}</p>
+        <button
+          class="checkout-button"
+          (click)="navigateToCheckout()"
+          mat-raised-button
+        >
+          Checkout
+        </button>
+      </mat-card>
     </div>
+  </div>
+  <div *ngIf="userBag.length < 1" class="empty-bag">
+    <p>Your shopping bag is empty.</p>
+    <button [ngStyle.xs]="{'width': '40%'}" mat-raised-button (click)="navigateToShop()"> SHOP </button>
+  </div>
 </div>
