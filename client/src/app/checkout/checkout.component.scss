@@ -1,0 +1,41 @@
+.example-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.container{
+    text-align: center;
+    align-items: center;
+}
+
+.shipping-details{
+    justify-content: center;
+}
+.order-summary{
+    
+}
+
+.shipping-details-title{
+    font-family: 'Cairo';
+    justify-content: center;
+}
+
+mat-form-field{
+    width: 90%;
+}
+
+.row-container{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+  
+.shipping-address-column {
+    width: 25%;
+}
+
+p.checkout-title{
+    margin-top: 30px;
+    font-family: 'Oswald';
+    font-size: 22px;
+}

@@ -3,6 +3,7 @@
     width: 50px;
     margin-top: 5px;
     cursor: pointer;
+    color: white;
   }
   
   .example-spacer {
@@ -10,14 +11,16 @@
   }
 
   .title-font{
-    font: 500 80px "Block Shadow";
+    font: 500 55px "Anton";
     cursor: pointer;
+    color: white;
   }
   mat-toolbar{
-      background: white;
+      background: black;
       color: black;
       font: 500 16px/32px "Helvetica", sans-serif;
       width: 100%;
+      position: sticky;
   }
   a { 
       color: inherit;

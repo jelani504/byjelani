@@ -1,3 +1,75 @@
-<p>
-  checkout works!
-</p>
+<div class="container">
+  <p class="checkout-title">Checkout</p>
+  <div class="shipping-details-title row-container">
+      <p>Shipping Details</p>
+  </div>
+  <div class="shipping-details row-container">
+    <div class="shipping-address-column">
+      <mat-form-field >
+        <input matInput placeholder="First Name">
+      </mat-form-field>
+    </div>
+    <div class="shipping-address-column">
+        <mat-form-field>
+          <input matInput placeholder="Last Name">
+        </mat-form-field>
+    </div>
+  </div>
+  <div class="shipping-details row-container">
+      <div class="shipping-address-column">
+        <mat-form-field >
+          <input matInput placeholder="Street Address">
+        </mat-form-field>
+      </div>
+      <div class="shipping-address-column">
+          <mat-form-field>
+            <input matInput placeholder="Company (optional)">
+          </mat-form-field>
+      </div>
+  </div>
+  <div class="shipping-details row-container">
+      <div class="shipping-address-column">
+        <mat-form-field >
+          <input matInput placeholder="City">
+        </mat-form-field>
+      </div>
+      <div class="shipping-address-column">
+          <mat-form-field>
+            <input matInput placeholder="Zip or postal code">
+          </mat-form-field>
+      </div>
+  </div>
+  <div class="shipping-details row-container">
+      <div class="shipping-address-column">
+          <mat-form-field>
+            <mat-select placeholder="Country">
+              <mat-option value="option">Option</mat-option>
+            </mat-select>
+          </mat-form-field>
+      </div>
+      <div class="shipping-address-column">
+          <mat-form-field>
+            <mat-select placeholder="State or province">
+              <mat-option value="option">Option</mat-option>
+            </mat-select>
+          </mat-form-field>
+      </div>
+  </div>
+  <div class="shipping-details row-container">
+      <div class="shipping-address-column">
+        <mat-form-field >
+          <input matInput placeholder="Phone">
+        </mat-form-field>
+      </div>
+      <div class="shipping-address-column">
+      </div>
+  </div>
+  <mat-card class="order-summary">
+      <!-- <p>Total: ${{vmOrderTotal.bagSubtotal}}</p>
+      <p>Shipping Estimate: ${{vmOrderTotal.shippingEstimate}}</p>
+      <p>Order Total: ${{vmOrderTotal.orderTotal}}</p>
+      <div>
+        <button class="checkout-button" (click)="navigateToCheckout()" mat-button>Checkout</button>
+      </div> -->
+    </mat-card>
+</div>
