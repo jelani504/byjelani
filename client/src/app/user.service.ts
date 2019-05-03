@@ -6,13 +6,17 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class UserService {
   public userBag = new BehaviorSubject([]);
+  public bagSubtotal = new BehaviorSubject(0);
+  public shippingEstimate = new BehaviorSubject(0);
+  public orderTotal = new BehaviorSubject(0);
+
   public user = { 
     id: 1,
     email: 'jhankins02@gmail.com',
     shoppingBag: [],
     password: '123'
   }
-  constructor(private userService: UserService) { 
+  constructor() { 
     this.userBag.next(this.user.shoppingBag);
     this.userBag.subscribe(bag => console.log(bag));
   }
@@ -32,13 +36,38 @@ export class UserService {
     // send off to api to add to bag
   }
 
-  isItemInBag(product, selectedSize){
+  getBagSubtotal(){
+    let bagSubtotal = 0;
+    this.userBag.getValue().forEach(item => {
+      bagSubtotal += item.product.price.usd.number * item.quantity;
+    });
+    this.bagSubtotal.next(bagSubtotal);
+    return bagSubtotal;
+  }
+
+  getOrderTotal(){
+    const orderTotal = this.getBagSubtotal() + this.shippingEstimate.getValue();
+    this.orderTotal.next(orderTotal);
+    return orderTotal;
+  }
+
+  isItemInBag(product, selectedSize?){
+    if(!product){return;}
     let isItemInBag;
-    this.userBag.getValue().forEach((item, index) => {
-      if(item.product.id === product.id && item.selectedSize === selectedSize){
-        isItemInBag = {index, quantity: item.quantity};
-      }
-    })
+    const userBag = this.userBag.getValue()
+    if(selectedSize){
+      userBag.forEach((item, index) => {
+        if(item.product.id === product.id && item.selectedSize === selectedSize){
+          isItemInBag = {index, quantity: item.quantity};
+        }
+      });
+    } else {
+      userBag.forEach((item, index) => {
+        if(item.product.id === product.id){
+          isItemInBag = true;
+        }
+      });
+    }
     return isItemInBag;
   }
 

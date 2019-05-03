@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IconService } from '../icon.service';
-import { Router } from '@angular/router';
-import { routerNgProbeToken } from '@angular/router/src/router_module';
+import { NavigationService } from '../navigation.service';
 
 @Component({
   selector: 'app-head',
@@ -11,17 +10,12 @@ import { routerNgProbeToken } from '@angular/router/src/router_module';
 export class HeadComponent implements OnInit {
 
   public locationOrigin = window.location.origin;
-  constructor(public iconService: IconService, public router: Router) { console.log(window.location); }
+  constructor(
+    public iconService: IconService,
+    public navigationService: NavigationService
+  ) {}
 
   ngOnInit() {
-  }
-
-  handleIconClick(icon){
-    this.router.navigate([`/${icon}`]);
-  }
-
-  navigateHome(){
-    this.router.navigate(['/']);
   }
 
 }

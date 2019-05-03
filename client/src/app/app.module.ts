@@ -24,6 +24,7 @@ import { AccountComponent } from './account/account.component';
 import { ShoppingBagComponent } from './shopping-bag/shopping-bag.component';
 import { ProductService } from './product.service';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { NavigationService } from './navigation.service';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { CheckoutComponent } from './checkout/checkout.component';
     IconService,
     LoginService,
     SnackbarService,
-    ProductService
+    ProductService,
+    NavigationService
   ],
   bootstrap: [AppComponent]
 })

@@ -13,6 +13,10 @@ p.product-model{
     font-size: 24px;
 }
 
+button.checkout{
+    margin-top: 10px;
+}
+
 p.product-name{
     font-family: 'Oswald';
     font-size: 20px;
@@ -41,6 +45,7 @@ div.product-purchase{
     display: flex;
     flex-direction: column;
     justify-content: center;
+    height: 30%;
 }
 p.price{
     font-family: 'Oswald';
@@ -48,6 +53,6 @@ p.price{
 p.free-shipping{
     font-family: 'Cairo';
 }
-p.no-product{
-    cursor: pointer;
+div.product-container{
+    align-items: center !important;
 }

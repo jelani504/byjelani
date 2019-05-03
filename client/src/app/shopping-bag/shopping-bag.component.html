@@ -48,7 +48,7 @@
             <p>Shipping Estimate: ${{vmOrderTotal.shippingEstimate}}</p>
             <p>Order Total: ${{vmOrderTotal.orderTotal}}</p>
             <div>
-              <button class="checkout-button" (click)="navigateToCheckout()" mat-button>Checkout</button>
+              <button class="checkout-button" (click)="navigationService.navigateToCheckout()" mat-button>Checkout</button>
             </div>
           </mat-card>
         </div>
@@ -84,7 +84,7 @@
         <p>Order Total: ${{vmOrderTotal.orderTotal}}</p>
         <button
           class="checkout-button"
-          (click)="navigateToCheckout()"
+          (click)="navigationService.navigateToCheckout()"
           mat-raised-button
         >
           Checkout
@@ -94,6 +94,6 @@
   </div>
   <div *ngIf="userBag.length < 1" class="empty-bag">
     <p>Your shopping bag is empty.</p>
-    <button [ngStyle.xs]="{'width': '40%'}" mat-raised-button (click)="navigateToShop()"> SHOP </button>
+    <button [ngStyle.xs]="{'width': '40%'}" mat-raised-button (click)="navigationService.navigateToShop()"> SHOP </button>
   </div>
 </div>

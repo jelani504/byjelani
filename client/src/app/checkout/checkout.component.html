@@ -1,75 +1,43 @@
-<div class="container">
-  <p class="checkout-title">Checkout</p>
-  <div class="shipping-details-title row-container">
-      <p>Shipping Details</p>
-  </div>
-  <div class="shipping-details row-container">
-    <div class="shipping-address-column">
-      <mat-form-field >
-        <input matInput placeholder="First Name">
-      </mat-form-field>
+<div class="container" fxLayout.xs="column">
+  <div *ngIf="vmUserBag.length > 0">
+    <p class="checkout-title">CHECKOUT</p>
+    <div fxShow fxHide.xs [ngStyle.xs]="{'flex-direction': 'column', 'align-items': 'center'}" class="shopping-bag-container" >
+        <div class="space-container">div</div>
+        <div class="checkout-form-container">div</div>
+        <div class="space-container">
+          <mat-card class="order-summary-card">
+            <p>ORDER SUMMARY</p>
+            <hr>
+            <div fxLayout="column" class="order-summary-container">
+              <div *ngFor="let product of vmUserBag" fxLayout="column" class="item-details xs">
+                <div fxLayout="row">
+                  <div fxLayout="column" class="summary-column">
+                    <p class="description-item-first-xs nm"><b>{{product.subBrand}}</b></p>
+                    <p class="description-item nm">{{product.product.name}}</p>
+                    <p class="description-item nm">{{product.product.color}}</p>
+                    <p class="description-item nm">US {{product.selectedSize}}</p>
+                    <p class="description-item nm">QUANTITY: {{product.quantity}}</p>
+                  </div>
+                  <div fxLayout="column" class="summary-column item-price-col" >
+                    <p class="description-item-last">${{product.product.price.usd.number * product.quantity}}</p>
+                  </div>
+                </div>
+                <div>
+                  <hr>
+                </div>
+              </div>
+            </div>
+            <div class="order-details">
+              <p>Total: ${{vmOrderTotal.bagSubtotal}}</p>
+              <p>Shipping Estimate: ${{vmOrderTotal.shippingEstimate}}</p>
+              <p>Order Total: ${{vmOrderTotal.orderTotal}}</p>
+            </div>
+          </mat-card>
+        </div>
     </div>
-    <div class="shipping-address-column">
-        <mat-form-field>
-          <input matInput placeholder="Last Name">
-        </mat-form-field>
-    </div>
   </div>
-  <div class="shipping-details row-container">
-      <div class="shipping-address-column">
-        <mat-form-field >
-          <input matInput placeholder="Street Address">
-        </mat-form-field>
-      </div>
-      <div class="shipping-address-column">
-          <mat-form-field>
-            <input matInput placeholder="Company (optional)">
-          </mat-form-field>
-      </div>
+  <div *ngIf="vmUserBag.length < 1" class="empty-bag">
+    <p>Your shopping bag is empty.</p>
+    <button [ngStyle.xs]="{'width': '40%'}" mat-raised-button (click)="navigationService.navigateToShop()"> SHOP </button>
   </div>
-  <div class="shipping-details row-container">
-      <div class="shipping-address-column">
-        <mat-form-field >
-          <input matInput placeholder="City">
-        </mat-form-field>
-      </div>
-      <div class="shipping-address-column">
-          <mat-form-field>
-            <input matInput placeholder="Zip or postal code">
-          </mat-form-field>
-      </div>
-  </div>
-  <div class="shipping-details row-container">
-      <div class="shipping-address-column">
-          <mat-form-field>
-            <mat-select placeholder="Country">
-              <mat-option value="option">Option</mat-option>
-            </mat-select>
-          </mat-form-field>
-      </div>
-      <div class="shipping-address-column">
-          <mat-form-field>
-            <mat-select placeholder="State or province">
-              <mat-option value="option">Option</mat-option>
-            </mat-select>
-          </mat-form-field>
-      </div>
-  </div>
-  <div class="shipping-details row-container">
-      <div class="shipping-address-column">
-        <mat-form-field >
-          <input matInput placeholder="Phone">
-        </mat-form-field>
-      </div>
-      <div class="shipping-address-column">
-      </div>
-  </div>
-  <mat-card class="order-summary">
-      <!-- <p>Total: ${{vmOrderTotal.bagSubtotal}}</p>
-      <p>Shipping Estimate: ${{vmOrderTotal.shippingEstimate}}</p>
-      <p>Order Total: ${{vmOrderTotal.orderTotal}}</p>
-      <div>
-        <button class="checkout-button" (click)="navigateToCheckout()" mat-button>Checkout</button>
-      </div> -->
-    </mat-card>
 </div>

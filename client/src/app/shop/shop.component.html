@@ -12,7 +12,7 @@
       <mat-card
         fxFlex="0 1 calc(33.3% - 32px)"
         class="product"
-        (click)="selectProduct(version.id, model.id, model.subBrand.split(' ').join(''))"
+        (click)="selectProduct(model.subBrand.split(' ').join(''), version.id, model.id)"
         *ngFor="let version of model.versions"
       >
         <img
