@@ -2,8 +2,73 @@
   <div *ngIf="vmUserBag.length > 0">
     <p class="checkout-title">CHECKOUT</p>
     <div fxShow fxHide.xs [ngStyle.xs]="{'flex-direction': 'column', 'align-items': 'center'}" class="shopping-bag-container" >
-        <div class="space-container">div</div>
-        <div class="checkout-form-container">div</div>
+        <div class="space-container"></div>
+        <div class="checkout-form-container">
+            <div class="shipping-details row-container">
+                <p class="shipping-details-title"> Shipping Details</p>
+            </div>
+            <div class="shipping-details row-container">
+              <div class="shipping-address-column">
+                <mat-form-field >
+                  <input matInput placeholder="First Name">
+                </mat-form-field>
+              </div>
+              <div class="shipping-address-column">
+                  <mat-form-field>
+                    <input matInput placeholder="Last Name">
+                  </mat-form-field>
+              </div>
+            </div>
+            <div class="shipping-details row-container">
+                <div class="shipping-address-column">
+                  <mat-form-field >
+                    <input matInput placeholder="Street Address">
+                  </mat-form-field>
+                </div>
+                <div class="shipping-address-column">
+                    <mat-form-field>
+                      <input matInput placeholder="Company (optional)">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="shipping-details row-container">
+                <div class="shipping-address-column">
+                  <mat-form-field >
+                    <input matInput placeholder="City">
+                  </mat-form-field>
+                </div>
+                <div class="shipping-address-column">
+                    <mat-form-field>
+                      <input matInput placeholder="Zip or postal code">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="shipping-details row-container">
+                <div class="shipping-address-column">
+                    <mat-form-field>
+                      <mat-select placeholder="Country">
+                        <mat-option value="option">Option</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="shipping-address-column">
+                    <mat-form-field>
+                      <mat-select placeholder="State or province">
+                        <mat-option value="option">Option</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="shipping-details row-container">
+                <div class="shipping-address-column">
+                  <mat-form-field >
+                    <input matInput placeholder="Phone">
+                  </mat-form-field>
+                </div>
+                <div class="shipping-address-column">
+                </div>
+            </div>
+        </div>
         <div class="space-container">
           <mat-card class="order-summary-card">
             <p>ORDER SUMMARY</p>
