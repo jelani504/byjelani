@@ -10,51 +10,51 @@
             <div class="shipping-details row-container">
               <div class="shipping-address-column">
                 <mat-form-field >
-                  <input matInput placeholder="First Name">
+                  <input [(ngModel)]="orderForm.firstName" matInput placeholder="First Name" required>
                 </mat-form-field>
               </div>
               <div class="shipping-address-column">
                   <mat-form-field>
-                    <input matInput placeholder="Last Name">
+                    <input [(ngModel)]="orderForm.lastName" matInput placeholder="Last Name" required>
                   </mat-form-field>
               </div>
             </div>
             <div class="shipping-details row-container">
                 <div class="shipping-address-column">
                   <mat-form-field >
-                    <input matInput placeholder="Street Address">
+                    <input [(ngModel)]="orderForm.streetAddress" matInput placeholder="Street Address" required>
                   </mat-form-field>
                 </div>
                 <div class="shipping-address-column">
                     <mat-form-field>
-                      <input matInput placeholder="Company (optional)">
+                      <input [(ngModel)]="orderForm.company" matInput placeholder="Company (optional)" required>
                     </mat-form-field>
                 </div>
             </div>
             <div class="shipping-details row-container">
                 <div class="shipping-address-column">
                   <mat-form-field >
-                    <input matInput placeholder="City">
+                    <input [(ngModel)]="orderForm.city" matInput placeholder="City" required>
                   </mat-form-field>
                 </div>
                 <div class="shipping-address-column">
                     <mat-form-field>
-                      <input matInput placeholder="Zip or postal code">
+                      <input [(ngModel)]="orderForm.zipCode" matInput placeholder="Zip or postal code" required>
                     </mat-form-field>
                 </div>
             </div>
             <div class="shipping-details row-container">
                 <div class="shipping-address-column">
                     <mat-form-field>
-                      <mat-select placeholder="Country">
-                        <mat-option value="option">Option</mat-option>
+                      <mat-select [(ngModel)]="orderForm.country" required placeholder="Country" name="country">
+                        <mat-option value="USA">USA</mat-option>
                       </mat-select>
                     </mat-form-field>
                 </div>
                 <div class="shipping-address-column">
                     <mat-form-field>
-                      <mat-select placeholder="State or province">
-                        <mat-option value="option">Option</mat-option>
+                      <mat-select [(ngModel)]="orderForm.state" required placeholder="State or province" name="state">
+                        <mat-option  value="LA">LA</mat-option>
                       </mat-select>
                     </mat-form-field>
                 </div>
@@ -62,7 +62,7 @@
             <div class="shipping-details row-container">
                 <div class="shipping-address-column">
                   <mat-form-field >
-                    <input matInput placeholder="Phone">
+                    <input [(ngModel)]="orderForm.phoneNumber" matInput placeholder="Phone" required>
                   </mat-form-field>
                 </div>
                 <div class="shipping-address-column">
@@ -100,6 +100,7 @@
           </mat-card>
         </div>
     </div>
+    <button (click)="payClick()" mat-raised-button> PAY </button>
   </div>
   <div *ngIf="vmUserBag.length < 1" class="empty-bag">
     <p>Your shopping bag is empty.</p>
