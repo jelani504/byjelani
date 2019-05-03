@@ -5,6 +5,15 @@
     cursor: pointer;
     color: white;
   }
+  span{color: white;}
+  p{
+    color: white;
+  }
+  p.cart-number{
+    position: relative;
+    top: 0px;
+    right: 8px;
+  }
   
   .example-spacer {
     flex: 1 1 auto;
