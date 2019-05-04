@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -10,30 +11,41 @@ export class UserService {
   public shippingEstimate = new BehaviorSubject(0);
   public orderTotal = new BehaviorSubject(0);
 
-  public user = { 
-    id: 1,
-    email: 'jhankins02@gmail.com',
-    shoppingBag: [],
-    password: '123'
-  }
-  constructor() { 
-    this.userBag.next(this.user.shoppingBag);
-    this.userBag.subscribe(bag => console.log(bag));
-  }
+  public user = new Subject();
+    constructor(private _http: HttpClient) {
+      this.getUser().subscribe((res: {user: any}) => this.user.next(res.user));
+      this.user.subscribe( (user: {shoppingBag: any}) => {this.userBag.next(user.shoppingBag)})
+      // this.userBag.next(this.user.getValue().shoppingBag);
+      // this.userBag.subscribe( bag => this.updateUser('shoppingBag', bag).subscribe(user =>{ console.log(user)}));
+    }
 
   getUser(){
-    return this.user;
+    return this._http.get('http://127.0.0.1:3000/api/user', {
+      observe: 'body',
+      withCredentials: true,
+      headers: new HttpHeaders().append('Content-Type', 'application/json')
+    });
+  }
+
+  updateUser(key, value){
+    return this._http.post('http://127.0.0.1:3000/api/user/update', {key, value}, {
+      observe: 'body',
+      withCredentials: true,
+      headers: new HttpHeaders().append('Content-Type', 'application/json')
+    });
   }
 
   addProductToBag(product, selectedSize, subBrand){
     const userBag = this.userBag.getValue();
     const isItemInBag = this.isItemInBag(product, selectedSize);
     if(isItemInBag){
-      userBag[isItemInBag.index] = {product, selectedSize, quantity: isItemInBag.quantity + 1, subBrand}
+      userBag[isItemInBag.index] = {product, selectedSize, quantity: isItemInBag.quantity + 1, subBrand};
+      this.updateUser('shoppingBag', userBag).subscribe((res: {user: any}) => {this.user.next(res.user)});
     } else {
-      this.userBag.next(userBag.concat([{product, selectedSize, quantity: 1, subBrand}]));
+      const newBag = userBag.concat([{product, selectedSize, quantity: 1, subBrand}]);
+      this.updateUser('shoppingBag', newBag).subscribe((res: {user: any}) => {this.user.next(res.user)});
+
     }
-    // send off to api to add to bag
   }
 
   getBagSubtotal(){
@@ -86,7 +98,7 @@ export class UserService {
         } else {
           userBag[index] = itemCopy;
         }
-        this.userBag.next(userBag);
+        this.updateUser('shoppingBag', userBag).subscribe((res: {user: any}) => {this.user.next(res.user)});
       }
     });
   }

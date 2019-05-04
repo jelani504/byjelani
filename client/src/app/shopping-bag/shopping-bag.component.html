@@ -28,13 +28,13 @@
               <button
                 (click)="userService.editQuantityInBag(product.product.id, product.selectedSize, 'incriment')"
                 class="quantity incriment"
-                mat-raised-button
+                mat-button
               >+</button>
               {{product.quantity}} 
               <button
                 (click)="userService.editQuantityInBag(product.product.id, product.selectedSize ,'decriment')"
                 class="quantity decriment"
-                mat-raised-button
+                mat-button
               >-</button>
             </td>
           </ng-container>
@@ -67,13 +67,13 @@
             <button
               (click)="userService.editQuantityInBag(product.product.id, product.selectedSize, 'incriment')"
               class="quantity incriment"
-              mat-raised-button
+              mat-button
             >+</button>
             {{product.quantity}} 
             <button
               (click)="userService.editQuantityInBag(product.product.id, product.selectedSize ,'decriment')"
               class="quantity decriment"
-              mat-raised-button
+              mat-button
             >-</button>
           </div>
         </div>
@@ -85,7 +85,7 @@
         <button
           class="checkout-button"
           (click)="navigationService.navigateToCheckout()"
-          mat-raised-button
+          mat-button
         >
           Checkout
         </button>
@@ -94,6 +94,6 @@
   </div>
   <div *ngIf="userBag.length < 1" class="empty-bag">
     <p>Your shopping bag is empty.</p>
-    <button [ngStyle.xs]="{'width': '40%'}" mat-raised-button (click)="navigationService.navigateToShop()"> SHOP </button>
+    <button [ngStyle.xs]="{'width': '40%'}" mat-button (click)="navigationService.navigateToShop()"> SHOP </button>
   </div>
 </div>

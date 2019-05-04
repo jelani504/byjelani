@@ -10,6 +10,11 @@ const userSchema = new Schema({
   lastName: { type: String, require: true },
   acceptContact: { type: Boolean, require: true },
   title: { type: String, require: true },
+  shoppingBag: [],
+  // addressBook: {
+  //   primaryAddress: {},
+  //   secondaryAddresses: []
+  // },
   creation_dt: { type: Date, require: true },
 });
 
@@ -25,8 +30,14 @@ const userHelpers = {
   createUser: user => new User(user).save((err) => {
     if (err) { console.log(err); }
   }),
-  findOneUser: (email) => { console.log(email, 'FIND ONE'); User.findOne(email); },
+  findOneUser: (email) => { console.log(email, 'FIND ONE'); return User.findOne(email); },
+  updateUser: async (email, key, value) => {
+    const user = await User.findOne({email});
+    user[key] = value;
+    // console.log(user, 'USER');
+    return user.save();
+  }
 };
-User.find({}, (err, docs) => console.log(docs));
+// User.find({}, (err, docs) => console.log(docs));
 // User.remove({}, () => console.log('collection removed'));
 module.exports = { User, userHelpers };

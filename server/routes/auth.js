@@ -13,7 +13,7 @@ router.post(
       if (!user) { return res.status(501).json(info); }
       req.logIn(user, (error) => {
         if (error) { return res.status(501).json(err); }
-        return res.status(200).json({ message: 'Login Success' });
+        return res.status(200).json({ message: 'Login Success', user });
       });
     })(req, res, next);
   },

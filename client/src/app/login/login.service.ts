@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NavigationService } from '../navigation.service';
+import { UserService } from '../user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  constructor(private navigationService: NavigationService, private _http: HttpClient) { }
+  constructor(private navigationService: NavigationService, private _http: HttpClient, private userService: UserService) { }
 
   loginSubmit(loginForm) {
     if (!loginForm.valid) {
@@ -16,7 +17,7 @@ export class LoginService {
     }
     this.login(JSON.stringify(loginForm.value))
       .subscribe(
-        data => { console.log(data); this.navigationService.navigateToUser(); },
+        (data: { user: any}) => { this.userService.user.next(data.user); this.navigationService.navigateHome(); },
         error => console.error(error)
       )
   }

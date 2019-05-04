@@ -36,10 +36,6 @@ export class NavigationService {
     this.router.navigate(['checkout']);
   }
 
-  navigateToUser(){
-    this.router.navigate(['/user']);
-  }
-
   navigateToProduct(subBrand, modelID, versionID){
     this.router.navigate(['shop', subBrand, modelID, versionID])
 

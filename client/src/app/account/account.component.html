@@ -1,3 +1,59 @@
-<p>
-  account works!
-</p>
+<div class="container" fxLayout="row">
+  <div class="preferences-col">
+  </div>
+  <div class="account-info" fxLayout="column">
+    <p>Account Information</p>
+    <mat-form-field>
+      <input matInput placeholder="First Name">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Last Name">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Email Address">
+    </mat-form-field>
+  
+    <p>Account Password</p>
+    <mat-form-field>
+      <input matInput placeholder="Old Password">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="New Password">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Confirm Password">
+    </mat-form-field>
+    <p>Newsletters</p>
+    <mat-radio-group
+      aria-labelledby="radio-group-label"
+      class="radio-group"
+      [(ngModel)]="vmUserSubscribed">
+      <mat-radio-button class="radio-button" [value]="true">
+        Subscribed
+      </mat-radio-button>
+      <mat-radio-button class="radio-button" [value]="false">
+          Unsubscribed
+      </mat-radio-button>
+    </mat-radio-group>
+    <p class='preferences'>Preferences</p>
+    <p class='subtitle'>Gender</p>
+    <mat-radio-group
+      aria-labelledby="radio-group-label"
+      class="radio-group"
+      [(ngModel)]="vmUserSubscribed">
+      <mat-radio-button class="radio-button" [value]="male">
+        Male
+      </mat-radio-button>
+      <mat-radio-button class="radio-button" [value]="female">
+        Female
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+  <div class="buttons-col">
+    <div class="save-button-container">
+        <button mat-button class="button" (click)="saveChanges()">SAVE CHANGES</button>
+        <button mat-button class="button" (click)="logout()">LOGOUT</button>
+      </div>
+  </div>
+
+</div>

@@ -100,10 +100,10 @@
           </mat-card>
         </div>
     </div>
-    <button (click)="payClick()" mat-raised-button> PAY </button>
+    <button (click)="payClick()" mat-button> PAY </button>
   </div>
   <div *ngIf="vmUserBag.length < 1" class="empty-bag">
     <p>Your shopping bag is empty.</p>
-    <button [ngStyle.xs]="{'width': '40%'}" mat-raised-button (click)="navigationService.navigateToShop()"> SHOP </button>
+    <button [ngStyle.xs]="{'width': '40%'}" mat-button (click)="navigationService.navigateToShop()"> SHOP </button>
   </div>
 </div>

@@ -1,5 +1,5 @@
 <div class="container" >
-  <div *ngFor="let model of productService.getAllProducts()">
+  <div *ngFor="let model of productService.products">
       <p class="subbrand" [ngStyle.xs]="{'font-size': '45px'}"> {{model.subBrand}} </p>
     <div> <p class="product-model" [ngStyle.xs]="{'font-size': '24px'}">{{model.productModel}}</p> </div>
     <div 

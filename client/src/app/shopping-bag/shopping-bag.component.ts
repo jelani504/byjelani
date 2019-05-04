@@ -11,7 +11,7 @@ import { NavigationService } from '../navigation.service';
 })
 export class ShoppingBagComponent implements OnInit {
 
-  public userBag: any[] = [];
+  public userBag: any[];
   public displayedColumns: String[] = ['ITEM', 'PRICE', 'QUANTITY'];
   public vmOrderTotal;
 

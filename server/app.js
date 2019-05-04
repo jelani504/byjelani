@@ -15,6 +15,19 @@ const MongoStore = require('connect-mongo')(session);
 
 
 const app = express();
+
+app.use(session({
+  name: 'myname.sid',
+  resave: false,
+  saveUninitialized: false,
+  secret: 'secret',
+  cookie: {
+    maxAge: 36000000,
+    httpOnly: false,
+    secure: false,
+  },
+  store: new MongoStore({ mongooseConnection: mongoose.connection }),
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -39,19 +52,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 setupRoutes(app);
-
-app.use(session({
-  name: 'myname.sid',
-  resave: false,
-  saveUninitialized: false,
-  secret: 'secret',
-  cookie: {
-    maxAge: 36000000,
-    httpOnly: false,
-    secure: false,
-  },
-  store: new MongoStore({ mongooseConnection: mongoose.connection }),
-}));
 
 
 // setupPassport(app);

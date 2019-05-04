@@ -61,14 +61,14 @@
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
-                <button  mat-raised-button (click)=addToBag()> {{ vmBagButtonStr }}</button>
-                <button  mat-raised-button *ngIf="isItemInBag" class="checkout" (click)=navigationService.navigateToShoppingBag()> CHECKOUT </button>
+                <button  mat-button (click)=addToBag()> {{ vmBagButtonStr }}</button>
+                <button  mat-button *ngIf="isItemInBag" class="checkout" (click)=navigationService.navigateToShoppingBag()> CHECKOUT </button>
                 <!-- Wishlist -->
             </div>
         </div>
     </div>
     <div *ngIf="!product">
         <p class="no-product">Please select a product from the shop</p>
-        <button [ngStyle.xs]="{'width': '40%'}" mat-raised-button (click)="navigationService.navigateToShop()"> SHOP </button>
+        <button [ngStyle.xs]="{'width': '40%'}" mat-button (click)="navigationService.navigateToShop()"> SHOP </button>
     </div>
 </div>

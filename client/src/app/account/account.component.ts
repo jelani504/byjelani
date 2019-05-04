@@ -12,4 +12,11 @@ export class AccountComponent implements OnInit {
   ngOnInit() {
   }
 
+  logout(){
+    console.log('logout');
+  }
+  saveChanges(){
+    console.log('Save Changes');
+  }
+
 }
