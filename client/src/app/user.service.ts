@@ -130,7 +130,9 @@ export class SignInDialog {
     public navigationService: NavigationService,
     public dialogRef: MatDialogRef<SignInDialog>,
     @Inject(MAT_DIALOG_DATA) public data: { displayStr: string }
-  ) {}
+  ) {
+    dialogRef.disableClose = true;
+  }
   onButtonClick(button: string): void {
     if(button === 'sign up'){
       this.navigationService.navigateToRegister();
