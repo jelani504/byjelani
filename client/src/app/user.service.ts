@@ -20,7 +20,6 @@ export class UserService {
         if(user){
           this.userBag.next(user.shoppingBag);
         }
-        console.log(user);
       })
       // this.userBag.next(this.user.getValue().shoppingBag);
       // this.userBag.subscribe( bag => this.updateUser('shoppingBag', bag).subscribe(user =>{ console.log(user)}));
@@ -38,7 +37,14 @@ export class UserService {
     this.dialog.open(SignInDialog, { data : { displayStr } });
   }
 
-  updateUser(key, value){
+  updateUser(key, value, changedValues?){
+    if(changedValues){
+      return this._http.post('http://127.0.0.1:3000/api/user/update', {changedValues}, {
+        observe: 'body',
+        withCredentials: true,
+        headers: new HttpHeaders().append('Content-Type', 'application/json')
+      });
+    }
     return this._http.post('http://127.0.0.1:3000/api/user/update', {key, value}, {
       observe: 'body',
       withCredentials: true,

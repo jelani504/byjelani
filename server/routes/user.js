@@ -8,14 +8,31 @@ const router = express.Router();
 router.get('/', (req, res, next) => res.status(200).send({user: req.user}));
 
 router.post('/update', (req, res, next) => {
-  // console.log(req.user.email);
   const { email } = req.user;
-  const { key, value } = req.body;
-  // console.log(email, key, value);
-  userHelpers.updateUser(email, key, value).then(user => {
-    // console.log(user, 'HERE WE ARE');
-    res.status(201).send({user: user});
-  }).catch(err => console.log(err));
+  const { key, value, changedValues } = req.body;
+  let currentPW;
+
+  changedValues.forEach(
+    newPair => {
+      if(Object.keys(newPair)[0] === 'currentPassword'){
+        currentPW = newPair.currentPassword;
+      }
+    }
+  );
+
+  userHelpers.findOneUser(email).then(user => {
+    if(!user.isValid(currentPW)){
+      return res.status(401).send({error: 'Incorrect Password'});
+    }
+    if(changedValues){
+      return userHelpers.updateUser(email, null, null, changedValues).then(user => {
+        return res.status(201).send({user: user});
+      }).catch(err => console.log(err));
+    }
+    return userHelpers.updateUser(email, key, value).then(user => {
+      return res.status(201).send({user: user});
+    }).catch(err => console.log(err));
+  })
 });
 
 router.post('/register', (req, res, next) => {

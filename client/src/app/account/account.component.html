@@ -5,18 +5,18 @@
     <form class="account-info" fxLayout="column" [formGroup]="accountForm">
       <p>Account Information</p>
       <mat-form-field>
-        <input formControlName="firstName" matInput placeholder="First Name">
+        <input formControlName="firstName" matInput placeholder="{{vmUser.firstName}}">
       </mat-form-field>
       <mat-form-field>
-        <input formControlName="lastName" matInput placeholder="Last Name">
+        <input formControlName="lastName" matInput placeholder={{vmUser.lastName}}>
       </mat-form-field>
       <mat-form-field>
-        <input formControlName="email" matInput placeholder="Email Address">
+        <input formControlName="email" matInput placeholder="{{vmUser.email}}">
       </mat-form-field>
     
       <p>Account Password</p>
       <mat-form-field>
-        <input type="password" formControlName="oldPassword" matInput placeholder="Old Password">
+        <input type="password" formControlName="currentPassword" matInput placeholder="Current Password">
       </mat-form-field>
       <mat-form-field>
         <input type="password" formControlName="newPassword" matInput placeholder="New Password">
@@ -28,7 +28,7 @@
       <mat-radio-group
         aria-labelledby="radio-group-label"
         class="radio-group"
-        formControlName="newsletters"
+        formControlName="acceptContact"
       >
         <mat-radio-button class="radio-button" [value]="true">
           Subscribed

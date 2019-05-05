@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from '../user.service';
+import { SnackbarService } from '../snackbar.service';
 
 @Component({
   selector: 'app-account',
@@ -12,15 +13,15 @@ export class AccountComponent implements OnInit {
   public vmUser;
   public accountForm: FormGroup = new FormGroup({
     email: new FormControl(null, Validators.email),
-    oldPassword: new FormControl(null),
+    currentPassword: new FormControl(null),
     firstName: new FormControl(null),
     lastName: new FormControl(null),
     newPassword: new FormControl(null),
     confirmPassword: new FormControl(null),
-    newsletters: new FormControl(null),
+    acceptContact: new FormControl(null),
     gender: new FormControl(null)
   });
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private snackBarService: SnackbarService) {
     userService.user.subscribe(user => {
       if(!user){
         this.userService.openDialog('You must be signed in to update account information.')
@@ -42,9 +43,26 @@ export class AccountComponent implements OnInit {
       this.userService.openDialog('You must be signed in to update account information.')
       return ;
     }
-    console.log(this.vmUser);
-    console.log(this.accountForm);
-    console.log('Save Changes');
+    if(this.accountForm.value.confirmPassword !== this.accountForm.value.newPassword){
+      this.snackBarService.snackBarMessage.next('Passwords do not match.');
+      return ;
+    }
+    const changedValues = Object.keys(this.accountForm.value)
+      .filter(key => this.accountForm.value[key] !== null)
+      .map(key => {
+        const newPair = {};
+        newPair[key] = this.accountForm.value[key];
+        return newPair;
+      });
+    this.userService.updateUser(null, null, changedValues)
+      .subscribe(
+        (res: {user: any}) => { 
+          this.vmUser = res.user; this.snackBarService.snackBarMessage.next('Got you.');
+        },
+        (res: {error: {error: string}}) => {
+          this.snackBarService.snackBarMessage.next(res.error.error);
+        }
+      );
   }
 
 }
