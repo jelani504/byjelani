@@ -1,5 +1,6 @@
 {
       productModel:'Maximum Viable Product',
+      id: 1,
       subBrand: 'UNSOUGHT GOODS',
       versions: [
         {

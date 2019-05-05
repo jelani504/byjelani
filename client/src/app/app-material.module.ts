@@ -4,6 +4,7 @@ import {
   MatButtonModule,
   MatCardModule,
   MatRadioModule,
+  MatDialogModule,
 } from '@angular/material';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -18,6 +19,7 @@ const modules = [
   MatInputModule,
   MatButtonModule,
   MatToolbarModule,
+  MatDialogModule,
   MatIconModule,
   MatCardModule,
   MatCheckboxModule,

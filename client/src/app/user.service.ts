@@ -1,6 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Component, Inject } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { NavigationService } from './navigation.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +13,15 @@ export class UserService {
   public shippingEstimate = new BehaviorSubject(0);
   public orderTotal = new BehaviorSubject(0);
 
-  public user = new Subject();
-    constructor(private _http: HttpClient) {
+  public user = new BehaviorSubject({shoppingBag: []});
+    constructor(private _http: HttpClient, public dialog: MatDialog) {
       this.getUser().subscribe((res: {user: any}) => this.user.next(res.user));
-      this.user.subscribe( (user: {shoppingBag: any}) => {this.userBag.next(user.shoppingBag)})
+      this.user.subscribe( (user: {shoppingBag: any}) => {
+        if(user){
+          this.userBag.next(user.shoppingBag);
+        }
+        console.log(user);
+      })
       // this.userBag.next(this.user.getValue().shoppingBag);
       // this.userBag.subscribe( bag => this.updateUser('shoppingBag', bag).subscribe(user =>{ console.log(user)}));
     }
@@ -25,6 +32,10 @@ export class UserService {
       withCredentials: true,
       headers: new HttpHeaders().append('Content-Type', 'application/json')
     });
+  }
+
+  openDialog(displayStr: string) {
+    this.dialog.open(SignInDialog, { data : { displayStr } });
   }
 
   updateUser(key, value){
@@ -101,5 +112,32 @@ export class UserService {
         this.updateUser('shoppingBag', userBag).subscribe((res: {user: any}) => {this.user.next(res.user)});
       }
     });
+  }
+}
+
+@Component({
+  selector: 'sign-in-dialog',
+  template: `
+    <h1 style="font-family: 'Oswald' !important; font: 'Oswald' !important;" mat-dialog-title>{{data.displayStr}}</h1>
+    <div style="text-align: center" mat-dialog-content>
+      <button style="margin-left: 5%; margin-right: 5%; font-family: 'Oswald'" mat-button (click)="onButtonClick('sign up')">Sign Up</button>
+      <button style="margin-left: 5%; margin-right: 5%; font-family: 'Oswald'" mat-button (click)="onButtonClick('login')">Login</button>
+    </div>
+  `
+})
+export class SignInDialog {
+  constructor(
+    public navigationService: NavigationService,
+    public dialogRef: MatDialogRef<SignInDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: { displayStr: string }
+  ) {}
+  onButtonClick(button: string): void {
+    if(button === 'sign up'){
+      this.navigationService.navigateToRegister();
+    }
+    if(button === 'login'){
+      this.navigationService.navigateToLogin();
+    }
+    this.dialogRef.close();
   }
 }

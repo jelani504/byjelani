@@ -37,6 +37,7 @@ export class NavigationService {
   }
 
   navigateToProduct(subBrand, modelID, versionID){
+    console.log(subBrand, modelID, versionID);
     this.router.navigate(['shop', subBrand, modelID, versionID])
 
   }

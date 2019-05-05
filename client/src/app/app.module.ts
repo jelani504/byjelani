@@ -25,6 +25,7 @@ import { ShoppingBagComponent } from './shopping-bag/shopping-bag.component';
 import { ProductService } from './product.service';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { NavigationService } from './navigation.service';
+import { SignInDialog } from './user.service';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { NavigationService } from './navigation.service';
     AccountComponent,
     ShoppingBagComponent,
     CheckoutComponent,
+    SignInDialog
   ],
   imports: [
     BrowserModule,
@@ -58,6 +60,7 @@ import { NavigationService } from './navigation.service';
     ProductService,
     NavigationService
   ],
+  entryComponents: [SignInDialog],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

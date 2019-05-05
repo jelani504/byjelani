@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const productSchema = new Schema({
+    id: Number,
     productModel: String,
     subBrand: String,
     versions: [
@@ -60,5 +61,6 @@ const productHelpers = {
 Product.find({}, (err, docs) => console.log(docs));
 const allProducts = productHelpers.findAllProducts();
 console.log(allProducts, 'ALL PRODUCTS');
+
 // Product.remove({}, () => console.log('collection removed'));
 module.exports = { Product, productHelpers };

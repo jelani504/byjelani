@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
 import { SnackbarService } from './snackbar.service';
+import { ProductService } from './product.service';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,8 @@ import { SnackbarService } from './snackbar.service';
 export class AppComponent {
   constructor(
     private snackBar: MatSnackBar,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private productService: ProductService
   ){
     snackbarService.snackBarMessage.subscribe( message => {
       if(message){
@@ -19,6 +21,7 @@ export class AppComponent {
         });
       }
     });
+    productService.getAllProducts().subscribe((res: {products: []}) => { productService.products.next(res.products)} );
   }
   title = 'client';
 }

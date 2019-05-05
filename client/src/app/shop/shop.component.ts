@@ -9,7 +9,10 @@ import { NavigationService } from '../navigation.service';
   styleUrls: ['./shop.component.scss']
 })
 export class ShopComponent implements OnInit {
-  constructor(public productService: ProductService, private navigationService: NavigationService) { }
+  public vmProducts = [];
+  constructor(public productService: ProductService, private navigationService: NavigationService) {
+    productService.products.subscribe(products => this.vmProducts = products)
+  }
 
   ngOnInit() {
   }
