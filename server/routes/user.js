@@ -11,7 +11,11 @@ router.post('/update', (req, res, next) => {
   const { email } = req.user;
   const { key, value, changedValues } = req.body;
   let currentPW;
-
+  if(key && value){
+      return userHelpers.updateUser(email, key, value).then(user => {
+        return res.status(201).send({user: user});
+      }).catch(err => console.log(err));
+  };
   changedValues.forEach(
     newPair => {
       if(Object.keys(newPair)[0] === 'currentPassword'){
@@ -29,10 +33,7 @@ router.post('/update', (req, res, next) => {
         return res.status(201).send({user: user});
       }).catch(err => console.log(err));
     }
-    return userHelpers.updateUser(email, key, value).then(user => {
-      return res.status(201).send({user: user});
-    }).catch(err => console.log(err));
-  })
+  });
 });
 
 router.post('/register', (req, res, next) => {
@@ -61,6 +62,11 @@ router.post('/register', (req, res, next) => {
     console.log('ERROR CREATING USER');
     return res.status(501).json(err);
   }
+});
+
+router.get('/logout', function(req, res){
+  req.logout();
+  res.status(200).send({success: 'You have been logged out.'});
 });
 
 module.exports = router;

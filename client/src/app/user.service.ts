@@ -33,6 +33,14 @@ export class UserService {
     });
   }
 
+  logout(){
+    return this._http.get('http://127.0.0.1:3000/api/user/logout', {
+      observe: 'body',
+      withCredentials: true,
+      headers: new HttpHeaders().append('Content-Type', 'application/json')
+    });
+  }
+
   openDialog(displayStr: string) {
     this.dialog.open(SignInDialog, { data : { displayStr } });
   }

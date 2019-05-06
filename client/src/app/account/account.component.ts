@@ -21,7 +21,10 @@ export class AccountComponent implements OnInit {
     acceptContact: new FormControl(null),
     gender: new FormControl(null)
   });
-  constructor(private userService: UserService, private snackBarService: SnackbarService) {
+  constructor(
+    private userService: UserService,
+    private snackBarService: SnackbarService
+    ) {
     userService.user.subscribe(user => {
       if(!user){
         this.userService.openDialog('You must be signed in to update account information.')
@@ -36,6 +39,13 @@ export class AccountComponent implements OnInit {
 
   logout(){
     console.log('logout');
+    this.userService.logout().subscribe(
+      (res: {success: string}) => { 
+        console.log(res);
+        this.snackBarService.snackBarMessage.next(res.success);
+        setTimeout(()=> window.location.href = '/', 2000);
+      },
+      err => console.log(err));
   }
 
   saveChanges(){

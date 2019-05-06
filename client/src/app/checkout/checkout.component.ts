@@ -10,8 +10,13 @@ import { FormControl, Validators, FormGroup } from '@angular/forms';
 })
 export class CheckoutComponent implements OnInit {
 
+  public addScript: boolean = false;
   public vmUserBag = [];
   public vmOrderTotal;
+
+  paypalConfig = {
+    env: 'sandbox'
+  }
   public orderForm = new FormGroup({
     firstName: new FormControl('', Validators.required),
     lastName: new FormControl('', Validators.required),
