@@ -100,9 +100,11 @@
           </mat-card>
         </div>
     </div>
-    <button (click)="payClick()" mat-button> PAY </button>
-    <div id="paypal-checkout-btn"></div>
-    <script>paypal.Buttons().render('body');</script>
+    <div fxLayout="row" style="margin-top: 40px">
+      <div class="paypal-btn-spacer"></div>
+      <div id="paypal-btn" > </div>
+      <div class="paypal-btn-spacer"></div>
+    </div>
 
   </div>
   <div *ngIf="vmUserBag.length < 1" class="empty-bag">

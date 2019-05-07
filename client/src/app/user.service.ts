@@ -21,6 +21,7 @@ export class UserService {
           this.userBag.next(user.shoppingBag);
         }
       })
+      this.userBag.subscribe(()=> this.getOrderTotal() )
       // this.userBag.next(this.user.getValue().shoppingBag);
       // this.userBag.subscribe( bag => this.updateUser('shoppingBag', bag).subscribe(user =>{ console.log(user)}));
     }

@@ -16,7 +16,7 @@ export class ShoppingBagComponent implements OnInit {
   public vmOrderTotal;
 
   constructor(private userService: UserService ,public navigationService: NavigationService) {
-    this.userService.userBag.subscribe(bag => {this.userService.getOrderTotal(); this.userBag = bag;})
+    this.userService.userBag.subscribe(bag => {this.userBag = bag;})
     this.userService.orderTotal.subscribe(orderTotal => {
       this.vmOrderTotal = {
         orderTotal,
