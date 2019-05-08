@@ -1,5 +1,5 @@
-<mat-toolbar class="mat-elevation-z2">
-  <mat-toolbar-row>
+<mat-toolbar class="header mat-elevation-z2">
+  <mat-toolbar-row class="header-row">
     <span (click)="navigationService.navigateHome()" class="title-font" >JELANI</span>
     <span class="example-spacer"></span>
     <mat-icon *ngFor="let icon of iconService.icons.header" class="svgicon" svgIcon="{{icon}}" (click)="navigationService.handleIconClick(icon)"></mat-icon>

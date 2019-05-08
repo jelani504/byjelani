@@ -1,9 +1,10 @@
 table {
-    width: 60%;
-    min-height: 75%;
+    width: 100%;
+    // min-height: 75%;
 }
 p.shopping-bag-title{
-    margin-top: 30px;
+    color: #000000a1;
+    margin-top: 0px;
     font-family: 'Oswald';
     font-size: 22px;
 }
@@ -11,7 +12,12 @@ p.shopping-bag-title{
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: center;
+    // align-items: center;
+    margin-top: 3%;
+}
+
+.bag-container{
+    width: 60%;
 }
 
 .container{
@@ -31,6 +37,61 @@ p.shopping-bag-title{
     white-space: unset !important;
     flex-direction: row;
     text-align: center;
+}
+
+.order-summary-card{
+    width: 100%
+}
+
+.item-details{
+    .xs{
+        text-align: center
+    }
+    text-align: left;
+    p.xs{
+        margin-left: 0px;
+    }
+    p.nm{
+        margin-left: 0px;
+    }
+    p{
+        font-size: 12px;
+        margin-left: 30px; 
+    }
+}
+p.details-item{
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+p.description-item-first{
+    margin-top: 20px;        
+    margin-bottom: 0px !important;
+}
+p.description-item-first-xs{
+    margin-top: 5px;        
+    margin-bottom: 0px !important;
+}
+p.description-item-last{
+    margin-top: 0px !important;
+}
+p.description-item{
+    margin-top: 5px !important;
+    margin-bottom: 0px !important;
+}
+
+.item-price-col{
+    text-align: right;
+}
+
+.summary-column{
+    width: 50%; 
+ }
+
+ .order-details{
+    text-align: right;
+    p{
+        font-family: 'Oswald';
+    }
 }
 
 .product-quantity{
@@ -63,8 +124,9 @@ p.shopping-bag-title{
 }
 
 .space-container{
+    margin-left: 5%;
     margin-top: 0px;
-    width: 20%;
+    width: 25%;
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -1,9 +1,9 @@
 <div class="container" fxLayout.xs="column">
   <div *ngIf="userBag.length > 0">
-    <p class="shopping-bag-title">Shopping Bag</p>
     <div fxShow fxHide.xs [ngStyle.xs]="{'flex-direction': 'column', 'align-items': 'center'}" class="shopping-bag-container" >
-        <div class="space-container"></div>
-        <table [fxFlex.xs]="95" mat-table [dataSource]="userService.userBag" class="mat-elevation-z4">
+      <div class="bag-container">
+        <p class="shopping-bag-title">SHOPPING BAG</p>
+        <table [fxFlex.xs]="95" mat-table [dataSource]="userService.userBag" class="mat-elevation-z8">
         <ng-container matColumnDef="ITEM">
           <th mat-header-cell *matHeaderCellDef> ITEM </th>
           <td mat-cell *matCellDef="let product" fxLayout="row">
@@ -42,16 +42,42 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
-        <div class="space-container">
-          <mat-card class="checkout-card">
-            <p>Total: ${{vmOrderTotal.bagSubtotal}}</p>
-            <p>Shipping Estimate: ${{vmOrderTotal.shippingEstimate}}</p>
-            <p>Order Total: ${{vmOrderTotal.orderTotal}}</p>
-            <div>
-              <button class="checkout-button" (click)="navigationService.navigateToCheckout()" mat-button>Checkout</button>
+      </div>
+      <div class="space-container">
+        <mat-card class="order-summary-card mat-elevation-z8">
+          <p>ORDER SUMMARY</p>
+          <hr>
+          <div fxLayout="column" class="order-summary-container">
+            <div *ngFor="let product of userBag" fxLayout="column" class="item-details xs">
+              <div fxLayout="row">
+                <div fxLayout="column" class="summary-column">
+                  <p class="description-item-first-xs nm"><b>{{product.subBrand}}</b></p>
+                  <p class="description-item nm">{{product.product.name}}</p>
+                  <p class="description-item nm">{{product.product.color}}</p>
+                  <p class="description-item nm">US {{product.selectedSize}}</p>
+                  <p class="description-item nm">QUANTITY: {{product.quantity}}</p>
+                </div>
+                <div fxLayout="column" class="summary-column item-price-col" >
+                  <p class="description-item-last">${{product.product.price.usd.number * product.quantity}}</p>
+                </div>
+              </div>
+              <div>
+                <hr>
+              </div>
             </div>
-          </mat-card>
+          </div>
+          <div class="order-details">
+            <p class="details-item">Total: ${{vmOrderTotal.bagSubtotal}}</p>
+            <p class="details-item">Shipping Estimate: ${{vmOrderTotal.shippingEstimate}}</p>
+            <p class="details-item">Order Total: ${{vmOrderTotal.orderTotal}}</p>
+          </div>
+        </mat-card>
+        <div fxLayout="row" style="margin-top: 40px">
+          <div class="paypal-btn-spacer"></div>
+          <div id="paypal-btn" > </div>
+          <div class="paypal-btn-spacer"></div>
         </div>
+      </div>
     </div>
     <div fxLayout="column" fxHide fxShow.xs class="shopping-bag-container">
       <div *ngFor="let product of userBag" class="item-container">
@@ -78,17 +104,33 @@
           </div>
         </div>
       </div>
-      <mat-card class="checkout-card checkout-card-xs">
-        <p>Total: ${{vmOrderTotal.bagSubtotal}}</p>
-        <p>Shipping Estimate: ${{vmOrderTotal.shippingEstimate}}</p>
-        <p>Order Total: ${{vmOrderTotal.orderTotal}}</p>
-        <button
-          class="checkout-button"
-          (click)="navigationService.navigateToCheckout()"
-          mat-button
-        >
-          Checkout
-        </button>
+      <mat-card class="order-summary-card">
+        <p>ORDER SUMMARY</p>
+        <hr>
+        <div fxLayout="column" class="order-summary-container">
+          <div *ngFor="let product of userBag" fxLayout="column" class="item-details xs">
+            <div fxLayout="row">
+              <div fxLayout="column" class="summary-column">
+                <p class="description-item-first-xs nm"><b>{{product.subBrand}}</b></p>
+                <p class="description-item nm">{{product.product.name}}</p>
+                <p class="description-item nm">{{product.product.color}}</p>
+                <p class="description-item nm">US {{product.selectedSize}}</p>
+                <p class="description-item nm">QUANTITY: {{product.quantity}}</p>
+              </div>
+              <div fxLayout="column" class="summary-column item-price-col" >
+                <p class="description-item-last">${{product.product.price.usd.number * product.quantity}}</p>
+              </div>
+            </div>
+            <div>
+              <hr>
+            </div>
+          </div>
+        </div>
+        <div class="order-details">
+          <p>Total: ${{vmOrderTotal.bagSubtotal}}</p>
+          <p>Shipping Estimate: ${{vmOrderTotal.shippingEstimate}}</p>
+          <p>Order Total: ${{vmOrderTotal.orderTotal}}</p>
+        </div>
       </mat-card>
     </div>
   </div>

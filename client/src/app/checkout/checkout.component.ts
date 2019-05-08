@@ -31,7 +31,7 @@ export class CheckoutComponent {
       return actions.order.capture().then(function(details) {
         alert('Transaction completed by ' + details.payer.name.given_name);
         // Call your server to save the transaction
-        return fetch('/paypal-transaction-complete', {
+        return fetch('http://localhost:3000/api/orders/create', {
           method: 'post',
           headers: {
             'content-type': 'application/json'
