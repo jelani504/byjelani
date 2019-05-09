@@ -13,47 +13,55 @@ declare let paypal: any;
 })
 export class ShoppingBagComponent implements OnInit {
 
-  public addScript: boolean = false;
   private intervalId;
-  private paypalConfig = {
-    createOrder: (data, actions) => {
-      const orderTotal = this.vmOrderTotal.orderTotal;
-      return actions.order.create({
-        purchase_units: [{
-          amount: {
-            value: orderTotal
-          }
-        }]
-      });
-    },
-    onApprove: function(data, actions) {
-      return actions.order.capture().then(function(details) {
-        alert('Transaction completed by ' + details.payer.name.given_name);
-        // Call your server to save the transaction
-        return fetch('http://localhost:3000/api/orders/create', {
-          method: 'post',
-          headers: {
-            'content-type': 'application/json'
-          },
-          body: JSON.stringify({
-            orderID: data.orderID
-          })
-        });
-      });
-    }
-  }
-
+  private paypalConfig;
+  private paypalClientID;
+  public addScript: boolean = false;
   public userBag: any[];
   public displayedColumns: String[] = ['ITEM', 'PRICE', 'QUANTITY'];
   public vmOrderTotal;
-  private paypalClientID;
   constructor(private userService: UserService ,public navigationService: NavigationService) {
     if(prodEnv.production){
       this.paypalClientID = prodEnv.paypalClientID;
     } else {
       this.paypalClientID = devEnv.paypalClientID;
     }
-    this.userService.userBag.subscribe(bag => {this.userBag = bag;})
+    this.userService.userBag.subscribe(
+      bag => {this.userBag = bag;
+       this.paypalConfig = {
+        createOrder: (data, actions) => {
+          const orderTotal = this.vmOrderTotal.orderTotal;
+          return actions.order.create({
+            purchase_units: [
+                {
+                amount: {
+                  value: orderTotal
+                }
+              }
+            ]
+          });
+        },
+        onApprove: (data, actions) => {
+          return actions.order.capture().then((details) => {
+            alert('Transaction completed by ' + details.payer.name.given_name);
+            // Call your server to save the transaction
+            return fetch('http://localhost:3000/api/orders/create', {
+              method: 'post',
+              headers: {
+                'content-type': 'application/json'
+              },
+              body: JSON.stringify({
+                orderID: data.orderID,
+                orderTotal: this.vmOrderTotal.orderTotal,
+                userBag: this.userBag,
+                email: this.userService.user.getValue().email
+              })
+            }).then(res => console.log(res)).catch(err => console.log(err));
+          });
+        }
+      }
+      }
+    )
     this.userService.orderTotal.subscribe(orderTotal => {
       this.vmOrderTotal = {
         orderTotal,

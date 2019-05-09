@@ -13,7 +13,7 @@ export class UserService {
   public shippingEstimate = new BehaviorSubject(0);
   public orderTotal = new BehaviorSubject(0);
 
-  public user = new BehaviorSubject({shoppingBag: []});
+  public user = new BehaviorSubject({shoppingBag: [], email: String});
     constructor(private _http: HttpClient, public dialog: MatDialog) {
       this.getUser().subscribe((res: {user: any}) => this.user.next(res.user));
       this.user.subscribe( (user: {shoppingBag: any}) => {

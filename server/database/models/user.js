@@ -52,7 +52,12 @@ const userHelpers = {
   createUser: user => new User(user).save((err) => {
     if (err) { console.log(err); }
   }),
-  findOneUser: (email) => { return User.findOne({email}); },
+  findOneUser: async email =>  await User.findOne({email}),
+  clearBag: async email => {
+    const user = await User.findOne({email});
+    user.shoppingBag = [];
+    return await user.save();
+  },
   updateUser: async (email, key, value, changedValues) => {
     const user = await User.findOne({email});
     if(changedValues){

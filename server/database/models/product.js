@@ -32,7 +32,6 @@ const productSchema = new Schema({
     }]
 });
 
-
 const Product = mongoose.model('Product', productSchema);
 
 const productHelpers = {
@@ -58,9 +57,9 @@ const productHelpers = {
   }
 };
 
-Product.find({}, (err, docs) => console.log(docs));
-const allProducts = productHelpers.findAllProducts();
-console.log(allProducts, 'ALL PRODUCTS');
+// Product.find({}, (err, docs) => console.log(docs));
+// const allProducts = productHelpers.findAllProducts();
+// console.log(allProducts, 'ALL PRODUCTS');
 
 // Product.remove({}, () => console.log('collection removed'));
 module.exports = { Product, productHelpers };
