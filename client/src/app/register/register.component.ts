@@ -1,8 +1,8 @@
 import { Input, Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 
 import { RegisterService } from './register.service';
+import { NavigationService } from '../navigation.service';
 
 @Component({
   selector: 'app-register',
@@ -26,7 +26,7 @@ export class RegisterComponent implements OnInit {
 
   @Output() submitEM = new EventEmitter();
 
-  constructor(public registerService: RegisterService) {}
+  constructor(public registerService: RegisterService, public navigationService: NavigationService) {}
 
   ngOnInit() {
   }

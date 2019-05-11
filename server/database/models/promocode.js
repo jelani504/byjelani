@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const { Schema } = mongoose;
 
 const promoCodeSchema = new Schema({
@@ -21,5 +23,5 @@ const promoCodeHelpers = {
 
 // const allPromoCodes = promoCodeHelpers.findAllPromoCodes();
 // console.log(allPromoCodes, 'ALL PROMO CODES ORDERS');
-PromoCode.remove({}, () => console.log('promo codes collection removed'));
-module.exports = { PaypalOrder, promoCodeHelpers };
+// PromoCode.remove({}, () => console.log('promo codes collection removed'));
+module.exports = { PromoCode, promoCodeHelpers };

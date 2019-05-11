@@ -43,5 +43,5 @@ const paypalOrderHelpers = {
 
 // const allPaypalOrders = paypalOrderHelpers.findAllPaypalOrders();
 // console.log(allPaypalOrders, 'ALL PAYPAL ORDERS');
-PaypalOrder.remove({}, () => console.log('collection removed'));
+// PaypalOrder.remove({}, () => console.log('collection removed'));
 module.exports = { PaypalOrder, paypalOrderHelpers };

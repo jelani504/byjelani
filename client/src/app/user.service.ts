@@ -3,6 +3,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { NavigationService } from './navigation.service';
+import { PromocodeService } from './promocode.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +15,19 @@ export class UserService {
   public orderTotal = new BehaviorSubject(0);
 
   public user = new BehaviorSubject({shoppingBag: [], email: String});
-    constructor(private _http: HttpClient, public dialog: MatDialog) {
+    constructor(
+      private _http: HttpClient,
+      public dialog: MatDialog,
+      private promocodeService: PromocodeService
+    ) {
       this.getUser().subscribe((res: {user: any}) => this.user.next(res.user));
       this.user.subscribe( (user: {shoppingBag: any}) => {
         if(user){
           this.userBag.next(user.shoppingBag);
         }
-      })
-      this.userBag.subscribe(()=> this.getOrderTotal() )
+      });
+      this.promocodeService.discount.subscribe(() => this.getOrderTotal());
+      this.userBag.subscribe(()=> this.getOrderTotal() );
       // this.userBag.next(this.user.getValue().shoppingBag);
       // this.userBag.subscribe( bag => this.updateUser('shoppingBag', bag).subscribe(user =>{ console.log(user)}));
     }
@@ -84,7 +90,17 @@ export class UserService {
   }
 
   getOrderTotal(){
-    const orderTotal = this.getBagSubtotal() + this.shippingEstimate.getValue();
+    const {discount, code} = this.promocodeService.discount.getValue();
+    const bagSubtotal = this.getBagSubtotal();
+    const shippingEstimate = this.shippingEstimate.getValue();
+    let orderTotal, discountAmount;
+    if(discount){
+      discountAmount = (discount/100)*bagSubtotal;
+      orderTotal = (((100-discount)/100)*bagSubtotal)+shippingEstimate;
+      this.promocodeService.appliedPromo.next({discount, code, discountAmount})
+    } else {
+      orderTotal = bagSubtotal + shippingEstimate;
+    }
     this.orderTotal.next(orderTotal);
     return orderTotal;
   }

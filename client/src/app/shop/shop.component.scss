@@ -10,17 +10,18 @@ mat-card.product {
 }
 
 p.product-model{
-    font-size: 34px;
-    padding-bottom: 50px;
+    padding-top: 15px;
+    font-size: 22px;
+    margin-bottom: 0px; 
+    // padding-bottom: 50px;
     font-family: 'Oswald';
 }
 div.product-row{
-    justify-content: center !important;
+    justify-content: left !important;
 }
 
 p.product-title{
-    padding-top: 15px;
-    font-size: 22px;
+    font-size: 18px;
     font-family: 'Oswald';
 }
 p.price{

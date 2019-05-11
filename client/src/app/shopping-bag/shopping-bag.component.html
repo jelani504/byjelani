@@ -68,11 +68,15 @@
           </div>
           <div class="order-details">
             <p class="details-item">Total: ${{vmOrderTotal.bagSubtotal}}</p>
+            <p class="details-item" *ngIf="appliedPromo">{{appliedPromo.code}} -{{appliedPromo.discount}}%: -${{appliedPromo.discountAmount}}</p>
             <p class="details-item">Shipping Estimate: ${{vmOrderTotal.shippingEstimate}}</p>
-            <p class="details-item">Order Total: ${{vmOrderTotal.orderTotal}}</p>
+            <p >Order Total: ${{vmOrderTotal.orderTotal}}</p>
           </div>
         </mat-card>
-        <div fxLayout="row" style="margin-top: 40px">
+        <mat-form-field class="discount-field">
+          <input type="text" matInput placeholder="Discount Code" (keyup)="onPromoCodeType($event.target.value)"/>
+        </mat-form-field>
+        <div fxLayout="row">
           <div class="paypal-btn-spacer"></div>
           <div id="paypal-btn" > </div>
           <div class="paypal-btn-spacer"></div>
@@ -127,9 +131,10 @@
           </div>
         </div>
         <div class="order-details">
-          <p>Total: ${{vmOrderTotal.bagSubtotal}}</p>
-          <p>Shipping Estimate: ${{vmOrderTotal.shippingEstimate}}</p>
-          <p>Order Total: ${{vmOrderTotal.orderTotal}}</p>
+            <p class="details-item">Total: ${{vmOrderTotal.bagSubtotal}}</p>
+            <p class="details-item" *ngIf="appliedPromo">{{appliedPromo.code}} -{{appliedPromo.discount}}%: -${{appliedPromo.discountAmount}}</p>
+            <p class="details-item">Shipping Estimate: ${{vmOrderTotal.shippingEstimate}}</p>
+            <p >Order Total: ${{vmOrderTotal.orderTotal}}</p>
         </div>
       </mat-card>
     </div>

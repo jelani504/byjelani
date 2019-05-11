@@ -3,6 +3,7 @@ import { UserService } from '../user.service';
 import { NavigationService } from '../navigation.service';
 import { environment as devEnv} from '../../environments/environment';
 import { environment as prodEnv } from '../../environments/environment.prod';
+import { PromocodeService } from '../promocode.service';
 
 declare let paypal: any;
 
@@ -20,15 +21,28 @@ export class ShoppingBagComponent implements OnInit {
   public userBag: any[];
   public displayedColumns: String[] = ['ITEM', 'PRICE', 'QUANTITY'];
   public vmOrderTotal;
-  constructor(private userService: UserService ,public navigationService: NavigationService) {
+  public appliedPromo;
+
+  constructor(
+    private userService: UserService,
+    public navigationService: NavigationService,
+    public promocodeService: PromocodeService
+  ) {
     if(prodEnv.production){
       this.paypalClientID = prodEnv.paypalClientID;
     } else {
       this.paypalClientID = devEnv.paypalClientID;
     }
     this.userService.userBag.subscribe(
-      bag => {this.userBag = bag;
-       this.paypalConfig = {
+      bag => this.userBag = bag
+    );
+    this.userService.orderTotal.subscribe(orderTotal => {
+      this.vmOrderTotal = {
+        orderTotal,
+        bagSubtotal: this.userService.bagSubtotal.getValue(),
+        shippingEstimate: this.userService.shippingEstimate.getValue()
+      };
+      this.paypalConfig = {
         createOrder: (data, actions) => {
           const orderTotal = this.vmOrderTotal.orderTotal;
           return actions.order.create({
@@ -60,14 +74,6 @@ export class ShoppingBagComponent implements OnInit {
           });
         }
       }
-      }
-    )
-    this.userService.orderTotal.subscribe(orderTotal => {
-      this.vmOrderTotal = {
-        orderTotal,
-        bagSubtotal: this.userService.bagSubtotal.getValue(),
-        shippingEstimate: this.userService.shippingEstimate.getValue()
-      };
       this.intervalId = setInterval(() => {
         const elementExists = !!document.getElementById('paypal-btn')
         if (elementExists) {
@@ -79,6 +85,7 @@ export class ShoppingBagComponent implements OnInit {
         }
       }, 1000);
     });
+    this.promocodeService.appliedPromo.subscribe(appliedPromo => this.appliedPromo = appliedPromo)
   }
 
   addPaypalScript(){
@@ -90,6 +97,10 @@ export class ShoppingBagComponent implements OnInit {
       scripttagElement.onload = resolve;
       document.body.appendChild(scripttagElement);
     })
+  }
+
+  onPromoCodeType(code){
+    this.promocodeService.promoCodeUpdated.next(code);
   }
 
   ngOnInit() {
