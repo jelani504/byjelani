@@ -26,6 +26,7 @@ import { ProductService } from './product.service';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { NavigationService } from './navigation.service';
 import { SignInDialog } from './user.service';
+import { AdminComponent } from './admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { SignInDialog } from './user.service';
     AccountComponent,
     ShoppingBagComponent,
     CheckoutComponent,
-    SignInDialog
+    SignInDialog,
+    AdminComponent
   ],
   imports: [
     BrowserModule,

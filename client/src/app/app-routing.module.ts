@@ -7,6 +7,7 @@ import { AccountComponent } from './account/account.component';
 import { ShopComponent } from './shop/shop.component';
 import { ShoppingBagComponent } from './shopping-bag/shopping-bag.component';
 import { ProductDetailsComponent } from './shop/product-details/product-details.component';
+import { AdminComponent } from './admin/admin.component';
 // import { CheckoutComponent } from './checkout/checkout.component';
 
 const routes: Routes = [
@@ -17,7 +18,8 @@ const routes: Routes = [
   {path: 'shop', component: ShopComponent },
   {path: 'shopping-bag', component: ShoppingBagComponent},
   // {path: 'checkout', component: CheckoutComponent},
-  {path: 'shop/:productSubBrand/:productModelID/:modelVersionID', component: ProductDetailsComponent }
+  {path: 'shop/:productSubBrand/:productModelID/:modelVersionID', component: ProductDetailsComponent },
+  {path: 'admin', component: AdminComponent}
 ];
 
 @NgModule({

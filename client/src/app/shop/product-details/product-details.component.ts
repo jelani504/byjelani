@@ -11,6 +11,7 @@ import { NavigationService } from 'src/app/navigation.service';
   styleUrls: ['./product-details.component.scss']
 })
 export class ProductDetailsComponent implements OnInit {
+  //product Version
   @Input() product;
   @Input() productModel;
   public selectedSize;
@@ -60,7 +61,7 @@ export class ProductDetailsComponent implements OnInit {
     const user = this.userService.user.getValue();
     if(user){
       if(this.selectedSize){
-        this.userService.addProductToBag(this.product, this.selectedSize, this.productModel.subBrand);
+        this.userService.addProductToBag(this.product, this.selectedSize, this.productModel.id);
         this.snackBarService.snackBarMessage.next('This item has been added to your bag.');
         if(!this.isItemInBag){
           this.isItemInBag = true;

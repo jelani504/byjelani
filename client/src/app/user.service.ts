@@ -23,6 +23,7 @@ export class UserService {
       this.getUser().subscribe((res: {user: any}) => this.user.next(res.user));
       this.user.subscribe( (user: {shoppingBag: any}) => {
         if(user){
+          console.log(user.shoppingBag);
           this.userBag.next(user.shoppingBag);
         }
       });
@@ -67,14 +68,14 @@ export class UserService {
     });
   }
 
-  addProductToBag(product, selectedSize, subBrand){
+  addProductToBag(version, selectedSize, productID){
     const userBag = this.userBag.getValue();
-    const isItemInBag = this.isItemInBag(product, selectedSize);
+    const isItemInBag = this.isItemInBag(version, selectedSize);
     if(isItemInBag){
-      userBag[isItemInBag.index] = {product, selectedSize, quantity: isItemInBag.quantity + 1, subBrand};
+      userBag[isItemInBag.index] = {version, selectedSize, quantity: isItemInBag.quantity + 1, productID};
       this.updateUser('shoppingBag', userBag).subscribe((res: {user: any}) => {this.user.next(res.user)});
     } else {
-      const newBag = userBag.concat([{product, selectedSize, quantity: 1, subBrand}]);
+      const newBag = userBag.concat([{version, selectedSize, quantity: 1, productID}]);
       this.updateUser('shoppingBag', newBag).subscribe((res: {user: any}) => {this.user.next(res.user)});
 
     }
