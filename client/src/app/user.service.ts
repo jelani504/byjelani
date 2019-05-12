@@ -84,7 +84,7 @@ export class UserService {
   getBagSubtotal(){
     let bagSubtotal = 0;
     this.userBag.getValue().forEach(item => {
-      bagSubtotal += item.product.price.usd.number * item.quantity;
+      bagSubtotal += item.version.price.usd.number * item.quantity;
     });
     this.bagSubtotal.next(bagSubtotal);
     return bagSubtotal;
@@ -112,13 +112,14 @@ export class UserService {
     const userBag = this.userBag.getValue()
     if(selectedSize){
       userBag.forEach((item, index) => {
-        if(item.product.id === product.id && item.selectedSize === selectedSize){
+        console.log(item, 'ITEM');
+        if(item.version.id === product.id && item.selectedSize === selectedSize){
           isItemInBag = {index, quantity: item.quantity};
         }
       });
     } else {
       userBag.forEach((item, index) => {
-        if(item.product.id === product.id){
+        if(item.version.id === product.id){
           isItemInBag = true;
         }
       });
@@ -129,7 +130,7 @@ export class UserService {
   editQuantityInBag(itemID: string, selectedSize, option){
     const userBag = this.userBag.getValue();
     userBag.forEach((item, index) => {
-      if(item.product.id === itemID && item.selectedSize === selectedSize){
+      if(item.version.id === itemID && item.selectedSize === selectedSize){
         const itemCopy = Object.assign({}, item);
         if(option === 'incriment'){
           itemCopy.quantity++;

@@ -6,6 +6,8 @@ require('dotenv').config();
 const payPalClient = require('../paypal-config');
 const { paypalOrderHelpers } = require('../database/models/order');
 const { userHelpers } = require('../database/models/user');
+const { productHelpers } = require('../database/models/product');
+
 
 
 const { BASIC_AUTH } = process.env;
@@ -15,22 +17,22 @@ const asyncFN = require('./async');
 const router = express.Router();
 
 /* GET users listing. */
-router.get('/', asyncFN(async (req, res, next) => {
+// router.get('/', asyncFN(async (req, res, next) => {
 //   const orders = await orderHelpers.findAllOrders();
-  // console.log(orders, 'Orderss');
-  res.send({orders: 'orders'});
-}));
+//   // console.log(orders, 'Orderss');
+//   res.send({ orders });
+// }));
 
-router.post('/update/:orderID', (req, res, next) => {
-//   console.log(req.user.email);
-  // console.log(email, key, value);
-//   orderHelpers.updateOrder(id, key, value).then(order => {
-//     console.log(order, 'UPDATED ORDER');
-//     res.status(201).send({order});
-//   }).catch(err => console.log(err));
-    res.status(201).send({order: 'ORDER'});
+// router.post('/update/:orderID', (req, res, next) => {
+// //   console.log(req.user.email);
+//   // console.log(email, key, value);
+// //   orderHelpers.updateOrder(id, key, value).then(order => {
+// //     console.log(order, 'UPDATED ORDER');
+// //     res.status(201).send({order});
+// //   }).catch(err => console.log(err));
+//     res.status(201).send({order: 'ORDER'});
 
-});
+// });
 
 router.post('/create', async (req, res, next) => {
     // 2a. Get the order ID from the request body
@@ -82,16 +84,21 @@ router.post('/create', async (req, res, next) => {
       newOrder.transactionID = transactionID;
       newOrder.transactionStatus = transactionStatus;
       newOrder.items = userBag.reduce((itemsArr, currentItem) => {
-        const versionID = currentItem.product.id;
-        const productName = currentItem.product.name
+        const { productID } = currentItem;
+        const versionID = currentItem.version.id;
+        const productName = currentItem.version.name
+        console.log(currentItem, 'CURRENT ITEM');
         const { selectedSize, quantity, subBrand } = currentItem;
-        itemsArr.push({versionID, productName, selectedSize, quantity, subBrand});
+        itemsArr.push({versionID, productName, selectedSize, quantity, subBrand, productID });
         return itemsArr;
       }, []);
 
       // 6. Save the transaction in your database with userbag, transaction ID, orderID, order status
       const dborder = await paypalOrderHelpers.createPaypalOrder(newOrder);
       // console.log(dborder, 'NEW ORDERRRR');
+      newOrder.items.forEach( async item => {
+        await productHelpers.decreaseVersionQuantity(item.productID, item.versionID, item.selectedSize, item.quantity);
+      });
       await userHelpers.clearBag(email);
       // 7. Return a successful response to the client
       return res.status(200).send({success: dborder});

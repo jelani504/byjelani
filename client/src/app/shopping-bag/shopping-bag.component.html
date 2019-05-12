@@ -7,11 +7,11 @@
         <ng-container matColumnDef="ITEM">
           <th mat-header-cell *matHeaderCellDef> ITEM </th>
           <td mat-cell *matCellDef="let product" fxLayout="row">
-            <img src="{{product.product.img}}">
+            <img src="{{product.version.img}}">
             <div fxLayout="column" class="item-details">
               <p class="description-item-first">{{product.subBrand}}</p>
-              <p class="description-item">{{product.product.name}}</p>
-              <p class="description-item">{{product.product.color}}</p>
+              <p class="description-item">{{product.version.name}}</p>
+              <p class="description-item">{{product.version.color}}</p>
               <p class="description-item-last">US {{product.selectedSize}}</p>
             </div>
           </td>
@@ -19,20 +19,20 @@
       
         <ng-container matColumnDef="PRICE">
           <th mat-header-cell *matHeaderCellDef> PRICE </th>
-          <td mat-cell *matCellDef="let product"> {{product.product.price.usd.string}} </td>
+          <td mat-cell *matCellDef="let product"> {{product.version.price.usd.string}} </td>
         </ng-container>
   
          <ng-container matColumnDef="QUANTITY">
             <th mat-header-cell *matHeaderCellDef> QUANTITY </th>
             <td mat-cell *matCellDef="let product"> 
               <button
-                (click)="userService.editQuantityInBag(product.product.id, product.selectedSize, 'incriment')"
+                (click)="userService.editQuantityInBag(product.version.id, product.selectedSize, 'incriment')"
                 class="quantity incriment"
                 mat-button
               >+</button>
               {{product.quantity}} 
               <button
-                (click)="userService.editQuantityInBag(product.product.id, product.selectedSize ,'decriment')"
+                (click)="userService.editQuantityInBag(product.version.id, product.selectedSize ,'decriment')"
                 class="quantity decriment"
                 mat-button
               >-</button>
@@ -47,18 +47,18 @@
         <mat-card class="order-summary-card mat-elevation-z8">
           <p>ORDER SUMMARY</p>
           <hr>
-          <div fxLayout="column" class="order-summary-container">
+          <div *ngIf="userBag"  fxLayout="column" class="order-summary-container">
             <div *ngFor="let product of userBag" fxLayout="column" class="item-details xs">
               <div fxLayout="row">
                 <div fxLayout="column" class="summary-column">
                   <p class="description-item-first-xs nm"><b>{{product.subBrand}}</b></p>
-                  <p class="description-item nm">{{product.product.name}}</p>
-                  <p class="description-item nm">{{product.product.color}}</p>
+                  <p class="description-item nm">{{product.version.name}}</p>
+                  <p class="description-item nm">{{product.version.color}}</p>
                   <p class="description-item nm">US {{product.selectedSize}}</p>
                   <p class="description-item nm">QUANTITY: {{product.quantity}}</p>
                 </div>
                 <div fxLayout="column" class="summary-column item-price-col" >
-                  <p class="description-item-last">${{product.product.price.usd.number * product.quantity}}</p>
+                  <p class="description-item-last">${{product.version.price.usd.number * product.quantity}}</p>
                 </div>
               </div>
               <div>
@@ -85,23 +85,23 @@
     </div>
     <div fxLayout="column" fxHide fxShow.xs class="shopping-bag-container">
       <div *ngFor="let product of userBag" class="item-container">
-        <img src="{{product.product.img}}">
+        <img src="{{product.version.img}}">
         <div fxLayout="column" class="item-details xs">
           <p class="description-item-first-xs xs"><b>{{product.subBrand}}</b></p>
-          <p class="description-item xs">{{product.product.name}}</p>
-          <p class="description-item xs">{{product.product.color}}</p>
+          <p class="description-item xs">{{product.version.name}}</p>
+          <p class="description-item xs">{{product.version.color}}</p>
           <p class="description-item-last xs">US {{product.selectedSize}}</p>
-          <p class="description-item xs">{{product.product.price.usd.string}}</p>
+          <p class="description-item xs">{{product.version.price.usd.string}}</p>
           <p class="product-quantity-label xs">Quantity</p>
           <div class="product-quantity">
             <button
-              (click)="userService.editQuantityInBag(product.product.id, product.selectedSize, 'incriment')"
+              (click)="userService.editQuantityInBag(product.version.id, product.selectedSize, 'incriment')"
               class="quantity incriment"
               mat-button
             >+</button>
             {{product.quantity}} 
             <button
-              (click)="userService.editQuantityInBag(product.product.id, product.selectedSize ,'decriment')"
+              (click)="userService.editQuantityInBag(product.version.id, product.selectedSize ,'decriment')"
               class="quantity decriment"
               mat-button
             >-</button>
@@ -116,13 +116,13 @@
             <div fxLayout="row">
               <div fxLayout="column" class="summary-column">
                 <p class="description-item-first-xs nm"><b>{{product.subBrand}}</b></p>
-                <p class="description-item nm">{{product.product.name}}</p>
-                <p class="description-item nm">{{product.product.color}}</p>
+                <p class="description-item nm">{{product.version.name}}</p>
+                <p class="description-item nm">{{product.version.color}}</p>
                 <p class="description-item nm">US {{product.selectedSize}}</p>
                 <p class="description-item nm">QUANTITY: {{product.quantity}}</p>
               </div>
               <div fxLayout="column" class="summary-column item-price-col" >
-                <p class="description-item-last">${{product.product.price.usd.number * product.quantity}}</p>
+                <p class="description-item-last">${{product.version.price.usd.number * product.quantity}}</p>
               </div>
             </div>
             <div>

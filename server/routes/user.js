@@ -48,6 +48,10 @@ router.post('/register', (req, res, next) => {
   } = req.body;
   const user = {
     email,
+    addressBook: {
+      primaryAddress: {},
+      secondaryAddresses: []
+    },
     password: User.hashPassword(password),
     firstName,
     lastName,

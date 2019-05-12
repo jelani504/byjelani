@@ -1,6 +1,7 @@
 import { Input, Component, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LoginService } from './login.service';
+import { NavigationService } from '../navigation.service';
 
 
 @Component({
@@ -19,7 +20,7 @@ export class LoginComponent implements OnInit {
 
   @Output() submitEM = new EventEmitter();
 
-  constructor(public loginService: LoginService) { }
+  constructor(public loginService: LoginService, public navigationService: NavigationService) { }
 
   ngOnInit() {
   }

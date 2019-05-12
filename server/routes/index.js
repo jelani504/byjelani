@@ -3,6 +3,7 @@ const authRouter = require('./auth');
 const ordersRouter = require('./orders');
 const productsRouter = require('./products');
 const promoCodesRouter = require('./promocodes');
+const adminsRouter = require('./admin');
 
 module.exports = (app) => {
   app.use('/api/user', usersRouter);
@@ -10,4 +11,5 @@ module.exports = (app) => {
   app.use('/api/products', productsRouter);
   app.use('/api/orders', ordersRouter);
   app.use('/api/promocodes', promoCodesRouter);
+  app.use('/api/admin', adminsRouter);
 };

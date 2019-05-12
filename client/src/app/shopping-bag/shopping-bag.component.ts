@@ -34,7 +34,7 @@ export class ShoppingBagComponent implements OnInit {
       this.paypalClientID = devEnv.paypalClientID;
     }
     this.userService.userBag.subscribe(
-      bag => this.userBag = bag
+      bag => {console.log(this.userBag); this.userBag = bag}
     );
     this.userService.orderTotal.subscribe(orderTotal => {
       this.vmOrderTotal = {

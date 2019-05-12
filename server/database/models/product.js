@@ -46,8 +46,23 @@ const productHelpers = {
     console.log(product, 'PRODUCT');
     return product.save();
   },
+  decreaseVersionQuantity: async (productID, versionID, selectedSize, quantity) => {
+    const product = await Product.findOne({id: productID});
+    product.versions.forEach(version => {
+      if(version.id === versionID){
+        version.sizes.forEach(sizeObj => {
+          if(sizeObj.size === selectedSize ){
+            console.log(sizeObj.quantity, 'QUANT');
+            sizeObj.quantity = sizeObj.quantity - quantity;
+            console.log(sizeObj.quantity, 'QUANT');
+          }
+        });
+      }
+    });
+    return await product.save();
+  },
   updateProductVersion: async (productID, versionID, key, value) => {
-    const product = await Product.findOne({id});
+    const product = await Product.findOne({id: productID});
     product.versions.forEach(version => {
       if(version.id === versionID){
         version[key] = value;

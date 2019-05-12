@@ -11,10 +11,10 @@ const userSchema = new Schema({
   acceptContact: { type: Boolean, require: true },
   title: { type: String, require: true },
   shoppingBag: [],
-  // addressBook: {
-  //   primaryAddress: {},
-  //   secondaryAddresses: []
-  // },
+  addressBook: {
+    primaryAddress: {},
+    secondaryAddresses: []
+  },
   gender: {type: String},
   creation_dt: { type: Date, require: true },
 });
@@ -24,27 +24,6 @@ userSchema.statics.hashPassword = password => bcrypt.hashSync(password, 10);
 userSchema.methods.isValid = function isValid(hashedPassword) {
   return bcrypt.compareSync(hashedPassword, this.password);
 };
-
-userSchema.pre('save', function(next) {
-  var user = this;
-
-  // only hash the password if it has been modified (or is new)
-  if (!user.isModified('password')) return next();
-
-  // generate a salt
-  bcrypt.genSalt(10, function(err, salt) {
-      if (err) return next(err);
-
-      // hash the password along with our new salt
-      bcrypt.hash(user.password, salt, function(err, hash) {
-          if (err) return next(err);
-
-          // override the cleartext password with the hashed one
-          user.password = hash;
-          next();
-      });
-  });
-});
 
 const User = mongoose.model('User', userSchema);
 
@@ -65,24 +44,18 @@ const userHelpers = {
         newPair => {
           const updateKey = Object.keys(newPair)[0];
           if(updateKey === 'newPassword'){
-            user.password = newPair[updateKey];
+            user.password = User.hashPassword(newPair[updateKey]);
           } 
           else {
             if(updateKey === 'gender'){
-              if(newPair[updateKey] === 'Male'){
-                user.title = 'Mr.';
-              }
-              else {
-                user.title = 'Ms.'
-              }
+              if(newPair[updateKey] === 'Male'){ user.title = 'Mr.'; }
+              else { user.title = 'Ms.' }
             }
             user[updateKey] = newPair[updateKey];
           }
         }
       );
-    } else {
-      user[key] = value;
-    }
+    } else { user[key] = value; }
     return user.save();
   }
 };

@@ -1,3 +1,84 @@
-<p>
-  admin works!
-</p>
+<div>
+  <div *ngIf="adminService.isAdmin">
+    <button mat-button (click)="viewOrders()">View Orders</button>
+    <button mat-button (click)="viewProducts()">View Products</button>
+    <div *ngIf="showProducts">
+      <div *ngFor="let product of vmProducts">
+        <p> <b>Subbrand:</b> {{product.subBrand}}</p>
+        <p> <b>Product Model:</b> {{product.productModel}}</p>
+        <div *ngFor="let version of product.versions">
+          <hr>
+          <p><b>Version Name:</b> {{version.name}}</p>
+          <p><b>Color:</b> {{version.color}}</p>
+          <p><b>Price:</b> {{version.price.usd.string}}</p>
+          <p><b>Is Sold Out:</b> {{version.isSoldOut}}</p>
+          <table [fxFlex.xs]="95" mat-table [dataSource]="version.sizes" class="mat-elevation-z8">
+            <ng-container matColumnDef="SIZE">
+              <th mat-header-cell *matHeaderCellDef> SIZE </th>
+              <td mat-cell *matCellDef="let productVersion"> {{productVersion.size}} </td>
+            </ng-container>
+      
+              <ng-container matColumnDef="QUANTITY">
+                <th mat-header-cell *matHeaderCellDef> QUANTITY </th>
+                <td mat-cell *matCellDef="let productVersion"> {{productVersion.quantity}} </td>
+              </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="productDisplayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: productDisplayedColumns;"></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="showOrders">
+        <table mat-table [dataSource]="vmOrders.paypalOrders" class="mat-elevation-z8 order-table">
+            <ng-container matColumnDef="ORDERID">
+              <th mat-header-cell *matHeaderCellDef> ORDER ID </th>
+              <td mat-cell *matCellDef="let paypalOrder"> {{paypalOrder.orderID}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="ORDERTOTAL">
+              <th mat-header-cell *matHeaderCellDef> ORDER TOTAL </th>
+              <td mat-cell *matCellDef="let paypalOrder"> ${{paypalOrder.orderTotal}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="TRANSACTIONID">
+              <th mat-header-cell *matHeaderCellDef> TRANSACTION ID </th>
+              <td mat-cell *matCellDef="let paypalOrder"> {{paypalOrder.transactionID}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="TRANSACTIONSTATUS">
+              <th mat-header-cell *matHeaderCellDef> TRANSACTION STATUS </th>
+              <td mat-cell *matCellDef="let paypalOrder"> {{paypalOrder.transactionStatus}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="SHIPPINGINFO">
+              <th mat-header-cell *matHeaderCellDef> SHIPPING INFO </th>
+              <td mat-cell *matCellDef="let paypalOrder">
+                <p class="shipping-item">{{paypalOrder.shippingInfo.name.full_name}}</p>
+                <p class="shipping-item">{{paypalOrder.shippingInfo.address.address_line_1}}</p>
+                <p class="shipping-item">{{paypalOrder.shippingInfo.address.admin_area_2}} {{paypalOrder.shippingInfo.address.admin_area_1}}</p>
+                <p class="shipping-item">{{paypalOrder.shippingInfo.address.country_code}} {{paypalOrder.shippingInfo.address.postal_code}}</p>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="STATUS">
+              <th mat-header-cell *matHeaderCellDef> STATUS </th>
+              <td mat-cell *matCellDef="let paypalOrder"> {{paypalOrder.status}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="ITEMS">
+              <th mat-header-cell *matHeaderCellDef> ITEMS </th>
+              <td mat-cell *matCellDef="let paypalOrder"> 
+                <p *ngFor="let item of paypalOrder.items" class="order-item">{{item.productName}} | <b>QTNY:</b> {{item.quantity}} | <b>Sz:</b> {{item.selectedSize}} </p>
+              </td>
+            </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="paypalOrderDisplayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: paypalOrderDisplayedColumns;"></tr>
+          </table>
+    </div>
+  </div>
+  <div *ngIf="!adminService.isAdmin">
+    YOU ARE NOT AN ADMINISTRATOR
+  </div>
+</div>
