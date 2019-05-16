@@ -76,6 +76,14 @@
         <mat-form-field class="discount-field">
           <input type="text" matInput placeholder="Discount Code" (keyup)="onPromoCodeType($event.target.value)"/>
         </mat-form-field>
+        <div class="checkout-button-container" fxLayout="row">
+            <!-- <div class="paypal-btn-spacer"></div> -->
+            <button mat-raised-button (click)="navigationService.navigateToCheckout()" > Checkout </button>
+            <!-- <div class="paypal-btn-spacer"></div> -->
+        </div>
+        <div fxLayout="row">
+          <p class="">or</p>
+        </div>
         <div fxLayout="row">
           <div class="paypal-btn-spacer"></div>
           <div id="paypal-btn" > </div>

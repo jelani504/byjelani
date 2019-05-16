@@ -8,8 +8,8 @@ export class OrderService {
 
   constructor(private _http: HttpClient) { }
 
-  createStripeOrder(token, orderTotal, shippingInfo){
-    return this._http.post('http://127.0.0.1:3000/api/orders/create/stripe', { token, orderTotal, shippingInfo } ,{
+  createStripeOrder(token, amount, shipping){
+    return this._http.post('http://127.0.0.1:3000/api/orders/create/stripe', { token, amount, shipping } ,{
       observe: 'body',
       withCredentials: true,
       headers: new HttpHeaders().append('Content-Type', 'application/json')

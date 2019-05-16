@@ -29,12 +29,13 @@ export class CheckoutComponent {
   public orderForm = new FormGroup({
     firstName: new FormControl('', Validators.required),
     lastName: new FormControl('', Validators.required),
-    company: new FormControl('', Validators.required),
     country: new FormControl('', Validators.required),
     state: new FormControl('', Validators.required),
-    zip: new FormControl('', Validators.required),
+    postal_code: new FormControl('', Validators.required),
     phone: new FormControl('', Validators.required),
     streetAddress: new FormControl('', Validators.required),
+    city: new FormControl('', Validators.required),
+
   });
 
   constructor(
@@ -95,14 +96,35 @@ export class CheckoutComponent {
   async onSubmit(form: NgForm) {
     const { card, vmOrderTotal, orderForm } = this
     const { orderTotal } = vmOrderTotal;
+    const {
+      firstName,
+      lastName,
+      phone,
+      city,
+      country,
+      state,
+      postal_code,
+      streetAddress
+    } = orderForm.value;
     const { token, error } = await stripe.createToken(card);
+    const shipping = {
+       name: `${firstName} ${lastName}`,
+       address: {
+         line1: streetAddress,
+         city,
+         country,
+         postal_code,
+         state
+       },
+       phone,
+     };
     //catch invalid form
     if (error) {
       console.log('Something is wrong:', error);
     } else {
-      console.log('Success!', token, orderTotal, orderForm.value);
+      console.log('Success!', token, orderTotal, shipping);
       // ...send the token to the your backend to process the charge
-      this.orderService.createStripeOrder(token, orderTotal, orderForm.value).subscribe(res => console.log(res));
+      this.orderService.createStripeOrder(token, orderTotal * 100, shipping).subscribe(res => console.log(res));
     }
 
   }

@@ -23,7 +23,8 @@ const paypalOrderSchema = new Schema({
     productName: String,
     selectedSize: String,
     quantity: Number,
-    subBrand: String
+    subBrand: String,
+    productID: Number
   }]
 });
 
@@ -41,7 +42,45 @@ const paypalOrderHelpers = {
   }
 };
 
+const stripeOrderSchema = new Schema({
+  amount: Number,
+  chargeID: String,
+  receipt_email: String,
+  receipt_url: String,
+  shipping: {
+    address: {
+      city: String,
+      country: String,
+      line1: String,
+      line2: String,
+      postal_code: String,
+      state: String
+    },
+    carrier: String,
+    name: String,
+    phone: String,
+    tracking_number: String
+  },
+  status: String,
+  items: [{
+    versionID: Number,
+    productName: String,
+    selectedSize: String,
+    quantity: Number,
+    subBrand: String,
+    productID: Number
+  }]
+});
+
+const StripeOrder = mongoose.model('StripeOrder', stripeOrderSchema);
+
+const stripeOrderHelpers = {
+  createStripeOrder: async (stripeOrder) => await new StripeOrder(stripeOrder).save(),
+  
+}
+
 // const allPaypalOrders = paypalOrderHelpers.findAllPaypalOrders();
 // console.log(allPaypalOrders, 'ALL PAYPAL ORDERS');
 // PaypalOrder.remove({}, () => console.log('collection removed'));
-module.exports = { PaypalOrder, paypalOrderHelpers };
+// StripeOrder.remove({}, () => console.log('collection removed'));
+module.exports = { PaypalOrder, paypalOrderHelpers, StripeOrder, stripeOrderHelpers };

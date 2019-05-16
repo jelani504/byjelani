@@ -1,16 +1,20 @@
 const express = require('express');
 const request = require("request");
 const checkoutNodeJssdk = require('@paypal/checkout-server-sdk');
+let stripe = require('stripe');
+
 
 require('dotenv').config();
 const payPalClient = require('../paypal-config');
-const { paypalOrderHelpers } = require('../database/models/order');
+const { paypalOrderHelpers, stripeOrderHelpers  } = require('../database/models/order');
 const { userHelpers } = require('../database/models/user');
 const { productHelpers } = require('../database/models/product');
 
 
 
-const { BASIC_AUTH } = process.env;
+const { BASIC_AUTH, STRIPEKEY } = process.env;
+
+stripe = stripe(STRIPEKEY);
 // const { Order, orderHelpers } = require('../database/models/order');
 const asyncFN = require('./async');
 
@@ -35,8 +39,48 @@ const router = express.Router();
 // });
 
 router.post('/create/stripe', async (req, res, next) => {
-  const {} = req.body;
-  res.status(200).send({body: req.body});
+  const { body, user } = req;
+  const {
+    amount,
+    token,
+    shipping
+  } = body;
+  const { shoppingBag } = user;
+  const items = shoppingBag.reduce((itemsArr, currentItem) => {
+    const { productID } = currentItem;
+    const versionID = currentItem.version.id;
+    const productName = currentItem.version.name
+    // console.log(currentItem, 'CURRENT ITEM');
+    const { selectedSize, quantity, subBrand } = currentItem;
+    itemsArr.push({versionID, productName, selectedSize, quantity, subBrand, productID });
+    return itemsArr;
+  }, []);
+
+  console.log(items);
+  // console.log(shipping);
+  // console.log(user, 'USER');
+
+  stripe.charges.create({
+    amount,
+    currency: 'usd',
+    source: token.id,
+    shipping,
+    receipt_email: user.email
+  }, async (err, charge) => {
+    if (err && err.type === 'StripeCardError') {
+      return res.status(400).json({ error: 'CARD DECLINED' });
+    }
+    if (err) {
+      return res.status(400).json({ err });
+    }
+    const { amount, id, receipt_email, receipt_url, shipping, status } =  charge;
+    const newStripOrder = await stripeOrderHelpers.createStripeOrder({
+      amount, chargeID: id, receipt_email, receipt_url, shipping, status, items
+    });
+    
+    return res.status(200).send({ newStripOrder });
+  });
+  
 });
 
 router.post('/create/paypal', async (req, res, next) => {

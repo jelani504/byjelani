@@ -4,71 +4,75 @@
     <div fxShow fxHide.xs [ngStyle.xs]="{'flex-direction': 'column', 'align-items': 'center'}" class="shopping-bag-container" >
         <div class="space-container"></div>
         <div class="checkout-form-container">
-            <div class="shipping-details row-container">
-                <p class="shipping-details-title"> Shipping Details</p>
-            </div>
-            <div class="shipping-details row-container">
-              <div class="shipping-address-column">
-                <mat-form-field >
-                  <input [(ngModel)]="orderForm.firstName" matInput placeholder="First Name" required>
-                </mat-form-field>
+          <form [formGroup]="orderForm" >
+              <div class="shipping-details row-container">
+                  <p class="shipping-details-title"> Shipping Details</p>
               </div>
-              <div class="shipping-address-column">
-                  <mat-form-field>
-                    <input [(ngModel)]="orderForm.lastName" matInput placeholder="Last Name" required>
-                  </mat-form-field>
-              </div>
-            </div>
-            <div class="shipping-details row-container">
+              <div class="shipping-details row-container">
                 <div class="shipping-address-column">
                   <mat-form-field >
-                    <input [(ngModel)]="orderForm.streetAddress" matInput placeholder="Street Address" required>
-                  </mat-form-field>
-                </div>
-                <div class="shipping-address-column">
-                    <mat-form-field>
-                      <input [(ngModel)]="orderForm.company" matInput placeholder="Company (optional)" required>
-                    </mat-form-field>
-                </div>
-            </div>
-            <div class="shipping-details row-container">
-                <div class="shipping-address-column">
-                  <mat-form-field >
-                    <input [(ngModel)]="orderForm.city" matInput placeholder="City" required>
+                    <input formControlName="firstName" matInput placeholder="First Name" required>
                   </mat-form-field>
                 </div>
                 <div class="shipping-address-column">
                   <mat-form-field>
-                    <input [(ngModel)]="orderForm.zipCode" matInput placeholder="Zip or postal code" required>
-                    </mat-form-field>
+                    <input formControlName="lastName" matInput placeholder="Last Name" required>
+                  </mat-form-field>
                 </div>
-            </div>
-            <div class="shipping-details row-container">
+              </div>
+              <div class="shipping-details row-container">
                 <div class="shipping-address-column">
-                    <mat-form-field>
-                      <mat-select [(ngModel)]="orderForm.country" required placeholder="Country" name="country">
-                        <mat-option value="USA">USA</mat-option>
-                      </mat-select>
-                    </mat-form-field>
+                  <mat-form-field >
+                    <input formControlName="streetAddress" matInput placeholder="Street Address" required>
+                  </mat-form-field>
                 </div>
                 <div class="shipping-address-column">
+                  <mat-form-field >
+                    <input formControlName="phone" matInput placeholder="Phone" required>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="shipping-details row-container">
+                <div class="shipping-address-column">
+                  <mat-form-field >
+                    <input formControlName="city" matInput placeholder="City" required>
+                  </mat-form-field>
+                </div>
+                <div class="shipping-address-column">
+                  <mat-form-field>
+                    <input formControlName="postal_code" matInput placeholder="Zip or postal code" required>
+                    </mat-form-field>
+                </div>
+              </div>
+              <div class="shipping-details row-container">
+                <div class="shipping-address-column">
+                  <mat-form-field>
+                    <mat-select formControlName="country" required placeholder="Country" name="country">
+                      <mat-option value="USA">USA</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="shipping-address-column">
                     <mat-form-field>
-                      <mat-select [(ngModel)]="orderForm.state" required placeholder="State or province" name="state">
+                      <mat-select formControlName="state" required placeholder="State or province" name="state">
                         <mat-option  value="LA">LA</mat-option>
                       </mat-select>
                     </mat-form-field>
                 </div>
+              </div>
+            </form>
+          <form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)" class="checkout">
+            <div class="form-row">
+              <label for="card-info">Card Info</label>
+              <div id="card-info" #cardInfo></div>
+          
+              <div id="card-errors" role="alert" *ngIf="error">{{ error }}</div>
             </div>
-            <div class="shipping-details row-container">
-                <div class="shipping-address-column">
-                  <mat-form-field >
-                    <input [(ngModel)]="orderForm.phoneNumber" matInput placeholder="Phone" required>
-                  </mat-form-field>
-                </div>
-                <div class="shipping-address-column">
-                </div>
-            </div>
+          
+            <button type="submit">Pay ${{vmOrderTotal.orderTotal}}</button>
+          </form>
         </div>
+        
         <div class="space-container">
           <mat-card class="order-summary-card">
             <p>ORDER SUMMARY</p>
@@ -102,16 +106,6 @@
     </div>
     <div fxLayout="row" style="margin-top: 40px">
       <!-- <div class="paypal-btn-spacer"></div> -->
-      <form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)" class="checkout">
-          <div class="form-row">
-            <label for="card-info">Card Info</label>
-            <div id="card-info" #cardInfo></div>
-        
-            <div id="card-errors" role="alert" *ngIf="error">{{ error }}</div>
-          </div>
-        
-          <button type="submit">Pay ${{vmOrderTotal.orderTotal}}</button>
-        </form>
       <!-- <div class="paypal-btn-spacer"></div> -->
     </div>
 
