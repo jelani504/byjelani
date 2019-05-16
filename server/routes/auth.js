@@ -23,4 +23,9 @@ router.post(
   },
 );
 
+router.get('/login/facebook', passport.authenticate('facebook', { scope: 'read_stream' }));
+
+router.get('/login/facebook/callback',
+  passport.authenticate('facebook', { successRedirect: '/', failureRedirect: '/login' }));
+
 module.exports = router;

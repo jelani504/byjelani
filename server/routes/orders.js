@@ -74,11 +74,17 @@ router.post('/create/stripe', async (req, res, next) => {
       return res.status(400).json({ err });
     }
     const { amount, id, receipt_email, receipt_url, shipping, status } =  charge;
-    const newStripOrder = await stripeOrderHelpers.createStripeOrder({
-      amount, chargeID: id, receipt_email, receipt_url, shipping, status, items
+    const newStripeOrder = await stripeOrderHelpers.createStripeOrder({
+      amount, chargeID: id, receipt_email, receipt_url, shipping, status, items, userID: user.id
     });
+
+    newStripeOrder.items.forEach( (item) => {
+      console.log(item, "ITEM");
+      productHelpers.decreaseVersionQuantity(item.productID, item.versionID, item.selectedSize, item.quantity);
+    });
+    await userHelpers.clearBag(user.email);
     
-    return res.status(200).send({ newStripOrder });
+    return res.status(200).send({ newStripeOrder });
   });
   
 });
@@ -86,7 +92,6 @@ router.post('/create/stripe', async (req, res, next) => {
 router.post('/create/paypal', async (req, res, next) => {
     // 2a. Get the order ID from the request body
     const { orderID, orderTotal, userBag, email } = req.body;
-    console.log(email, 'EMAIL');
     const newOrder = { orderID, orderTotal };
     const orderTotalStr = orderTotal.toString();
     // 3. Call PayPal to get the transaction details
@@ -129,6 +134,7 @@ router.post('/create/paypal', async (req, res, next) => {
       if(transactionStatus === 'COMPLETED'){
         newOrder.status = 'paid';
       }
+      newOrder.userID = req.user.id;
       newOrder.shippingInfo = shippingInfo;
       newOrder.transactionID = transactionID;
       newOrder.transactionStatus = transactionStatus;

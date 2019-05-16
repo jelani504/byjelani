@@ -4,6 +4,7 @@ const { Schema } = mongoose;
 
 const paypalOrderSchema = new Schema({
   orderID: String,
+  userID: String,
   orderTotal: Number,
   status: String,
   shippingInfo: { 
@@ -44,6 +45,7 @@ const paypalOrderHelpers = {
 
 const stripeOrderSchema = new Schema({
   amount: Number,
+  userID: String,
   chargeID: String,
   receipt_email: String,
   receipt_url: String,
