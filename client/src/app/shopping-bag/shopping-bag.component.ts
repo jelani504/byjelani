@@ -4,6 +4,7 @@ import { NavigationService } from '../navigation.service';
 import { environment as devEnv} from '../../environments/environment';
 import { environment as prodEnv } from '../../environments/environment.prod';
 import { PromocodeService } from '../promocode.service';
+import { ThrowStmt } from '@angular/compiler';
 
 declare let paypal: any;
 
@@ -22,6 +23,7 @@ export class ShoppingBagComponent implements OnInit {
   public displayedColumns: String[] = ['ITEM', 'PRICE', 'QUANTITY'];
   public vmOrderTotal;
   public appliedPromo;
+  public vmCheckoutOption = {paypal: false}
 
   constructor(
     private userService: UserService,
@@ -59,7 +61,7 @@ export class ShoppingBagComponent implements OnInit {
           return actions.order.capture().then((details) => {
             alert('Transaction completed by ' + details.payer.name.given_name);
             // Call your server to save the transaction
-            return fetch('http://localhost:3000/api/orders/create', {
+            return fetch('http://localhost:3000/api/orders/create/paypal', {
               method: 'post',
               headers: {
                 'content-type': 'application/json'
@@ -102,6 +104,8 @@ export class ShoppingBagComponent implements OnInit {
   onPromoCodeType(code){
     this.promocodeService.promoCodeUpdated.next(code);
   }
+
+  showPaypalButton(){ this.vmCheckoutOption.paypal = !this.vmCheckoutOption.paypal}
 
   ngOnInit() {
     this.userService.getOrderTotal();

@@ -2,9 +2,10 @@
     margin: 23px;
     font-family: 'Helvetica', sans-serif;
     text-align: center;
+    margin-top: 5%;
 }
 
-mat-card.product {
+div.product {
     cursor: pointer;
     align-content: center;
 }
@@ -35,7 +36,7 @@ app-product-details{
     justify-content: center;
 }
 
-mat-card.unaccess{
+.unaccess{
     opacity: .25;
 }
 

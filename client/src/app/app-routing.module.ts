@@ -8,7 +8,7 @@ import { ShopComponent } from './shop/shop.component';
 import { ShoppingBagComponent } from './shopping-bag/shopping-bag.component';
 import { ProductDetailsComponent } from './shop/product-details/product-details.component';
 import { AdminComponent } from './admin/admin.component';
-// import { CheckoutComponent } from './checkout/checkout.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 const routes: Routes = [
   { path: '', component: HomepageComponent, pathMatch: 'full'},
@@ -17,7 +17,7 @@ const routes: Routes = [
   {path: 'account', component: AccountComponent },
   {path: 'shop', component: ShopComponent },
   {path: 'shopping-bag', component: ShoppingBagComponent},
-  // {path: 'checkout', component: CheckoutComponent},
+  {path: 'checkout', component: CheckoutComponent},
   {path: 'shop/:productSubBrand/:productModelID/:modelVersionID', component: ProductDetailsComponent },
   {path: 'admin', component: AdminComponent}
 ];

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { NavigationService } from '../navigation.service';
 import { UserService } from '../user.service';
@@ -10,8 +9,6 @@ import { UserService } from '../user.service';
 export class RegisterService {
   titles = ['Mr.', 'Mrs.', 'Ms.'];
   constructor(private _http: HttpClient, public navigationService: NavigationService, private userService: UserService) {}
-
- 
 
   registerSubmit(registerForm): void {
     console.log(registerForm);

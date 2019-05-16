@@ -1,9 +1,7 @@
-import { Component, AfterViewChecked, ViewChild, ElementRef } from '@angular/core';
+import { Component, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { UserService } from '../user.service';
 import { NavigationService } from '../navigation.service';
-import { FormControl, Validators, FormGroup } from '@angular/forms';
-
-declare let paypal: any;
+import { FormControl, Validators, FormGroup, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-checkout',
@@ -11,38 +9,22 @@ declare let paypal: any;
   styleUrls: ['./checkout.component.scss']
 })
 export class CheckoutComponent {
-
-  public addScript: boolean = false;
+  public cardInfo: ElementRef;
+  @ViewChild('cardInfo') set getCardInfo(cardInfo: ElementRef) {
+    const checkoutPage = this;
+    setTimeout(() => {
+      checkoutPage.cardInfo = cardInfo;
+      if (checkoutPage.cardInfo) {
+        checkoutPage.card.mount(checkoutPage.cardInfo.nativeElement);
+      }
+    }, 0);
+  }
+  card: any;
+  cardHandler = this.onChange.bind(this);
+  error: string;
   public vmUserBag = [];
   public vmOrderTotal;
 
-  paypalConfig = {
-    createOrder: (data, actions) => {
-      const orderTotal = this.vmOrderTotal.orderTotal;
-      return actions.order.create({
-        purchase_units: [{
-          amount: {
-            value: orderTotal
-          }
-        }]
-      });
-    },
-    onApprove: function(data, actions) {
-      return actions.order.capture().then(function(details) {
-        alert('Transaction completed by ' + details.payer.name.given_name);
-        // Call your server to save the transaction
-        return fetch('http://localhost:3000/api/orders/create', {
-          method: 'post',
-          headers: {
-            'content-type': 'application/json'
-          },
-          body: JSON.stringify({
-            orderID: data.orderID
-          })
-        });
-      });
-    }
-  }
   public orderForm = new FormGroup({
     firstName: new FormControl('', Validators.required),
     lastName: new FormControl('', Validators.required),
@@ -54,11 +36,10 @@ export class CheckoutComponent {
     streetAddress: new FormControl('', Validators.required),
   });
 
-  private intervalId;
-
   constructor(
+    private cd: ChangeDetectorRef,
     private userService: UserService,
-    public navigationService: NavigationService
+    public navigationService: NavigationService,
   ) {
     userService.userBag.subscribe(bag => {this.vmUserBag = bag; console.log(this.vmUserBag, 'BAG');});
     this.userService.orderTotal.subscribe(orderTotal => {
@@ -67,28 +48,59 @@ export class CheckoutComponent {
         bagSubtotal: this.userService.bagSubtotal.getValue(),
         shippingEstimate: this.userService.shippingEstimate.getValue()
       };
-      this.intervalId = setInterval(() => {
-        const elementExists = !!document.getElementById('paypal-btn')
-        if (elementExists) {
-          if(!this.addScript){
-            this.addPaypalScript().then(() => {
-              paypal.Buttons(this.paypalConfig).render('#paypal-btn');
-            }).catch()
-          }
-        }
-      }, 1000)
     });
    }
 
-  addPaypalScript(){
-    clearInterval(this.intervalId);
-    this.addScript = true;
-    return new Promise((resolve, reject) => {
-      let scripttagElement = document.createElement('script');
-      scripttagElement.src = "https://www.paypal.com/sdk/js?client-id=AUiqZ6DdrVYUyaPfNKFBJTca2HmUNLbxd1kZzSqtMYzGsnRIykvybflBdt1UuzeUW1F3n-R0q2J0GcXb"
-      scripttagElement.onload = resolve;
-      document.body.appendChild(scripttagElement);
-    })
+  ngAfterViewInit() {
+    const style = {
+      base: {
+        color: '#32325d',
+        lineHeight: '18px',
+        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+        fontSmoothing: 'antialiased',
+        fontSize: '16px',
+        '::placeholder': {
+          color: '#aab7c4'
+        }
+      },
+      invalid: {
+        color: '#fa755a',
+        iconColor: '#fa755a'
+      }
+    };
+    this.card = elements.create('card', { style });
+    this.card.addEventListener('change', this.cardHandler);
+    // this.card = elements.create('card');
+    // this.card.mount(this.cardInfo.nativeElement);
+
+    // this.card.addEventListener('change', this.cardHandler);
+  }
+
+  ngOnDestroy() {
+    this.card.removeEventListener('change', this.cardHandler);
+    this.card.destroy();
+  }
+
+  onChange({ error }) {
+    if (error) {
+      this.error = error.message;
+    } else {
+      this.error = null;
+    }
+    this.cd.detectChanges();
+  }
+
+  async onSubmit(form: NgForm) {
+    const { card, vmOrderTotal, orderForm } = this
+    const { orderTotal } = vmOrderTotal;
+    const { token, error } = await stripe.createToken(card);
+    //catch invalid form
+    if (error) {
+      console.log('Something is wrong:', error);
+    } else {
+      console.log('Success!', token, orderTotal, orderForm.value);
+      // ...send the token to the your backend to process the charge
+    }
   }
 
   payClick(){

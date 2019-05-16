@@ -1,7 +1,7 @@
 <div class="container" >
   <div *ngFor="let model of vmProducts">
       <!-- <p class="subbrand" [ngStyle.xs]="{'font-size': '45px'}"> {{model.subBrand}} </p> -->
-    <!-- <div> <p class="product-model" [ngStyle.xs]="{'font-size': '24px'}">{{model.productModel}}</p> </div> -->
+    <!-- <div>  </div> -->
     <div 
     fxLayout="row wrap"
     fxLayoutGap="32px"
@@ -9,9 +9,9 @@
     fxLayout.xs="column"
     class="product-row"
     >
-      <mat-card
+      <div
         fxFlex="0 1 calc(33.3% - 32px)"
-        class="product"
+        class="product "
         (click)="selectProduct(model.subBrand.split(' ').join(''), version.id, model.id)"
         *ngFor="let version of model.versions"
       >
@@ -20,9 +20,10 @@
         src="{{version.img}}"
         height="300"
         >
+        <p class="product-model" [ngStyle.xs]="{'font-size': '24px'}">{{model.productModel}}</p>
         <p class="product-title">"{{version.name}}"</p>
         <p class="price" [ngStyle.xs]="{'font-size': '30px'}">${{version.price.usd.number}}</p>
-      </mat-card>
+  </div>
     </div>
   </div>
 </div>

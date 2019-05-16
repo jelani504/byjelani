@@ -22,6 +22,15 @@ router.get('/orders', async (req, res, next) => {
     const paypalOrders = await paypalOrderHelpers.findAllPaypalOrders();
     // console.log(paypalOrders, 'PAYPAL ORDERS');
     res.status(200).send({ paypalOrders })
+});
+
+router.post('/orders/update', async (req, res, next) => {
+    const {orderID, status } = req.body;
+    const paypalOrder = await paypalOrderHelpers.findOnePaypalOrder(orderID);
+    // console.log(paypalOrders, 'PAYPAL ORDERS');
+    paypalOrder.status = status;
+    const updatedOrder = await paypalOrder.save();
+    res.status(200).send({ updatedOrder })
 })
 
 module.exports = router;

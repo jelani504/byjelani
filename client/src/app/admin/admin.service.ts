@@ -22,6 +22,14 @@ export class AdminService {
     });
   }
 
+  updateOrderStatus(orderID, status){
+    return this._http.post('http://127.0.0.1:3000/api/admin/orders/update', { orderID, status }, {
+      observe: 'body',
+      withCredentials: true,
+      headers: new HttpHeaders().append('Content-Type', 'application/json')
+    });
+  }
+
   getAllOrders(){
     return this._http.get('http://127.0.0.1:3000/api/admin/orders', {
       observe: 'body',

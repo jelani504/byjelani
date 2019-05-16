@@ -34,7 +34,7 @@ const router = express.Router();
 
 // });
 
-router.post('/create', async (req, res, next) => {
+router.post('/create/paypal', async (req, res, next) => {
     // 2a. Get the order ID from the request body
     const { orderID, orderTotal, userBag, email } = req.body;
     console.log(email, 'EMAIL');
@@ -87,7 +87,7 @@ router.post('/create', async (req, res, next) => {
         const { productID } = currentItem;
         const versionID = currentItem.version.id;
         const productName = currentItem.version.name
-        console.log(currentItem, 'CURRENT ITEM');
+        // console.log(currentItem, 'CURRENT ITEM');
         const { selectedSize, quantity, subBrand } = currentItem;
         itemsArr.push({versionID, productName, selectedSize, quantity, subBrand, productID });
         return itemsArr;
@@ -96,8 +96,9 @@ router.post('/create', async (req, res, next) => {
       // 6. Save the transaction in your database with userbag, transaction ID, orderID, order status
       const dborder = await paypalOrderHelpers.createPaypalOrder(newOrder);
       // console.log(dborder, 'NEW ORDERRRR');
-      newOrder.items.forEach( async item => {
-        await productHelpers.decreaseVersionQuantity(item.productID, item.versionID, item.selectedSize, item.quantity);
+      newOrder.items.forEach( (item) => {
+        console.log(item, "ITEM");
+        productHelpers.decreaseVersionQuantity(item.productID, item.versionID, item.selectedSize, item.quantity);
       });
       await userHelpers.clearBag(email);
       // 7. Return a successful response to the client

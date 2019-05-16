@@ -51,7 +51,9 @@ const productHelpers = {
     product.versions.forEach(version => {
       if(version.id === versionID){
         version.sizes.forEach(sizeObj => {
-          if(sizeObj.size === selectedSize ){
+          console.log(sizeObj.size, parseInt(selectedSize)); 
+          console.log(sizeObj.size === parseInt(selectedSize));
+          if(sizeObj.size === parseInt(selectedSize) ){
             console.log(sizeObj.quantity, 'QUANT');
             sizeObj.quantity = sizeObj.quantity - quantity;
             console.log(sizeObj.quantity, 'QUANT');

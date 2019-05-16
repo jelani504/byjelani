@@ -54,7 +54,7 @@ import { AdminService } from './admin/admin.service';
     ReactiveFormsModule,
     FormsModule,
     FlexLayoutModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [
     RegisterService,

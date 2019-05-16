@@ -38,8 +38,8 @@
                   </mat-form-field>
                 </div>
                 <div class="shipping-address-column">
-                    <mat-form-field>
-                      <input [(ngModel)]="orderForm.zipCode" matInput placeholder="Zip or postal code" required>
+                  <mat-form-field>
+                    <input [(ngModel)]="orderForm.zipCode" matInput placeholder="Zip or postal code" required>
                     </mat-form-field>
                 </div>
             </div>
@@ -78,13 +78,13 @@
                 <div fxLayout="row">
                   <div fxLayout="column" class="summary-column">
                     <p class="description-item-first-xs nm"><b>{{product.subBrand}}</b></p>
-                    <p class="description-item nm">{{product.product.name}}</p>
-                    <p class="description-item nm">{{product.product.color}}</p>
+                    <p class="description-item nm">{{product.version.name}}</p>
+                    <p class="description-item nm">{{product.version.color}}</p>
                     <p class="description-item nm">US {{product.selectedSize}}</p>
                     <p class="description-item nm">QUANTITY: {{product.quantity}}</p>
                   </div>
                   <div fxLayout="column" class="summary-column item-price-col" >
-                    <p class="description-item-last">${{product.product.price.usd.number * product.quantity}}</p>
+                    <p class="description-item-last">${{product.version.price.usd.number * product.quantity}}</p>
                   </div>
                 </div>
                 <div>
@@ -101,9 +101,18 @@
         </div>
     </div>
     <div fxLayout="row" style="margin-top: 40px">
-      <div class="paypal-btn-spacer"></div>
-      <div id="paypal-btn" > </div>
-      <div class="paypal-btn-spacer"></div>
+      <!-- <div class="paypal-btn-spacer"></div> -->
+      <form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)" class="checkout">
+          <div class="form-row">
+            <label for="card-info">Card Info</label>
+            <div id="card-info" #cardInfo></div>
+        
+            <div id="card-errors" role="alert" *ngIf="error">{{ error }}</div>
+          </div>
+        
+          <button type="submit">Pay ${{vmOrderTotal.orderTotal}}</button>
+        </form>
+      <!-- <div class="paypal-btn-spacer"></div> -->
     </div>
 
   </div>

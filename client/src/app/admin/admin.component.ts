@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from './admin.service';
 import { ProductService } from '../product.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-admin',
@@ -22,6 +23,10 @@ export class AdminComponent implements OnInit {
     'ITEMS'
   ];
   public vmOrders = { paypalOrders: [] };
+  public updateOrderForm: FormGroup = new FormGroup({
+    updateOrderID: new FormControl(null, [Validators.required]),
+    updateOrderStatus: new FormControl(null, Validators.required),
+  });
 
   constructor( private adminService: AdminService, private productService: ProductService) {
     productService.products.subscribe(products => {this.vmProducts = products; console.log(products)});
@@ -34,6 +39,11 @@ export class AdminComponent implements OnInit {
   viewOrders(){
     this.showProducts = false;
     this.showOrders = true;
+  }
+
+  updateOrderStatus(){
+    const { updateOrderID, updateOrderStatus } = this.updateOrderForm.value;
+    this.adminService.updateOrderStatus(updateOrderID, updateOrderStatus).subscribe(res => console.log(res))
   }
 
   viewProducts(){
