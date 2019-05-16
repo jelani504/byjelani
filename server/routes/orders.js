@@ -34,6 +34,11 @@ const router = express.Router();
 
 // });
 
+router.post('/create/stripe', async (req, res, next) => {
+  const {} = req.body;
+  res.status(200).send({body: req.body});
+});
+
 router.post('/create/paypal', async (req, res, next) => {
     // 2a. Get the order ID from the request body
     const { orderID, orderTotal, userBag, email } = req.body;

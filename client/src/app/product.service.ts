@@ -8,7 +8,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class ProductService {
 
   public products = new BehaviorSubject([]);
-  constructor(public _http: HttpClient) {}
+  constructor(private _http: HttpClient) {}
 
   getAllProducts(){
     return this._http.get('http://127.0.0.1:3000/api/products', {

@@ -2,6 +2,7 @@ import { Component, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/co
 import { UserService } from '../user.service';
 import { NavigationService } from '../navigation.service';
 import { FormControl, Validators, FormGroup, NgForm } from '@angular/forms';
+import { OrderService } from '../order.service';
 
 @Component({
   selector: 'app-checkout',
@@ -40,6 +41,7 @@ export class CheckoutComponent {
     private cd: ChangeDetectorRef,
     private userService: UserService,
     public navigationService: NavigationService,
+    private orderService: OrderService
   ) {
     userService.userBag.subscribe(bag => {this.vmUserBag = bag; console.log(this.vmUserBag, 'BAG');});
     this.userService.orderTotal.subscribe(orderTotal => {
@@ -100,7 +102,9 @@ export class CheckoutComponent {
     } else {
       console.log('Success!', token, orderTotal, orderForm.value);
       // ...send the token to the your backend to process the charge
+      this.orderService.createStripeOrder(token, orderTotal, orderForm.value).subscribe(res => console.log(res));
     }
+
   }
 
   payClick(){

@@ -29,6 +29,7 @@ import { SignInDialog } from './user.service';
 import { AdminComponent } from './admin/admin.component';
 import { PromocodeService } from './promocode.service';
 import { AdminService } from './admin/admin.service';
+import { OrderService } from './order.service';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { AdminService } from './admin/admin.service';
     ProductService,
     NavigationService,
     PromocodeService,
-    AdminService
+    AdminService,
+    OrderService
   ],
   entryComponents: [SignInDialog],
   bootstrap: [AppComponent]
