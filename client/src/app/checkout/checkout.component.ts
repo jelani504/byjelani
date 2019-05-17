@@ -5,6 +5,7 @@ import { FormControl, Validators, FormGroup, NgForm } from '@angular/forms';
 import { OrderService } from '../order.service';
 import { SnackbarService } from '../snackbar.service';
 import { CheckoutService } from './checkout.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-checkout',
@@ -27,7 +28,7 @@ export class CheckoutComponent {
   error: string;
   public vmUserBag = [];
   public vmOrderTotal;
-  public vmSelectedCountry = { states: []};
+  public vmSelectedCountry = new BehaviorSubject({states: []});
 
   public orderForm = new FormGroup({
     firstName: new FormControl('', Validators.required),
@@ -114,7 +115,6 @@ export class CheckoutComponent {
       postal_code,
       streetAddress
     } = orderForm.value;
-    console.log(country, state);
     //catch invalid form
     if(firstName === '' ){ return this.snackbarService.snackBarMessage.next('FIRST NAME REQUIRED');}
     if(lastName === '' ){ return this.snackbarService.snackBarMessage.next('LAST NAME REQUIRED');}
@@ -130,9 +130,9 @@ export class CheckoutComponent {
        address: {
          line1: streetAddress,
          city,
-         country,
+         country: country.name,
          postal_code,
-         state
+         state: state.code
        },
        phone,
      };
