@@ -4,6 +4,7 @@ import { NavigationService } from '../navigation.service';
 import { FormControl, Validators, FormGroup, NgForm } from '@angular/forms';
 import { OrderService } from '../order.service';
 import { SnackbarService } from '../snackbar.service';
+import { CheckoutService } from './checkout.service';
 
 @Component({
   selector: 'app-checkout',
@@ -26,6 +27,7 @@ export class CheckoutComponent {
   error: string;
   public vmUserBag = [];
   public vmOrderTotal;
+  public vmSelectedCountry = { states: []};
 
   public orderForm = new FormGroup({
     firstName: new FormControl('', Validators.required),
@@ -36,7 +38,6 @@ export class CheckoutComponent {
     phone: new FormControl('', Validators.required),
     streetAddress: new FormControl('', Validators.required),
     city: new FormControl('', Validators.required),
-
   });
 
   constructor(
@@ -44,8 +45,13 @@ export class CheckoutComponent {
     private userService: UserService,
     public navigationService: NavigationService,
     private orderService: OrderService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private checkoutService: CheckoutService
   ) {
+    this.orderForm.get('country').valueChanges.subscribe(val => {
+      this.vmSelectedCountry = val;
+      console.log(val)
+    });
     userService.userBag.subscribe(bag => {this.vmUserBag = bag; console.log(this.vmUserBag, 'BAG');});
     this.userService.orderTotal.subscribe(orderTotal => {
       this.vmOrderTotal = {
@@ -108,6 +114,7 @@ export class CheckoutComponent {
       postal_code,
       streetAddress
     } = orderForm.value;
+    console.log(country, state);
     //catch invalid form
     if(firstName === '' ){ return this.snackbarService.snackBarMessage.next('FIRST NAME REQUIRED');}
     if(lastName === '' ){ return this.snackbarService.snackBarMessage.next('LAST NAME REQUIRED');}
@@ -131,7 +138,7 @@ export class CheckoutComponent {
      };
     if (error) {
       console.log('Something is wrong:', error);
-      this.snackbarService.snackBarMessage.next('Something is wrong:');
+      this.snackbarService.snackBarMessage.next(`Something is wrong: ${error.message}`);
       return;
 
     } else {

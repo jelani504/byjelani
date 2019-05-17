@@ -48,14 +48,14 @@
                 <div class="shipping-address-column">
                   <mat-form-field>
                     <mat-select formControlName="country" required placeholder="Country" name="country">
-                      <mat-option value="USA">USA</mat-option>
+                      <mat-option *ngFor="let country of checkoutService.countriesList" value="{{country}}">{{country.name}}</mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
                 <div class="shipping-address-column">
                     <mat-form-field>
                       <mat-select formControlName="state" required placeholder="State or province" name="state">
-                        <mat-option  value="LA">LA</mat-option>
+                        <mat-option *ngFor="let state of vmSelectedCountry.states" value="{{state.name}}">{{state.name}}</mat-option>
                       </mat-select>
                     </mat-form-field>
                 </div>

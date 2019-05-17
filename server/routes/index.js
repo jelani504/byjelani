@@ -4,6 +4,7 @@ const ordersRouter = require('./orders');
 const productsRouter = require('./products');
 const promoCodesRouter = require('./promocodes');
 const adminsRouter = require('./admin');
+const countriesRouter = require('./countries');
 
 module.exports = (app) => {
   app.use('/api/user', usersRouter);
@@ -12,4 +13,5 @@ module.exports = (app) => {
   app.use('/api/orders', ordersRouter);
   app.use('/api/promocodes', promoCodesRouter);
   app.use('/api/admin', adminsRouter);
+  app.use('/api/countries', countriesRouter)
 };
