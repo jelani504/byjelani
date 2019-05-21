@@ -17,13 +17,13 @@
       <p *ngIf="error" class="error">
         {{ error }}
       </p>
-      <div [fxLayout]="direction" fxLayoutAlign="center center">
+      <div [fxLayout] fxLayoutAlign="center center">
         <div class="button">
           <button
             type="submit"
             mat-button
             class="login-register-button mat-elevation-z3"
-            (click)="loginService.loginSubmit(loginForm, submitEM)">
+            (click)="loginService.loginSubmit(loginForm)">
             Login
           </button>
         </div>

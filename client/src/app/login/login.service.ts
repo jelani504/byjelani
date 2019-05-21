@@ -29,7 +29,7 @@ export class LoginService {
   }
 
   login(body: any) {
-    return this._http.post('http://127.0.0.1:3000/api/auth/login', body, {
+    return this._http.post(`${window.location.origin}/api/auth/login`, body, {
       observe: 'body',
       withCredentials: true,
       headers: new HttpHeaders().append('Content-Type', 'application/json')

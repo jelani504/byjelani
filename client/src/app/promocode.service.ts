@@ -40,7 +40,7 @@ export class PromocodeService {
   }
 
   getAllPromoCodes(){
-    return this._http.get('http://127.0.0.1:3000/api/promocodes', {
+    return this._http.get(`${window.location.origin}/api/promocodes`, {
       observe: 'body',
       withCredentials: true,
       headers: new HttpHeaders().append('Content-Type', 'application/json')

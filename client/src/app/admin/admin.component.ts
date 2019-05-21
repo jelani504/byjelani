@@ -11,6 +11,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 export class AdminComponent implements OnInit {
   public vmProducts = [];
   public showOrders = false;
+  public vmIsAdmin = false;
   public showProducts = false;
   public productDisplayedColumns: String[] = ['SIZE', 'QUANTITY'];
   public paypalOrderDisplayedColumns: String[] = [
@@ -29,6 +30,7 @@ export class AdminComponent implements OnInit {
   });
 
   constructor( private adminService: AdminService, private productService: ProductService) {
+    adminService.isAdmin.subscribe(status => this.vmIsAdmin = status)
     productService.products.subscribe(products => {this.vmProducts = products; console.log(products)});
     adminService.orders.subscribe(orders =>{ this.vmOrders = orders})
    }

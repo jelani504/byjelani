@@ -11,7 +11,7 @@ export class CheckoutService {
    }
 
   getCountriesList(){
-    return this._http.get('http://127.0.0.1:3000/api/countries', {
+    return this._http.get(`${window.location.origin}/api/countries`, {
       observe: 'body',
       withCredentials: true,
       headers: new HttpHeaders().append('Content-Type', 'application/json')

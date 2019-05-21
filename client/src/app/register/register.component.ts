@@ -10,6 +10,7 @@ import { NavigationService } from '../navigation.service';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
+  public vmFacebookLink = `${window.location.origin}/api/auth/login/facebook`
 
   registerForm: FormGroup = new FormGroup({
     email: new FormControl(null, [Validators.email, Validators.required]),

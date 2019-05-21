@@ -11,7 +11,7 @@ export class ProductService {
   constructor(private _http: HttpClient) {}
 
   getAllProducts(){
-    return this._http.get('http://127.0.0.1:3000/api/products', {
+    return this._http.get(`${window.location.origin}/api/products`, {
       observe: 'body',
       withCredentials: true,
       headers: new HttpHeaders().append('Content-Type', 'application/json')

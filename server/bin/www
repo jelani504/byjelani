@@ -4,22 +4,30 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-var debug = require('debug')('server:server');
-var http = require('http');
+const app = require('../app');
+const debug = require('debug')('server:server');
+const https = require('https');
+const fs = require('fs');
+
+require('dotenv').config();
+const { SSL_PASSPHRASE } = process.env;
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || '8000');
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+var server = https.createServer({
+  key: fs.readFileSync('/home/jelani/Documents/byjelani/server/bin/key.pem'),
+  cert: fs.readFileSync('/home/jelani/Documents/byjelani/server/bin/cert.pem'),
+  passphrase: SSL_PASSPHRASE
+}, app);
 
 /**
  * Listen on provided port, on all network interfaces.

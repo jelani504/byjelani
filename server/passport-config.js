@@ -5,7 +5,6 @@ const { User } = require('./database/models/user');
 require('dotenv').config();
 const { FACEBOOK_APP_ID, FACEBOOK_APP_SECRET} = process.env;
 
-
 passport.use('local', new LocalStrategy(
   { usernameField: 'email', passwordField: 'password', passReqToCallback: true },
   (err, email, password, done) => {
@@ -25,7 +24,7 @@ passport.use('local', new LocalStrategy(
 passport.use(new FacebookStrategy({
   clientID: FACEBOOK_APP_ID,
   clientSecret: FACEBOOK_APP_SECRET,
-  callbackURL: "localhost:3000/auth/login/fb"
+  callbackURL: `localhost:3000/auth/login/fb`
 },
 function(accessToken, refreshToken, profile, done) {
   console.log(accessToken, refreshToken, profile);

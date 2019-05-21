@@ -34,7 +34,7 @@ export class UserService {
     }
 
   getUser(){
-    return this._http.get('http://127.0.0.1:3000/api/user', {
+    return this._http.get(`${window.location.origin}/api/user`, {
       observe: 'body',
       withCredentials: true,
       headers: new HttpHeaders().append('Content-Type', 'application/json')
@@ -42,7 +42,7 @@ export class UserService {
   }
 
   logout(){
-    return this._http.get('http://127.0.0.1:3000/api/user/logout', {
+    return this._http.get(`${window.location.origin}/api/user/logout`, {
       observe: 'body',
       withCredentials: true,
       headers: new HttpHeaders().append('Content-Type', 'application/json')
@@ -55,13 +55,13 @@ export class UserService {
 
   updateUser(key, value, changedValues?){
     if(changedValues){
-      return this._http.post('http://127.0.0.1:3000/api/user/update', {changedValues}, {
+      return this._http.post(`${window.location.origin}/api/user/update`, {changedValues}, {
         observe: 'body',
         withCredentials: true,
         headers: new HttpHeaders().append('Content-Type', 'application/json')
       });
     }
-    return this._http.post('http://127.0.0.1:3000/api/user/update', {key, value}, {
+    return this._http.post(`${window.location.origin}/api/user/update`, {key, value}, {
       observe: 'body',
       withCredentials: true,
       headers: new HttpHeaders().append('Content-Type', 'application/json')

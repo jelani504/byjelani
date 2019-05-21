@@ -9,6 +9,8 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
 const { setupPassport } = require('./passport-config');
+const { readFileSync } = require('fs');
+const { join } = require('path');
 
 const setupRoutes = require('./routes');
 const MongoStore = require('connect-mongo')(session);
@@ -35,13 +37,12 @@ app.use(passport.session());
 
 mongoose.connect('mongodb://jelani504:123dieb4utri@ds211083.mlab.com:11083/byjelani', { useNewUrlParser: true });
 app.use(cors({
-  origin: ['http://localhost:4200', 'http://127.0.0.1:4200'],
+  origin: ['https://localhost:4200', 'https://127.0.0.1:4200'],
   credentials: true,
 }));
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
+// app.set('view engine', 'hbs');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -49,9 +50,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'client')));
 
 setupRoutes(app);
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/index.html'));
+});
 
 
 // setupPassport(app);

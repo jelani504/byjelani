@@ -1,5 +1,5 @@
 <div>
-  <div *ngIf="adminService.isAdmin">
+  <div *ngIf="vmIsAdmin">
     <button mat-button (click)="viewOrders()">View Orders</button>
     <button mat-button (click)="viewProducts()">View Products</button>
     <div *ngIf="showProducts">
@@ -87,7 +87,7 @@
       </table>
     </div>
   </div>
-  <div *ngIf="!adminService.isAdmin">
+  <div *ngIf="!vmIsAdmin">
     YOU ARE NOT AN ADMINISTRATOR
   </div>
 </div>

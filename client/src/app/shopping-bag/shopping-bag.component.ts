@@ -61,7 +61,7 @@ export class ShoppingBagComponent implements OnInit {
           return actions.order.capture().then((details) => {
             alert('Transaction completed by ' + details.payer.name.given_name);
             // Call your server to save the transaction
-            return fetch('http://localhost:3000/api/orders/create/paypal', {
+            return fetch(`${window.location.origin}/api/orders/create/paypal`, {
               method: 'post',
               headers: {
                 'content-type': 'application/json'
