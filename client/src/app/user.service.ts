@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { NavigationService } from './navigation.service';
 import { PromocodeService } from './promocode.service';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,8 @@ export class UserService {
     constructor(
       private _http: HttpClient,
       public dialog: MatDialog,
-      private promocodeService: PromocodeService
+      private promocodeService: PromocodeService,
+      private configService: ConfigService
     ) {
       this.getUser().subscribe((res: {user: any}) => this.user.next(res.user));
       this.user.subscribe( (user: {shoppingBag: any}) => {
@@ -34,7 +36,7 @@ export class UserService {
     }
 
   getUser(){
-    return this._http.get(`${window.location.origin}/api/user`, {
+    return this._http.get(`${this.configService.apiOrigin}/api/user`, {
       observe: 'body',
       withCredentials: true,
       headers: new HttpHeaders().append('Content-Type', 'application/json')
@@ -42,7 +44,7 @@ export class UserService {
   }
 
   logout(){
-    return this._http.get(`${window.location.origin}/api/user/logout`, {
+    return this._http.get(`${this.configService.apiOrigin}/api/user/logout`, {
       observe: 'body',
       withCredentials: true,
       headers: new HttpHeaders().append('Content-Type', 'application/json')
@@ -55,13 +57,13 @@ export class UserService {
 
   updateUser(key, value, changedValues?){
     if(changedValues){
-      return this._http.post(`${window.location.origin}/api/user/update`, {changedValues}, {
+      return this._http.post(`${this.configService.apiOrigin}/api/user/update`, {changedValues}, {
         observe: 'body',
         withCredentials: true,
         headers: new HttpHeaders().append('Content-Type', 'application/json')
       });
     }
-    return this._http.post(`${window.location.origin}/api/user/update`, {key, value}, {
+    return this._http.post(`${this.configService.apiOrigin}/api/user/update`, {key, value}, {
       observe: 'body',
       withCredentials: true,
       headers: new HttpHeaders().append('Content-Type', 'application/json')

@@ -5,6 +5,7 @@ import { environment as devEnv} from '../../environments/environment';
 import { environment as prodEnv } from '../../environments/environment.prod';
 import { PromocodeService } from '../promocode.service';
 import { ThrowStmt } from '@angular/compiler';
+import { ConfigService } from '../config.service';
 
 declare let paypal: any;
 
@@ -28,7 +29,8 @@ export class ShoppingBagComponent implements OnInit {
   constructor(
     private userService: UserService,
     public navigationService: NavigationService,
-    public promocodeService: PromocodeService
+    public promocodeService: PromocodeService,
+    public configService: ConfigService
   ) {
     if(prodEnv.production){
       this.paypalClientID = prodEnv.paypalClientID;
@@ -61,7 +63,7 @@ export class ShoppingBagComponent implements OnInit {
           return actions.order.capture().then((details) => {
             alert('Transaction completed by ' + details.payer.name.given_name);
             // Call your server to save the transaction
-            return fetch(`${window.location.origin}/api/orders/create/paypal`, {
+            return fetch(`${this.configService.apiOrigin}/api/orders/create/paypal`, {
               method: 'post',
               headers: {
                 'content-type': 'application/json'

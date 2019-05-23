@@ -9,8 +9,6 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
 const { setupPassport } = require('./passport-config');
-const { readFileSync } = require('fs');
-const { join } = require('path');
 
 const setupRoutes = require('./routes');
 const MongoStore = require('connect-mongo')(session);
@@ -33,7 +31,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// setupPassport(app);
 
 mongoose.connect('mongodb://jelani504:123dieb4utri@ds211083.mlab.com:11083/byjelani', { useNewUrlParser: true });
 app.use(cors({
@@ -58,7 +55,7 @@ app.get('*', (req, res) => {
 });
 
 
-// setupPassport(app);
+setupPassport(app);
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   next(createError(404));

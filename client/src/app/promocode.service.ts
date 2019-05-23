@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { SnackbarService } from './snackbar.service';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class PromocodeService {
   public discount = new BehaviorSubject({code: null, discount: null});
   public appliedPromo = new Subject();
 
-  constructor(private _http: HttpClient, private snackbarService: SnackbarService) { 
+  constructor(private _http: HttpClient, private snackbarService: SnackbarService, private configService: ConfigService) { 
     
     this.getAllPromoCodes().subscribe((codes: {promoCodes: []}) => {
       const { promoCodes } = codes
@@ -40,7 +41,7 @@ export class PromocodeService {
   }
 
   getAllPromoCodes(){
-    return this._http.get(`${window.location.origin}/api/promocodes`, {
+    return this._http.get(`${this.configService.apiOrigin}/api/promocodes`, {
       observe: 'body',
       withCredentials: true,
       headers: new HttpHeaders().append('Content-Type', 'application/json')

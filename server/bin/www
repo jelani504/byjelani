@@ -7,6 +7,7 @@
 const app = require('../app');
 const debug = require('debug')('server:server');
 const https = require('https');
+const http = require('http');
 const fs = require('fs');
 
 require('dotenv').config();
@@ -23,11 +24,13 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-var server = https.createServer({
-  key: fs.readFileSync('/home/jelani/Documents/byjelani/server/bin/key.pem'),
-  cert: fs.readFileSync('/home/jelani/Documents/byjelani/server/bin/cert.pem'),
-  passphrase: SSL_PASSPHRASE
-}, app);
+var server = http.createServer(
+//   {
+//   key: fs.readFileSync('/home/jelani/Documents/byjelani/server/bin/key.pem'),
+//   cert: fs.readFileSync('/home/jelani/Documents/byjelani/server/bin/cert.pem'),
+//   passphrase: SSL_PASSPHRASE
+// }, 
+app);
 
 /**
  * Listen on provided port, on all network interfaces.

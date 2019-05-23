@@ -2,13 +2,19 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { NavigationService } from '../navigation.service';
 import { UserService } from '../user.service';
+import { ConfigService } from '../config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RegisterService {
   titles = ['Mr.', 'Mrs.', 'Ms.'];
-  constructor(private _http: HttpClient, public navigationService: NavigationService, private userService: UserService) {}
+  constructor(
+    private _http: HttpClient,
+    public navigationService: NavigationService,
+    private userService: UserService,
+    private configService: ConfigService
+    ) {}
 
   registerSubmit(registerForm): void {
     console.log(registerForm);
@@ -25,7 +31,7 @@ export class RegisterService {
   }
 
   register(user) {
-    return this._http.post(`${window.location.origin}/api/user/register`, user, {
+    return this._http.post(`${this.configService.apiOrigin}/api/user/register`, user, {
       observe: 'body',
       headers: new HttpHeaders().append('Content-Type', 'application/json')
     });

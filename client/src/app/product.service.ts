@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,10 +9,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class ProductService {
 
   public products = new BehaviorSubject([]);
-  constructor(private _http: HttpClient) {}
+  constructor(private _http: HttpClient, private configService: ConfigService) {}
 
   getAllProducts(){
-    return this._http.get(`${window.location.origin}/api/products`, {
+    return this._http.get(`${this.configService.apiOrigin}/api/products`, {
       observe: 'body',
       withCredentials: true,
       headers: new HttpHeaders().append('Content-Type', 'application/json')

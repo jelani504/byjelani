@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NavigationService } from '../navigation.service';
 import { UserService } from '../user.service';
 import { SnackbarService } from '../snackbar.service';
+import { ConfigService } from '../config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,8 @@ export class LoginService {
     private navigationService: NavigationService,
     private _http: HttpClient,
     private userService: UserService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private configService: ConfigService
   ){ }
 
   loginSubmit(loginForm) {
@@ -29,7 +31,7 @@ export class LoginService {
   }
 
   login(body: any) {
-    return this._http.post(`${window.location.origin}/api/auth/login`, body, {
+    return this._http.post(`${this.configService.apiOrigin}/api/auth/login`, body, {
       observe: 'body',
       withCredentials: true,
       headers: new HttpHeaders().append('Content-Type', 'application/json')
