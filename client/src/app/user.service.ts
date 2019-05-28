@@ -22,7 +22,7 @@ export class UserService {
       private promocodeService: PromocodeService,
       private configService: ConfigService
     ) {
-      this.getUser().subscribe((res: {user: any}) => this.user.next(res.user));
+      this.getUser().subscribe((res: {user: any}) => {console.log(res.user); this.user.next(res.user)});
       this.user.subscribe( (user: {shoppingBag: any}) => {
         if(user){
           console.log(user.shoppingBag);

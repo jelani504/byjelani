@@ -7,11 +7,15 @@ import { environment } from '../environments/environment';
 })
 export class ConfigService {
   public apiOrigin;
+  public vmFacebookLink;
+  public vmGoogleLink;
   constructor() { 
     if(environment.production){
       this.apiOrigin = window.location.origin;
     } else {
-      this.apiOrigin = `http://localhost:8000`;
+      this.apiOrigin = `https://localhost:8000`;
     }
+    this.vmGoogleLink =  `${this.apiOrigin}/api/auth/login/google`;
+    this.vmFacebookLink = `${this.apiOrigin}/api/auth/login/facebook`;
   }
 }

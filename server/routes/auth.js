@@ -23,9 +23,21 @@ router.post(
   },
 );
 
-router.get('/login/facebook', passport.authenticate('facebook', { scope: 'read_stream' }));
+router.get(
+  '/login/facebook',
+  passport.authenticate('facebook', { scope: ['public_profile', 'email', 'user_friends', 'user_gender'] })
+);
+router.get(
+  '/login/facebook/callback', 
+  passport.authenticate('facebook', { successRedirect: 'https://localhost:4200/', failureRedirect: 'https://localhost:4200/login' })
+);
 
-router.get('/login/facebook/callback',
-  passport.authenticate('facebook', { successRedirect: '/', failureRedirect: '/login' }));
+router.get('/login/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
+router.get('login/google/callback', 
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('https://localhost:4200/login');
+  }
+  );
 
 module.exports = router;

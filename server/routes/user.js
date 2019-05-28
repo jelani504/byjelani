@@ -36,7 +36,7 @@ router.post('/update', (req, res, next) => {
   });
 });
 
-router.post('/register', (req, res, next) => {
+router.post('/register', async (req, res, next) => {
   const {
     email,
     password,
@@ -61,10 +61,11 @@ router.post('/register', (req, res, next) => {
     creation_dt: Date.now(),
   };
   try {
-    return res.status(201).json(userHelpers.createUser(user));
+    const newUser = await userHelpers.createUser(user);
+    return res.status(201).send({newUser});
   } catch (err) {
     console.log('ERROR CREATING USER');
-    return res.status(501).json(err);
+    return res.status(501).send({err});
   }
 });
 

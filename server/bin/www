@@ -24,12 +24,12 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-var server = http.createServer(
-//   {
-//   key: fs.readFileSync('/home/jelani/Documents/byjelani/server/bin/key.pem'),
-//   cert: fs.readFileSync('/home/jelani/Documents/byjelani/server/bin/cert.pem'),
-//   passphrase: SSL_PASSPHRASE
-// }, 
+var server = https.createServer(
+  {
+  key: fs.readFileSync('/home/jelani/Documents/byjelani/server/bin/key.pem'),
+  cert: fs.readFileSync('/home/jelani/Documents/byjelani/server/bin/cert.pem'),
+  passphrase: SSL_PASSPHRASE
+}, 
 app);
 
 /**

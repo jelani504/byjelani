@@ -15,6 +15,10 @@
         (click)="selectProduct(model.subBrand.split(' ').join(''), version.id, model.id)"
         *ngFor="let version of model.versions"
       >
+      <!-- <video width="380" height="220" autoplay loop>
+        <source src="../../assets/products/maximumviableproduct/MATZELIGER.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+      </video> -->
         <img
         [ngStyle.xs]="{ 'height.px': 145 }"
         src="{{version.img}}"

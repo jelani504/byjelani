@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { RegisterService } from './register.service';
 import { NavigationService } from '../navigation.service';
 import { ConfigService } from '../config.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -11,8 +12,6 @@ import { ConfigService } from '../config.service';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  public vmFacebookLink = `${this.configService.apiOrigin}/api/auth/login/facebook`
-
   registerForm: FormGroup = new FormGroup({
     email: new FormControl(null, [Validators.email, Validators.required]),
     firstName: new FormControl(null, [Validators.required]),
@@ -28,9 +27,13 @@ export class RegisterComponent implements OnInit {
 
   @Output() submitEM = new EventEmitter();
 
-  constructor(public registerService: RegisterService, public navigationService: NavigationService, private configService: ConfigService) {}
+  constructor(
+    public registerService: RegisterService,
+    public navigationService: NavigationService,
+    public configService: ConfigService,
+    private router: Router,
+    ) {}
 
   ngOnInit() {
   }
-
 }
