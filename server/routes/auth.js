@@ -7,20 +7,18 @@ const router = express.Router();
 
 router.post(
   '/login',
-  (req, res, next) => {
-    console.log(req.body);
-    passport.authenticate('local', (err, user, info) => {
-      console.log(err, 'ERROR');
-      console.log(user, 'USER');
-      console.log(info);
-      if (err) { return res.status(501).json(err); }
-      if (!user) { return res.status(501).json(info); }
-      req.logIn(user, (error) => {
-        if (error) { return res.status(501).json(err); }
-        return res.status(200).json({ message: 'Login Success', user });
-      });
-    })(req, res, next);
-  },
+  passport.authenticate('local', {
+  failureRedirect: 'https://localhost:4200/login' }),
+  (req, res) => { const {user} =  req; console.log(user, 'LOCAL USERR');
+  //  res.send({user});
+  // req.logIn(user, (error) => {
+    // if (error) { return res.status(501).json(error); }
+    // console.log('LOGIN USER');
+    return res.status(200).send({user});
+    // return res.status(200).json({ message: 'Login Success', user });
+  // });
+  // res.redirect('https://localhost:4200/', 200);
+  }
 );
 
 router.get(
@@ -28,16 +26,28 @@ router.get(
   passport.authenticate('facebook', { scope: ['public_profile', 'email', 'user_friends', 'user_gender'] })
 );
 router.get(
-  '/login/facebook/callback', 
-  passport.authenticate('facebook', { successRedirect: 'https://localhost:4200/', failureRedirect: 'https://localhost:4200/login' })
+  '/login/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: 'https://localhost:4200/login' }),
+  (req, res) => {
+    const {user} = req;
+    req.logIn(user, (error) => {
+      if (error) { return res.status(501).json(err); }
+      return res.redirect('https://localhost:4200/');
+    });
+  }
 );
 
-router.get('/login/google', passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }));
-router.get('login/google/callback', 
-  passport.authenticate('google', { failureRedirect: '/login' }),
-  function(req, res) {
-    res.redirect('https://localhost:4200/login');
-  }
+router.get('/login/google', passport.authenticate('google', { scope: ['profile' , 'email'] }));
+router.get('/login/google/callback', 
+  passport.authenticate('google', { successRedirect: 'https://localhost:4200/', failureRedirect: 'https://localhost:4200/login' }),
+  // (req, res) => {
+  //   const {user} = req;
+  //   req.logIn(user, (error) => {
+  //     console.log(error, 'LOGIN CALLBACK ERROR');
+  //     if (error) { return res.redirect('https://localhost:4200/login'); }
+  //     return res.redirect('https://localhost:4200/');
+  //   });
+  // }
   );
 
 module.exports = router;

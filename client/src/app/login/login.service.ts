@@ -30,6 +30,18 @@ export class LoginService {
       )
   }
 
+  loginWithFacebook(){
+    this._http.get(this.configService.vmFacebookLink, {
+      observe: 'body',
+      withCredentials: true,
+      headers: new HttpHeaders().append('Content-Type', 'application/json')
+    }).subscribe(
+      user=>{console.log(user, 'LOGIN WITH FACEBOOK USER'); },
+      err =>{console.log(err, 'LOGIN WITH FACEBOOK ERROR'); }
+      );
+
+  }
+
   login(body: any) {
     return this._http.post(`${this.configService.apiOrigin}/api/auth/login`, body, {
       observe: 'body',

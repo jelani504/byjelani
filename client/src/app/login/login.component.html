@@ -41,4 +41,10 @@
   <mat-card-content>
     <a href="{{configService.vmFacebookLink}}" class="fb connect">Login with Facebook</a>  
   </mat-card-content>
+  <mat-card-content>
+      <button mat-raised-button class="google-button" (click)="navigationService.navigateToGoogleAuth()">
+      <mat-icon class="svgicon" svgIcon="google_g"></mat-icon>
+         Login with Google
+      </button>
+  </mat-card-content>
 </mat-card>

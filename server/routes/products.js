@@ -12,7 +12,7 @@ router.get('/:productID', (req, res, next) => {console.log(req); res.send({req})
 router.get('/', asyncFN(async (req, res, next) => {
   const products = await productHelpers.findAllProducts();
   // console.log(products, 'Products');
-  res.send({products});
+  res.json({products});
 }));
 
 router.post('/update', (req, res, next) => {

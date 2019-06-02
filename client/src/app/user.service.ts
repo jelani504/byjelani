@@ -15,7 +15,7 @@ export class UserService {
   public shippingEstimate = new BehaviorSubject(0);
   public orderTotal = new BehaviorSubject(0);
 
-  public user = new BehaviorSubject({shoppingBag: [], email: String});
+  public user = new BehaviorSubject({shoppingBag: [], email: ''});
     constructor(
       private _http: HttpClient,
       public dialog: MatDialog,
@@ -24,6 +24,7 @@ export class UserService {
     ) {
       this.getUser().subscribe((res: {user: any}) => {console.log(res.user); this.user.next(res.user)});
       this.user.subscribe( (user: {shoppingBag: any}) => {
+        console.log(user, 'USER CHANGE');
         if(user){
           console.log(user.shoppingBag);
           this.userBag.next(user.shoppingBag);
@@ -79,7 +80,6 @@ export class UserService {
     } else {
       const newBag = userBag.concat([{version, selectedSize, quantity: 1, productID}]);
       this.updateUser('shoppingBag', newBag).subscribe((res: {user: any}) => {this.user.next(res.user)});
-
     }
   }
 

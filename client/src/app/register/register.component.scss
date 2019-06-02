@@ -18,6 +18,18 @@ a.fb {
     border-radius: 3px;
 }
 
+.google-button {
+    mat-icon{
+        height: 36px;
+        width: 36px;
+    }
+    float: left;
+    width: 191px;
+    height: 36px;
+    padding-left: 0px;
+    font-family: 'Roboto', sans-serif;
+}
+
 .connect:before {
     display: inline-block;
     position: relative;

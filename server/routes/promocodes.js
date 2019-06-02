@@ -9,14 +9,15 @@ const router = express.Router();
 router.get('/code/:promoCode', async (req, res, next) => {
   const code = await promoCodeHelpers.findOnePromoCode(req.params.promoCode);
   console.log(code);
-   res.status(200).send({code});
+   res.status(200).json({code});
   });
 
 /* GET users listing. */
 router.get('/', asyncFN(async (req, res, next) => {
+  console.log(req.user, 'USER GET PROMO CODES');
   const promoCodes = await promoCodeHelpers.findAllPromoCodes();
-  // console.log(promoCodes, 'promoCodes');
-  res.send({promoCodes});
+  console.log(promoCodes, 'promoCodes');
+  res.status(200).json({promoCodes});
 }));
 
 

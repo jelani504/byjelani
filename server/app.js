@@ -7,8 +7,10 @@ const logger = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const session = require('express-session');
-const passport = require('passport');
-const { setupPassport } = require('./passport-config');
+const { passport } = require('./passport-config');
+const helmet = require('helmet');
+const { User } = require('./database/models/user');
+
 
 const setupRoutes = require('./routes');
 const MongoStore = require('connect-mongo')(session);
@@ -17,51 +19,43 @@ mongoose.connect('mongodb://jelani504:123dieb4utri@ds211083.mlab.com:11083/byjel
 
 const app = express();
 
-
-
 // view engine setup
 // app.set('view engine', 'hbs');
 
-app.use(logger('dev'));
 app.use(cors({
   origin: ['https://localhost:4200', 'https://127.0.0.1:4200'],
   credentials: true,
 }));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+// app.use(express.static(path.join(__dirname, 'client')));
+app.use(logger('dev'));
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: false }));
+app.use(helmet())
+app.use(cookieParser('sup3rs3cr3t'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'client')));
 
 app.use(session({
-  name: 'myname.sid',
+  name: 'J3LVNI',
   resave: false,
   saveUninitialized: false,
-  secret: 'secret',
+  secret: 'sup3rs3cr3t',
   cookie: {
     maxAge: 36000000,
     httpOnly: false,
-    secure: false,
+    secure: true,
   },
   store: new MongoStore({ mongooseConnection: mongoose.connection }),
 }));
-// passport.serializeUser((user, done) => {
-//   console.log(user, 'SERIALIZE');
-//   done(null, user._id);
-// });
 
-// passport.deserializeUser((id, done) => {
-//   console.log(id, 'deSERIALIZE');
-//   User.findById(id, (err, user) => done(err, user));
-// });
 app.use(passport.initialize());
 app.use(passport.session());
 setupRoutes(app);
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/index.html'));
-});
 
+
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'client/index.html'));
+// });
 
 // setupPassport(app);
 
@@ -76,7 +70,9 @@ app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-  console.log(err, "ERROR");
+  console.log(req.user, 'USER');
+  console.log(err.message, "ERROR!");
+  
   // render the error page
   res.status(err.status || 500);
   res.render('error');

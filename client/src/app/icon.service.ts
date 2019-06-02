@@ -6,7 +6,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   providedIn: 'root'
 })
 export class IconService {
-  icons = { header: ['account', 'shopping-bag']};
+  icons = { header: ['account', 'shopping-bag'], auth: ['google_g']};
 
   constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {}
 

@@ -2,7 +2,12 @@
   <mat-card-title>Register</mat-card-title>
   <mat-card-content>
       <a href="{{configService.vmFacebookLink}}" class="fb connect">Continue with Facebook</a>  
-      <!-- <a href="{{configService.vmGoogleLink}}">Sign In with Google</a> -->
+  </mat-card-content>
+  <mat-card-content>
+      <button mat-raised-button class="google-button" (click)="navigationService.navigateToGoogleAuth()">
+      <mat-icon class="svgicon" svgIcon="google_g"></mat-icon>
+          Continue with Google
+      </button>
   </mat-card-content>
   <mat-card-content>
     <form [formGroup]="registerForm">

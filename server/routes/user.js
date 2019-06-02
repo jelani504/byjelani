@@ -5,7 +5,13 @@ const { User, userHelpers } = require('../database/models/user');
 const router = express.Router();
 
 /* GET users listing. */
-router.get('/', (req, res, next) => res.status(200).send({user: req.user}));
+router.get('/', (req, res, next) => {console.log(req.user); 
+  const { user } = req;
+  if (!user){
+    return res.status(500).json({ error: 'NO USER'});
+  }
+  return res.status(200).json({user});
+});
 
 router.post('/update', (req, res, next) => {
   const { email } = req.user;
@@ -70,6 +76,7 @@ router.post('/register', async (req, res, next) => {
 });
 
 router.get('/logout', function(req, res){
+  console.log(req.user, 'USERR');
   req.logout();
   res.status(200).send({success: 'You have been logged out.'});
 });

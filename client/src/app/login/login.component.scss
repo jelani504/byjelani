@@ -13,6 +13,22 @@ form{
     width: 100%;
 }
 
+.google-button {
+    mat-icon{
+        padding-bottom: 5px;
+        height: 30px;
+        width: 30px;
+    }
+    font-size: 13px;
+    width: 161px;
+    height: 32px;
+    padding-left: 0px;
+    font-family: 'Roboto', sans-serif;
+
+    // background-size: 191px 46px;
+    // background: url(../../assets/btn_google_signin_light_normal_web.png) no-repeat;
+}
+
 /deep/
 label{
     color: black !important; 
