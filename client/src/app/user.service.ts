@@ -22,10 +22,16 @@ export class UserService {
       private promocodeService: PromocodeService,
       private configService: ConfigService
     ) {
-      this.getUser().subscribe((res: {user: any}) => {console.log(res.user); this.user.next(res.user)});
-      this.user.subscribe( (user: {shoppingBag: any}) => {
+      this.getUser().subscribe((res: {user: any}) => {
+        const { user } = res
+        if(user.email){
+          this.user.next(user);
+        }
+        console.log(user); 
+      });
+      this.user.subscribe( (user: {shoppingBag: any, email: String}) => {
         console.log(user, 'USER CHANGE');
-        if(user){
+        if(user.email){
           console.log(user.shoppingBag);
           this.userBag.next(user.shoppingBag);
         }

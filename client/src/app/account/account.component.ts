@@ -26,7 +26,8 @@ export class AccountComponent implements OnInit {
     private snackBarService: SnackbarService
     ) {
     userService.user.subscribe(user => {
-      if(!user){
+      const { email } = user;
+      if(!email){
         this.userService.openDialog('You must be signed in to update account information.')
         return;
       }

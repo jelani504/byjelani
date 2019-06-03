@@ -59,7 +59,7 @@ export class ProductDetailsComponent implements OnInit {
  
   addToBag(){
     const user = this.userService.user.getValue();
-    if(user){
+    if(user.email){
       if(this.selectedSize){
         this.userService.addProductToBag(this.product, this.selectedSize, this.productModel.id);
         this.snackBarService.snackBarMessage.next('This item has been added to your bag.');

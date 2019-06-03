@@ -60,6 +60,7 @@ const userHelpers = {
   }
 };
 // User.find({}, (err, docs) => console.log(docs));
-User.deleteOne({}, () => console.log('collection removed'));
+// User.deleteOne({}, () => console.log('collection removed'));
+
 
 module.exports = { User, userHelpers };
