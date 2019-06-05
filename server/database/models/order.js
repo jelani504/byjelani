@@ -25,7 +25,8 @@ const paypalOrderSchema = new Schema({
     selectedSize: String,
     quantity: Number,
     subBrand: String,
-    productID: Number
+    productID: Number,
+    img: String
   }]
 });
 
@@ -70,7 +71,8 @@ const stripeOrderSchema = new Schema({
     selectedSize: String,
     quantity: Number,
     subBrand: String,
-    productID: Number
+    productID: Number,
+    img: String
   }]
 });
 

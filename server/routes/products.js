@@ -6,7 +6,7 @@ const asyncFN = require('./async');
 const router = express.Router();
 
 /* GET users listing. */
-router.get('/:productID', (req, res, next) => {console.log(req); res.send({req});});
+// router.get('/:productID', (req, res, next) => {console.log(req); res.send({req});});
 
 /* GET users listing. */
 router.get('/', asyncFN(async (req, res, next) => {
@@ -30,4 +30,8 @@ router.post('/update/:productID', (req, res, next) => {
   return res.status(201).json({req});
 });
 
+router.get('/:productID', async (req, res, next) => {
+  const product = await productHelpers.findOneProduct(productID);
+  res.status(201).send(product);
+});
 module.exports = router;

@@ -26,7 +26,7 @@ app.use(cors({
   origin: ['https://localhost:4200', 'https://127.0.0.1:4200'],
   credentials: true,
 }));
-// app.use(express.static(path.join(__dirname, 'client')));
+app.use(express.static(path.join(__dirname, 'client')));
 app.use(logger('dev'));
 // app.use(express.json());
 // app.use(express.urlencoded({ extended: false }));
