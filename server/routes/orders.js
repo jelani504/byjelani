@@ -41,6 +41,26 @@ const router = express.Router();
 
 // });
 
+function htmlItems(items){
+  let itemHTML = '<p class="items-tag"><b>ITEMS</b></p>\n';
+  items.forEach(item => {
+    itemHTML += `<div class="product">
+    <div class="row">
+      <div class="column item-pic">
+      <img src="https://lh3.googleusercontent.com/OaoOtPADlL3e3zJbNDrWeCMSG5jjNBcVAfcDnEpBa2o8wBAR7p_W7fDjJXo5fAuAEpe9kfeL1EJRhnqJACHxKZeCsNdI5Ri5WTfrH61CtXkp6t1Alumrje_4TZRpztaiJWcKg7Y-NBnyQYxmpBORHlaNjN4CrQXOHYRLPk3dUpuXj8rtpQdfU4KW4WxnqdYzz_i-3nNrM85KPVthGD0jsaKgIlroi2bxhy9OfWWKwF-cFau0nkaOF9eALKuQn5COKnyYpXynRmZ7Qob2i4ZJttzEG9zDQUeRx12z_NbBa4eYqNdPyg1G0iOFTiqpHDa4q7L9ELMOrK0ElIf-vHje30fVMJtnoOXfZBD4QQqoKOVHV5cUu1UYyoRGnoJTSC7rXoKC_tq5iRMPdk4NcOqvvKd0Mj5akkXUtAT5h3utE-i8N-BxjBE8-igBOFhO4Kh9-ykBV-6iMs4LTTcXPxTryLhHdsmNhSUtXHQmBbVT_WueEx2anq9uNhmiADhY9uB-CFm_89ryrFUl2pLkVvPswB_jgsK02RcxV5u4AbqfPiwUh6sdxfQblatmWvboAXTsviYkZDwq7pcOEsXxM-5hi-WQNuJ8pkL3L2i3YvroG5t7SXveH_6wfDYCas6poHjqJM6Na9TRtriQlUYVOJsMCZXtx-U2J4k=w1000-h632-no" height="150" width="237">
+      </div>
+      <div class="column item-desc">
+        <p class="">${item.productName}</p>
+        <p class="">COLOR: ${item.color}</p>
+        <p class="">SIZE: US ${item.selectedSize}</p>
+        <p class="">PRICE: ${item.price.usd.string}</p>
+      </div> 
+    </div> 
+  </div>\n`
+  });
+  return itemHTML;
+}
+
 router.post('/create/stripe', async (req, res, next) => {
   console.log('USER ID NEXT');
   console.log(req.user.id);
@@ -55,10 +75,10 @@ router.post('/create/stripe', async (req, res, next) => {
     const { productID, version } = currentItem;
     const versionID = version.id;
     const productName = version.name;
-    const { img } = version;
+    const { img, color, price } = version;
     // console.log(currentItem, 'CURRENT ITEM');
     const { selectedSize, quantity, subBrand } = currentItem;
-    itemsArr.push({versionID, productName, selectedSize, quantity, subBrand, productID, img });
+    itemsArr.push({versionID, productName, selectedSize, quantity, subBrand, productID, img, price, color });
     return itemsArr;
   }, []);
 
@@ -93,13 +113,63 @@ router.post('/create/stripe', async (req, res, next) => {
       from: 'orders@byjelani.com',
       subject: `JELANI Order Confirmation 😎`,
       html: `
-        <p>Dear ${firstName}, </p>
-        <strong>Thank You for your order!</strong>
-        <p>Order Summary</p>
-        <p><b>Order ID:</b> ${newStripeOrder.id}</p>
-        <p><b></b>Order Total: ${newStripeOrder.amount}</p>
-        <img src="https://lh3.googleusercontent.com/OaoOtPADlL3e3zJbNDrWeCMSG5jjNBcVAfcDnEpBa2o8wBAR7p_W7fDjJXo5fAuAEpe9kfeL1EJRhnqJACHxKZeCsNdI5Ri5WTfrH61CtXkp6t1Alumrje_4TZRpztaiJWcKg7Y-NBnyQYxmpBORHlaNjN4CrQXOHYRLPk3dUpuXj8rtpQdfU4KW4WxnqdYzz_i-3nNrM85KPVthGD0jsaKgIlroi2bxhy9OfWWKwF-cFau0nkaOF9eALKuQn5COKnyYpXynRmZ7Qob2i4ZJttzEG9zDQUeRx12z_NbBa4eYqNdPyg1G0iOFTiqpHDa4q7L9ELMOrK0ElIf-vHje30fVMJtnoOXfZBD4QQqoKOVHV5cUu1UYyoRGnoJTSC7rXoKC_tq5iRMPdk4NcOqvvKd0Mj5akkXUtAT5h3utE-i8N-BxjBE8-igBOFhO4Kh9-ykBV-6iMs4LTTcXPxTryLhHdsmNhSUtXHQmBbVT_WueEx2anq9uNhmiADhY9uB-CFm_89ryrFUl2pLkVvPswB_jgsK02RcxV5u4AbqfPiwUh6sdxfQblatmWvboAXTsviYkZDwq7pcOEsXxM-5hi-WQNuJ8pkL3L2i3YvroG5t7SXveH_6wfDYCas6poHjqJM6Na9TRtriQlUYVOJsMCZXtx-U2J4k=w1000-h632-no" height="200" width="316">
-      `,
+      <style>  
+  .item-pic {
+    max-width: 237px !important;
+  }
+  .row {
+    display: flex;
+  }
+  .column {
+    flex: 50%;
+  }
+  .sum-item {
+    margin-right: 5%
+  }
+  .order-sum {
+    justify-content: center;
+  }
+  .head-logo {
+    text-align: center;
+  }
+  .specs-container {
+    margin-top: 50px;
+    margin-left: 15%;
+  }
+  .item-desc {
+    margin-left: 5%
+  }
+  .product{
+    margin-bottom: 7.5%
+  }
+  .items-tag{
+    text-align: center;
+    margin-bottom: 5%
+  }
+</style>
+<div class="container">
+<div class="head-logo">
+<img src="https://lh3.googleusercontent.com/uM4tqk5l5e7tbBduMDn6vx-Tumoak62UqOtIMNsybHkNY7_lHhUJzQQz1t2SAYOvKzWW-GpvONuibQTdxxXT_LasS_l1kNyJ26TM8anv5NaRCJENfABO25Oy8FfMp8FewZ8TBNiOLNFRLyWWr2rNH3YFPzzQy2dwRgPP_9GGOvsDLjKSSnQGf9eymTqS3I-Ddn5yfpXrkqjgeby916xoPdCBO23HkXCfVyh6z4iAQQVbWPKv2tv4O9kA3id3AzixhhbmaJ1o5LgZxagXKU9HQ-WiqcFZgZ5Xfjwu7B4dADZMVrAc7TYYB5PR58wPDfvm_TRAzluPYG0cepc6jLMsHnOnWXLHSJD737tAvWQv_yqbOEDZkauxLddcK1RTESVLpNlfJLOhJ2vEaTTIY69y1ALcp0Uni8_dENaNRHoGa3Jv8j3ZhwUO0erC0jfkUzLLfrJzBNHaxf4V3bdMzewpCjq_HcN-UG9vrhz6AQrXf2pzgs1EYm-STqEEmUaUV3nm2dHM9hlXcI0ixM3JBGCxN2iG6eSBG_KbysHzpRHAhXhdFIDeV4pRNbcwmbJNOjC6VzZA8kzlTgOY8HLZEvYseA8_j0Lo7vtZv5N0SxfLsy3VSiI6Zik_aRleUAPXw58ushyv12EBHtU6QbjjeHTrJKo7gJgCN8M=w1102-h417-no" height="25%">
+</div>
+  <p>Dear ${firstName}, </p>
+  <strong>Thank You for your order!</strong>
+  <p>Please allow up to two business days to process your order. Once it’s been processed, you’ll receive a shipment confirmation email with your order’s tracking number.</p>
+  <p>Below, you’ll find a copy of your receipt and order information. Please keep it for your records.</p>
+  <p>Questions? Please reply to this email with any questions or concerns. </p>
+  <div class="row specs-container">
+    <div class="column items">
+      ${htmlItems(newStripeOrder.items)}
+    </div>
+    <div class="column">
+    <p class="sum-item"><b>ORDER ID:</b> ${newStripeOrder.id}</p>
+    <p class="sum-item"><b>DATE PLACED:</b></p>
+    <p class="sum-item"><b>ORDER TOTAL:</b> ${newStripeOrder.amount}</p>
+    <p class="sum-item"><b>PAYMENT METHOD:</b> CREDIT CARD</p>
+    <p><b>SHIPPING ADDRESS:</b></p>
+    </div>
+  </div>
+</div>
+    `,
     };
     sgMail.send(msg);
     return res.status(200).send({ newStripeOrder });
@@ -162,10 +232,10 @@ router.post('/create/paypal', async (req, res, next) => {
         const { productID, version} = currentItem;
         const versionID = version.id;
         const productName = version.name;
-        const { img } = version;
+        const { img, color, price } = version;
         // console.log(currentItem, 'CURRENT ITEM');
         const { selectedSize, quantity, subBrand } = currentItem;
-        itemsArr.push({versionID, productName, selectedSize, quantity, subBrand, productID, img });
+        itemsArr.push({versionID, productName, selectedSize, quantity, subBrand, productID, img, color, price });
         return itemsArr;
       }, []);
 
@@ -181,8 +251,89 @@ router.post('/create/paypal', async (req, res, next) => {
         to: email,
         from: 'orders@byjelani.com',
         subject: `JELANI Order Confirmation (${orderID})`,
-        text: 'Thank You for your order. text',
-        html: '<strong>Thank You for your order.</strong>',
+        html: `
+        <style>  
+          .item-pic {
+            max-width: 237px !important;
+          }
+          .row {
+            display: flex;
+          }
+          .column {
+            flex: 50%;
+          }
+          .sum-item {
+            margin-right: 5%
+          }
+          .order-sum {
+            justify-content: center;
+          }
+          .head-logo {
+            text-align: center;
+          }
+          .specs-container {
+            margin-top: 50px;
+            margin-left: 15%;
+          }
+          .item-desc {
+            margin-left: 5%
+          }
+          .product{
+            margin-bottom: 7.5%
+          }
+          .items-tag{
+            text-align: center;
+            margin-bottom: 5%
+          }
+        </style>
+        <div class="container">
+          <div class="head-logo">
+            <img src="https://lh3.googleusercontent.com/uM4tqk5l5e7tbBduMDn6vx-Tumoak62UqOtIMNsybHkNY7_lHhUJzQQz1t2SAYOvKzWW-GpvONuibQTdxxXT_LasS_l1kNyJ26TM8anv5NaRCJENfABO25Oy8FfMp8FewZ8TBNiOLNFRLyWWr2rNH3YFPzzQy2dwRgPP_9GGOvsDLjKSSnQGf9eymTqS3I-Ddn5yfpXrkqjgeby916xoPdCBO23HkXCfVyh6z4iAQQVbWPKv2tv4O9kA3id3AzixhhbmaJ1o5LgZxagXKU9HQ-WiqcFZgZ5Xfjwu7B4dADZMVrAc7TYYB5PR58wPDfvm_TRAzluPYG0cepc6jLMsHnOnWXLHSJD737tAvWQv_yqbOEDZkauxLddcK1RTESVLpNlfJLOhJ2vEaTTIY69y1ALcp0Uni8_dENaNRHoGa3Jv8j3ZhwUO0erC0jfkUzLLfrJzBNHaxf4V3bdMzewpCjq_HcN-UG9vrhz6AQrXf2pzgs1EYm-STqEEmUaUV3nm2dHM9hlXcI0ixM3JBGCxN2iG6eSBG_KbysHzpRHAhXhdFIDeV4pRNbcwmbJNOjC6VzZA8kzlTgOY8HLZEvYseA8_j0Lo7vtZv5N0SxfLsy3VSiI6Zik_aRleUAPXw58ushyv12EBHtU6QbjjeHTrJKo7gJgCN8M=w1102-h417-no" height="25%">
+          </div>
+          <p>Dear ${firstName}, </p>
+          <strong>Thank You for your order!</strong>
+          <p>Please allow up to two business days to process your order. Once it’s been processed, you’ll receive a shipment confirmation email with your order’s tracking number.</p>
+          <p>Below, you’ll find a copy of your receipt and order information. Please keep it for your records.</p>
+          <p>Questions? Please reply to this email with any questions or concerns. </p>
+          <div class="row specs-container">
+            <div class="column items">
+              <p class="items-tag"><b>ITEMS</b></p>
+              <div class="product">
+                <div class="row">
+                  <div class="column item-pic">
+                    <img src="https://lh3.googleusercontent.com/OaoOtPADlL3e3zJbNDrWeCMSG5jjNBcVAfcDnEpBa2o8wBAR7p_W7fDjJXo5fAuAEpe9kfeL1EJRhnqJACHxKZeCsNdI5Ri5WTfrH61CtXkp6t1Alumrje_4TZRpztaiJWcKg7Y-NBnyQYxmpBORHlaNjN4CrQXOHYRLPk3dUpuXj8rtpQdfU4KW4WxnqdYzz_i-3nNrM85KPVthGD0jsaKgIlroi2bxhy9OfWWKwF-cFau0nkaOF9eALKuQn5COKnyYpXynRmZ7Qob2i4ZJttzEG9zDQUeRx12z_NbBa4eYqNdPyg1G0iOFTiqpHDa4q7L9ELMOrK0ElIf-vHje30fVMJtnoOXfZBD4QQqoKOVHV5cUu1UYyoRGnoJTSC7rXoKC_tq5iRMPdk4NcOqvvKd0Mj5akkXUtAT5h3utE-i8N-BxjBE8-igBOFhO4Kh9-ykBV-6iMs4LTTcXPxTryLhHdsmNhSUtXHQmBbVT_WueEx2anq9uNhmiADhY9uB-CFm_89ryrFUl2pLkVvPswB_jgsK02RcxV5u4AbqfPiwUh6sdxfQblatmWvboAXTsviYkZDwq7pcOEsXxM-5hi-WQNuJ8pkL3L2i3YvroG5t7SXveH_6wfDYCas6poHjqJM6Na9TRtriQlUYVOJsMCZXtx-U2J4k=w1000-h632-no" height="150" width="237">
+                  </div>
+                  <div class="column item-desc">
+                    <p class="">${product.version.name}</p>
+                    <p class="">COLOR: ${product.version.color}</p>
+                    <p class="">SIZE: US ${product.selectedSize}</p>
+                    <p class="">PRICE: ${product.version.price.str}</p>
+                  </div> 
+                </div> 
+              </div>
+              <div class="product">
+                <div class="row">
+                  <div class="column item-pic">
+                  <img src="https://lh3.googleusercontent.com/OaoOtPADlL3e3zJbNDrWeCMSG5jjNBcVAfcDnEpBa2o8wBAR7p_W7fDjJXo5fAuAEpe9kfeL1EJRhnqJACHxKZeCsNdI5Ri5WTfrH61CtXkp6t1Alumrje_4TZRpztaiJWcKg7Y-NBnyQYxmpBORHlaNjN4CrQXOHYRLPk3dUpuXj8rtpQdfU4KW4WxnqdYzz_i-3nNrM85KPVthGD0jsaKgIlroi2bxhy9OfWWKwF-cFau0nkaOF9eALKuQn5COKnyYpXynRmZ7Qob2i4ZJttzEG9zDQUeRx12z_NbBa4eYqNdPyg1G0iOFTiqpHDa4q7L9ELMOrK0ElIf-vHje30fVMJtnoOXfZBD4QQqoKOVHV5cUu1UYyoRGnoJTSC7rXoKC_tq5iRMPdk4NcOqvvKd0Mj5akkXUtAT5h3utE-i8N-BxjBE8-igBOFhO4Kh9-ykBV-6iMs4LTTcXPxTryLhHdsmNhSUtXHQmBbVT_WueEx2anq9uNhmiADhY9uB-CFm_89ryrFUl2pLkVvPswB_jgsK02RcxV5u4AbqfPiwUh6sdxfQblatmWvboAXTsviYkZDwq7pcOEsXxM-5hi-WQNuJ8pkL3L2i3YvroG5t7SXveH_6wfDYCas6poHjqJM6Na9TRtriQlUYVOJsMCZXtx-U2J4k=w1000-h632-no" height="150" width="237">
+                  </div>
+                  <div class="column item-desc">
+                    <p class="">${product.version.name}</p>
+                    <p class="">COLOR: ${product.version.color}</p>
+                    <p class="">SIZE: US ${product.selectedSize}</p>
+                    <p class="">PRICE: ${product.version.price.str}</p>
+                  </div> 
+                </div> 
+              </div>
+            </div>
+            <div class="column">
+              <p class="sum-item"><b>ORDER ID:</b> ${newStripeOrder.id}</p>
+              <p class="sum-item"><b>DATE PLACED:</b></p>
+              <p class="sum-item"><b>ORDER TOTAL:</b> ${newStripeOrder.amount}</p>
+              <p class="sum-item"><b>PAYMENT METHOD:</b> CREDIT CARD</p>
+              <p><b>SHIPPING ADDRESS:</b></p>
+            </div>
+          </div>
+        </div>`,
       };
       sgMail.send(msg);
       // 7. Return a successful response to the client

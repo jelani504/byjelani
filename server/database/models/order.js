@@ -2,9 +2,18 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const paypalOrderSchema = new Schema({
-  orderID: String,
+const orderSchema = new Schema({
   userID: String,
+  status: String,
+  paypalDetails: {
+    orderID: String,
+    transactionID: String,
+  },
+  stripeDetails: {
+    chargeID: String,
+    receipt_email: String,
+    receipt_url: String,
+  },
   orderTotal: Number,
   status: String,
   shippingInfo: { 
@@ -17,8 +26,6 @@ const paypalOrderSchema = new Schema({
       country_code: String
     }
   },
-  transactionID: String,
-  transactionStatus: String,
   items: [{
     versionID: Number,
     productName: String,
@@ -26,17 +33,19 @@ const paypalOrderSchema = new Schema({
     quantity: Number,
     subBrand: String,
     productID: Number,
-    img: String
+    img: String,
+    color: String,
+    price: { usd: {string: String, number: Number}}
   }]
 });
 
-const PaypalOrder = mongoose.model('PaypalOrder', paypalOrderSchema);
+const Order = mongoose.model('Order', orderSchema);
 
-const paypalOrderHelpers = {
-  createPaypalOrder: async (paypalOrder) => await new PaypalOrder(paypalOrder).save(),
+const orderHelpers = {
+  createPaypalOrder: async (Order) => await new PaypalOrder(Order).save(),
   findOnePaypalOrder: async (orderID) => await PaypalOrder.findOne({orderID}),
   findAllPaypalOrders: async () => await PaypalOrder.find({}),
-  updatePaypalOrder: async (orderID, key, value) => {
+  updateOrder: async (orderID, key, value) => {
     const paypalOrder = await PaypalOrder.findOne({orderID});
     paypalOrder[key] = value;
     // console.log(paypalOrder, 'Paypal ORDER');
@@ -72,7 +81,9 @@ const stripeOrderSchema = new Schema({
     quantity: Number,
     subBrand: String,
     productID: Number,
-    img: String
+    img: String,
+    color: String,
+    price: { usd: {string: String, number: Number}}
   }]
 });
 
