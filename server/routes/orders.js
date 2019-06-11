@@ -7,7 +7,7 @@ let stripe = require('stripe');
 
 require('dotenv').config();
 const payPalClient = require('../paypal-config');
-const { paypalOrderHelpers, stripeOrderHelpers  } = require('../database/models/order');
+const { orderHelpers  } = require('../database/models/order');
 const { userHelpers } = require('../database/models/user');
 const { productHelpers } = require('../database/models/product');
 
@@ -99,14 +99,23 @@ router.post('/create/stripe', async (req, res, next) => {
       return res.status(400).json({ err });
     }
     const { amount, id, receipt_email, receipt_url, shipping, status } =  charge;
-    const newStripeOrder = await stripeOrderHelpers.createStripeOrder({
-      amount, chargeID: id, receipt_email, receipt_url, shipping, status, items, userID: user.id
+    console.log(shipping);
+    const newOrder = await orderHelpers.createOrder({
+      orderTotal: amount,
+      status,
+      items,
+      userID: user.id,
+      stripeDetails: {
+        chargeID: id,
+        receipt_email,
+        receipt_url
+      }
     });
-    newStripeOrder.items.forEach( (item) => {
+    newOrder.items.forEach( (item) => {
       console.log(item, "ITEM");
       productHelpers.decreaseVersionQuantity(item.productID, item.versionID, item.selectedSize, item.quantity);
     });
-    console.log(newStripeOrder);
+    console.log(newOrder);
     await userHelpers.clearBag(user.email);
     const msg = {
       to: user.email,
@@ -158,12 +167,12 @@ router.post('/create/stripe', async (req, res, next) => {
   <p>Questions? Please reply to this email with any questions or concerns. </p>
   <div class="row specs-container">
     <div class="column items">
-      ${htmlItems(newStripeOrder.items)}
+      ${htmlItems(newOrder.items)}
     </div>
     <div class="column">
-    <p class="sum-item"><b>ORDER ID:</b> ${newStripeOrder.id}</p>
+    <p class="sum-item"><b>ORDER ID:</b> ${newOrder.id}</p>
     <p class="sum-item"><b>DATE PLACED:</b></p>
-    <p class="sum-item"><b>ORDER TOTAL:</b> ${newStripeOrder.amount}</p>
+    <p class="sum-item"><b>ORDER TOTAL:</b> ${newOrder.amount}</p>
     <p class="sum-item"><b>PAYMENT METHOD:</b> CREDIT CARD</p>
     <p><b>SHIPPING ADDRESS:</b></p>
     </div>
@@ -171,8 +180,9 @@ router.post('/create/stripe', async (req, res, next) => {
 </div>
     `,
     };
+    console.log(msg);
     sgMail.send(msg);
-    return res.status(200).send({ newStripeOrder });
+    return res.status(200).send({ newOrder });
   });
   
 });
@@ -240,7 +250,7 @@ router.post('/create/paypal', async (req, res, next) => {
       }, []);
 
       // 6. Save the transaction in your database with userbag, transaction ID, orderID, order status
-      const dborder = await paypalOrderHelpers.createPaypalOrder(newOrder);
+      const dborder = await orderHelpers.createOrder(newOrder);
       // console.log(dborder, 'NEW ORDERRRR');
       newOrder.items.forEach( (item) => {
         console.log(item, "ITEM");
@@ -326,9 +336,9 @@ router.post('/create/paypal', async (req, res, next) => {
               </div>
             </div>
             <div class="column">
-              <p class="sum-item"><b>ORDER ID:</b> ${newStripeOrder.id}</p>
+              <p class="sum-item"><b>ORDER ID:</b> ${newOrder.id}</p>
               <p class="sum-item"><b>DATE PLACED:</b></p>
-              <p class="sum-item"><b>ORDER TOTAL:</b> ${newStripeOrder.amount}</p>
+              <p class="sum-item"><b>ORDER TOTAL:</b> ${newOrder.amount}</p>
               <p class="sum-item"><b>PAYMENT METHOD:</b> CREDIT CARD</p>
               <p><b>SHIPPING ADDRESS:</b></p>
             </div>

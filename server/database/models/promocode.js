@@ -24,4 +24,5 @@ const promoCodeHelpers = {
 // const allPromoCodes = promoCodeHelpers.findAllPromoCodes();
 // console.log(allPromoCodes, 'ALL PROMO CODES ORDERS');
 // PromoCode.remove({}, () => console.log('promo codes collection removed'));
+// promoCodeHelpers.createPromoCode({code: 'LEREVE1941', discount: 20});
 module.exports = { PromoCode, promoCodeHelpers };

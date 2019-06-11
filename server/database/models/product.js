@@ -14,6 +14,7 @@ const productSchema = new Schema({
         soleMaterials: [{type: String}],
         upperMaterials: [{type: String}],
         img: String,
+        vid: String,
         price: { usd: {string: String, number: Number}},
         description: String, 
         story: {
@@ -73,7 +74,6 @@ const productHelpers = {
     return await product.save();
   }
 };
-
 // Product.find({}, (err, docs) => console.log(docs));
 // const allProducts = productHelpers.findAllProducts();
 // console.log(allProducts, 'ALL PRODUCTS');
