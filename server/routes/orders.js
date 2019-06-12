@@ -42,21 +42,23 @@ const router = express.Router();
 // });
 
 function htmlItems(items){
-  let itemHTML = '<p class="items-tag"><b>ITEMS</b></p>\n';
+  let itemHTML = '<p style="text-align: center; margin-bottom: 5%;"><b>ITEMS</b></p>\n';
   items.forEach(item => {
-    itemHTML += `<div class="product">
-    <div class="row">
-      <div class="column item-pic">
-      <img src="https://lh3.googleusercontent.com/OaoOtPADlL3e3zJbNDrWeCMSG5jjNBcVAfcDnEpBa2o8wBAR7p_W7fDjJXo5fAuAEpe9kfeL1EJRhnqJACHxKZeCsNdI5Ri5WTfrH61CtXkp6t1Alumrje_4TZRpztaiJWcKg7Y-NBnyQYxmpBORHlaNjN4CrQXOHYRLPk3dUpuXj8rtpQdfU4KW4WxnqdYzz_i-3nNrM85KPVthGD0jsaKgIlroi2bxhy9OfWWKwF-cFau0nkaOF9eALKuQn5COKnyYpXynRmZ7Qob2i4ZJttzEG9zDQUeRx12z_NbBa4eYqNdPyg1G0iOFTiqpHDa4q7L9ELMOrK0ElIf-vHje30fVMJtnoOXfZBD4QQqoKOVHV5cUu1UYyoRGnoJTSC7rXoKC_tq5iRMPdk4NcOqvvKd0Mj5akkXUtAT5h3utE-i8N-BxjBE8-igBOFhO4Kh9-ykBV-6iMs4LTTcXPxTryLhHdsmNhSUtXHQmBbVT_WueEx2anq9uNhmiADhY9uB-CFm_89ryrFUl2pLkVvPswB_jgsK02RcxV5u4AbqfPiwUh6sdxfQblatmWvboAXTsviYkZDwq7pcOEsXxM-5hi-WQNuJ8pkL3L2i3YvroG5t7SXveH_6wfDYCas6poHjqJM6Na9TRtriQlUYVOJsMCZXtx-U2J4k=w1000-h632-no" height="150" width="237">
-      </div>
-      <div class="column item-desc">
-        <p class="">${item.productName}</p>
-        <p class="">COLOR: ${item.color}</p>
-        <p class="">SIZE: US ${item.selectedSize}</p>
-        <p class="">PRICE: ${item.price.usd.string}</p>
+    itemHTML += `
+    <div style="margin-bottom: 7.5%;">
+      <div style="display: flex;">
+        <div style="flex: 50%; justify-content: center;">
+        <img style="outline:none;text-decoration:none;display:inline-block; border:0 none; max-width: 237px;" src="${item.img}">
+        </div>
+        <div style="flex: 50%; margin-left: 5%;">
+          <p class="">${item.productName}</p>
+          <p class="">COLOR: ${item.color}</p>
+          <p class="">SIZE: US ${item.selectedSize}</p>
+          <p class="">PRICE: ${item.price.usd.string}</p>
+        </div> 
       </div> 
-    </div> 
-  </div>\n`
+    </div>\n
+    `
   });
   return itemHTML;
 }
@@ -99,7 +101,7 @@ router.post('/create/stripe', async (req, res, next) => {
       return res.status(400).json({ err });
     }
     const { amount, id, receipt_email, receipt_url, shipping, status } =  charge;
-    console.log(shipping);
+    console.log(shipping, 'SHIPPING');
     const newOrder = await orderHelpers.createOrder({
       orderTotal: amount,
       status,
@@ -122,59 +124,32 @@ router.post('/create/stripe', async (req, res, next) => {
       from: 'orders@byjelani.com',
       subject: `JELANI Order Confirmation 😎`,
       html: `
-      <style>  
-  .item-pic {
-    max-width: 237px !important;
-  }
-  .row {
-    display: flex;
-  }
-  .column {
-    flex: 50%;
-  }
-  .sum-item {
-    margin-right: 5%
-  }
-  .order-sum {
-    justify-content: center;
-  }
-  .head-logo {
-    text-align: center;
-  }
-  .specs-container {
-    margin-top: 50px;
-    margin-left: 15%;
-  }
-  .item-desc {
-    margin-left: 5%
-  }
-  .product{
-    margin-bottom: 7.5%
-  }
-  .items-tag{
-    text-align: center;
-    margin-bottom: 5%
-  }
-</style>
 <div class="container">
-<div class="head-logo">
-<img src="https://lh3.googleusercontent.com/uM4tqk5l5e7tbBduMDn6vx-Tumoak62UqOtIMNsybHkNY7_lHhUJzQQz1t2SAYOvKzWW-GpvONuibQTdxxXT_LasS_l1kNyJ26TM8anv5NaRCJENfABO25Oy8FfMp8FewZ8TBNiOLNFRLyWWr2rNH3YFPzzQy2dwRgPP_9GGOvsDLjKSSnQGf9eymTqS3I-Ddn5yfpXrkqjgeby916xoPdCBO23HkXCfVyh6z4iAQQVbWPKv2tv4O9kA3id3AzixhhbmaJ1o5LgZxagXKU9HQ-WiqcFZgZ5Xfjwu7B4dADZMVrAc7TYYB5PR58wPDfvm_TRAzluPYG0cepc6jLMsHnOnWXLHSJD737tAvWQv_yqbOEDZkauxLddcK1RTESVLpNlfJLOhJ2vEaTTIY69y1ALcp0Uni8_dENaNRHoGa3Jv8j3ZhwUO0erC0jfkUzLLfrJzBNHaxf4V3bdMzewpCjq_HcN-UG9vrhz6AQrXf2pzgs1EYm-STqEEmUaUV3nm2dHM9hlXcI0ixM3JBGCxN2iG6eSBG_KbysHzpRHAhXhdFIDeV4pRNbcwmbJNOjC6VzZA8kzlTgOY8HLZEvYseA8_j0Lo7vtZv5N0SxfLsy3VSiI6Zik_aRleUAPXw58ushyv12EBHtU6QbjjeHTrJKo7gJgCN8M=w1102-h417-no" height="25%">
+<div style="text-align: center;">
+<img style="max-height: 125px;" src="https://lh3.googleusercontent.com/uM4tqk5l5e7tbBduMDn6vx-Tumoak62UqOtIMNsybHkNY7_lHhUJzQQz1t2SAYOvKzWW-GpvONuibQTdxxXT_LasS_l1kNyJ26TM8anv5NaRCJENfABO25Oy8FfMp8FewZ8TBNiOLNFRLyWWr2rNH3YFPzzQy2dwRgPP_9GGOvsDLjKSSnQGf9eymTqS3I-Ddn5yfpXrkqjgeby916xoPdCBO23HkXCfVyh6z4iAQQVbWPKv2tv4O9kA3id3AzixhhbmaJ1o5LgZxagXKU9HQ-WiqcFZgZ5Xfjwu7B4dADZMVrAc7TYYB5PR58wPDfvm_TRAzluPYG0cepc6jLMsHnOnWXLHSJD737tAvWQv_yqbOEDZkauxLddcK1RTESVLpNlfJLOhJ2vEaTTIY69y1ALcp0Uni8_dENaNRHoGa3Jv8j3ZhwUO0erC0jfkUzLLfrJzBNHaxf4V3bdMzewpCjq_HcN-UG9vrhz6AQrXf2pzgs1EYm-STqEEmUaUV3nm2dHM9hlXcI0ixM3JBGCxN2iG6eSBG_KbysHzpRHAhXhdFIDeV4pRNbcwmbJNOjC6VzZA8kzlTgOY8HLZEvYseA8_j0Lo7vtZv5N0SxfLsy3VSiI6Zik_aRleUAPXw58ushyv12EBHtU6QbjjeHTrJKo7gJgCN8M=w1102-h417-no">
 </div>
   <p>Dear ${firstName}, </p>
   <strong>Thank You for your order!</strong>
   <p>Please allow up to two business days to process your order. Once it’s been processed, you’ll receive a shipment confirmation email with your order’s tracking number.</p>
   <p>Below, you’ll find a copy of your receipt and order information. Please keep it for your records.</p>
   <p>Questions? Please reply to this email with any questions or concerns. </p>
-  <div class="row specs-container">
-    <div class="column items">
+  <div style="display: flex; margin-top: 50px; margin-left: 15%;">
+    <div style="flex: 50%;" class="items">
       ${htmlItems(newOrder.items)}
     </div>
-    <div class="column">
-    <p class="sum-item"><b>ORDER ID:</b> ${newOrder.id}</p>
-    <p class="sum-item"><b>DATE PLACED:</b></p>
-    <p class="sum-item"><b>ORDER TOTAL:</b> ${newOrder.amount}</p>
-    <p class="sum-item"><b>PAYMENT METHOD:</b> CREDIT CARD</p>
-    <p><b>SHIPPING ADDRESS:</b></p>
+    <div style="flex: 50%;">
+    <p style="margin-right: 5%;"><b>ORDER ID:</b> ${newOrder.id}</p>
+    <p style="margin-right: 5%;"><b>DATE PLACED:</b></p>
+    <p style="margin-right: 5%;"><b>ORDER TOTAL:</b> $${newOrder.orderTotal/100}</p>
+    <p style="margin-right: 5%;"><b>PAYMENT METHOD:</b> CREDIT CARD</p>
+    <h4><b>SHIPPING ADDRESS</b></h4>
+    <p style="margin-right: 5%;"><b>NAME:</b> ${shipping.name}</p>
+    <p style="margin-right: 5%;"><b>STREET ADDRESS:</b> ${shipping.address.line1}</p>
+    <p style="margin-right: 5%;"><b>CITY:</b>  ${shipping.address.city}</p>
+    <p style="margin-right: 5%;"><b>STATE:</b>  ${shipping.address.state}</p>
+    <p style="margin-right: 5%;"><b>COUNTRY:</b> ${shipping.address.country}</p>
+    <p style="margin-right: 5%;"><b>POSTAL CODE:</b> ${shipping.address.postal_code}</p>
+    <p style="margin-right: 5%;"><b>PHONE:</b>  ${shipping.phone}</p>
     </div>
   </div>
 </div>
@@ -275,7 +250,7 @@ router.post('/create/paypal', async (req, res, next) => {
           .sum-item {
             margin-right: 5%
           }
-          .order-sum {
+          .center {
             justify-content: center;
           }
           .head-logo {
