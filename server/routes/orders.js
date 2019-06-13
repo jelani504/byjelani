@@ -42,7 +42,7 @@ const router = express.Router();
 // });
 
 function htmlItems(items){
-  let itemHTML = '<p style="text-align: center; margin-bottom: 5%;"><b>ITEMS</b></p>\n';
+  let itemHTML = '<h3 style="margin-bottom: 5%; margin-top: 0px;"><b>ITEMS</b></h3>\n';
   items.forEach(item => {
     itemHTML += `
     <div style="margin-bottom: 7.5%;">
@@ -51,10 +51,10 @@ function htmlItems(items){
         <img style="outline:none;text-decoration:none;display:inline-block; border:0 none; max-width: 237px;" src="${item.img}">
         </div>
         <div style="flex: 50%; margin-left: 5%;">
-          <p class="">${item.productName}</p>
-          <p class="">COLOR: ${item.color}</p>
-          <p class="">SIZE: US ${item.selectedSize}</p>
-          <p class="">PRICE: ${item.price.usd.string}</p>
+          <p style="margin-bottom: 0px;"><b>${item.productName}</b></p>
+          <p style="margin-bottom: 5px;">
+            ${item.color}<br>US ${item.selectedSize}<br>${item.price.usd.string}
+          </p>
         </div> 
       </div> 
     </div>\n
@@ -102,10 +102,12 @@ router.post('/create/stripe', async (req, res, next) => {
     }
     const { amount, id, receipt_email, receipt_url, shipping, status } =  charge;
     console.log(shipping, 'SHIPPING');
+    const orderDate  = new Date();
     const newOrder = await orderHelpers.createOrder({
       orderTotal: amount,
       status,
       items,
+      orderDate,
       userID: user.id,
       stripeDetails: {
         chargeID: id,
@@ -124,34 +126,40 @@ router.post('/create/stripe', async (req, res, next) => {
       from: 'orders@byjelani.com',
       subject: `JELANI Order Confirmation 😎`,
       html: `
-<div class="container">
-<div style="text-align: center;">
-<img style="max-height: 125px;" src="https://lh3.googleusercontent.com/uM4tqk5l5e7tbBduMDn6vx-Tumoak62UqOtIMNsybHkNY7_lHhUJzQQz1t2SAYOvKzWW-GpvONuibQTdxxXT_LasS_l1kNyJ26TM8anv5NaRCJENfABO25Oy8FfMp8FewZ8TBNiOLNFRLyWWr2rNH3YFPzzQy2dwRgPP_9GGOvsDLjKSSnQGf9eymTqS3I-Ddn5yfpXrkqjgeby916xoPdCBO23HkXCfVyh6z4iAQQVbWPKv2tv4O9kA3id3AzixhhbmaJ1o5LgZxagXKU9HQ-WiqcFZgZ5Xfjwu7B4dADZMVrAc7TYYB5PR58wPDfvm_TRAzluPYG0cepc6jLMsHnOnWXLHSJD737tAvWQv_yqbOEDZkauxLddcK1RTESVLpNlfJLOhJ2vEaTTIY69y1ALcp0Uni8_dENaNRHoGa3Jv8j3ZhwUO0erC0jfkUzLLfrJzBNHaxf4V3bdMzewpCjq_HcN-UG9vrhz6AQrXf2pzgs1EYm-STqEEmUaUV3nm2dHM9hlXcI0ixM3JBGCxN2iG6eSBG_KbysHzpRHAhXhdFIDeV4pRNbcwmbJNOjC6VzZA8kzlTgOY8HLZEvYseA8_j0Lo7vtZv5N0SxfLsy3VSiI6Zik_aRleUAPXw58ushyv12EBHtU6QbjjeHTrJKo7gJgCN8M=w1102-h417-no">
-</div>
+<div style="margin: 5%">
+  <img href="https://localhost:4200" style="max-height: 50px;" src="https://lh3.googleusercontent.com/uM4tqk5l5e7tbBduMDn6vx-Tumoak62UqOtIMNsybHkNY7_lHhUJzQQz1t2SAYOvKzWW-GpvONuibQTdxxXT_LasS_l1kNyJ26TM8anv5NaRCJENfABO25Oy8FfMp8FewZ8TBNiOLNFRLyWWr2rNH3YFPzzQy2dwRgPP_9GGOvsDLjKSSnQGf9eymTqS3I-Ddn5yfpXrkqjgeby916xoPdCBO23HkXCfVyh6z4iAQQVbWPKv2tv4O9kA3id3AzixhhbmaJ1o5LgZxagXKU9HQ-WiqcFZgZ5Xfjwu7B4dADZMVrAc7TYYB5PR58wPDfvm_TRAzluPYG0cepc6jLMsHnOnWXLHSJD737tAvWQv_yqbOEDZkauxLddcK1RTESVLpNlfJLOhJ2vEaTTIY69y1ALcp0Uni8_dENaNRHoGa3Jv8j3ZhwUO0erC0jfkUzLLfrJzBNHaxf4V3bdMzewpCjq_HcN-UG9vrhz6AQrXf2pzgs1EYm-STqEEmUaUV3nm2dHM9hlXcI0ixM3JBGCxN2iG6eSBG_KbysHzpRHAhXhdFIDeV4pRNbcwmbJNOjC6VzZA8kzlTgOY8HLZEvYseA8_j0Lo7vtZv5N0SxfLsy3VSiI6Zik_aRleUAPXw58ushyv12EBHtU6QbjjeHTrJKo7gJgCN8M=w1102-h417-no">
+  <hr>
   <p>Dear ${firstName}, </p>
   <strong>Thank You for your order!</strong>
   <p>Please allow up to two business days to process your order. Once it’s been processed, you’ll receive a shipment confirmation email with your order’s tracking number.</p>
   <p>Below, you’ll find a copy of your receipt and order information. Please keep it for your records.</p>
   <p>Questions? Please reply to this email with any questions or concerns. </p>
-  <div style="display: flex; margin-top: 50px; margin-left: 15%;">
-    <div style="flex: 50%;" class="items">
+  <div style="display: flex; margin-top: 50px;">
+    <div style="float: left; width: 50%;">
       ${htmlItems(newOrder.items)}
     </div>
-    <div style="flex: 50%;">
-    <p style="margin-right: 5%;"><b>ORDER ID:</b> ${newOrder.id}</p>
-    <p style="margin-right: 5%;"><b>DATE PLACED:</b></p>
-    <p style="margin-right: 5%;"><b>ORDER TOTAL:</b> $${newOrder.orderTotal/100}</p>
-    <p style="margin-right: 5%;"><b>PAYMENT METHOD:</b> CREDIT CARD</p>
-    <h4><b>SHIPPING ADDRESS</b></h4>
-    <p style="margin-right: 5%;"><b>NAME:</b> ${shipping.name}</p>
-    <p style="margin-right: 5%;"><b>STREET ADDRESS:</b> ${shipping.address.line1}</p>
-    <p style="margin-right: 5%;"><b>CITY:</b>  ${shipping.address.city}</p>
-    <p style="margin-right: 5%;"><b>STATE:</b>  ${shipping.address.state}</p>
-    <p style="margin-right: 5%;"><b>COUNTRY:</b> ${shipping.address.country}</p>
-    <p style="margin-right: 5%;"><b>POSTAL CODE:</b> ${shipping.address.postal_code}</p>
-    <p style="margin-right: 5%;"><b>PHONE:</b>  ${shipping.phone}</p>
+    <div style="float: left; width: 50%;">
+      <p style="margin-right: 5%;"><b>ORDER ID:</b> ${newOrder.id}</p>
+      <p style="margin-right: 5%;">
+        <b>DATE PLACED:</b> ${orderDate.toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+      </p>
+      <p style="margin-right: 5%; margin-top: 0px;"><b>ORDER TOTAL:</b> $${newOrder.orderTotal/100}</p>
+      <p style="margin-right: 5%;"><b>PAYMENT METHOD:</b> CREDIT CARD</p>
+      <h4 style="margin-bottom: 0px;"><b>SHIPPING ADDRESS:</b></h4>
+      <p style="margin-right: 5%; margin-top: 5px;">
+        ${shipping.name}
+        <br>
+        ${shipping.address.line1}
+        <br>
+        ${shipping.address.city}, ${shipping.address.state}
+        <br>
+        ${shipping.address.country} ${shipping.address.postal_code}
+        <br>
+        ${shipping.phone}
+      </p>
     </div>
   </div>
+  <div style="background-color:black; height:50px; margin-top:20px;"></div>
 </div>
     `,
     };

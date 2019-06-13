@@ -5,6 +5,7 @@ const { Schema } = mongoose;
 const orderSchema = new Schema({
   userID: String,
   status: String,
+  orderDate: Date,
   paypalDetails: {
     orderID: String,
     transactionID: String,
