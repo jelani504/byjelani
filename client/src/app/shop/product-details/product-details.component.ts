@@ -12,7 +12,7 @@ import { NavigationService } from 'src/app/navigation.service';
 })
 export class ProductDetailsComponent implements OnInit {
   //product Version
-  @Input() product;
+  @Input() version;
   @Input() productModel;
   public selectedSize;
   public vmBagButtonStr;
@@ -37,7 +37,7 @@ export class ProductDetailsComponent implements OnInit {
           if(productModel){
             if(productModel.subBrand.split(' ').join('') === productSubBrand){
               this.productModel = productModel;
-              this.product = this.productService.getProduct(modelVersionID);
+              this.version = this.productService.getProduct(modelVersionID);
             }
           }
         }
@@ -47,7 +47,7 @@ export class ProductDetailsComponent implements OnInit {
 
 
   setCartButtons(){
-    if(this.userService.isItemInBag(this.product)){
+    if(this.userService.isItemInBag(this.version)){
       this.vmBagButtonStr = this.addOneMoreStr;
       this.isItemInBag = true;
     } else {
@@ -56,24 +56,29 @@ export class ProductDetailsComponent implements OnInit {
     }
   }
 
- 
+  completeAddToBag(){
+    this.snackBarService.snackBarMessage.next('This item has been added to your bag.');
+    if(!this.isItemInBag){
+      this.isItemInBag = true;
+      this.vmBagButtonStr = this.addOneMoreStr;
+    }
+  }
+
   addToBag(){
+    const { selectedSize, version, snackBarService, userService, productModel, completeAddToBag } = this;
     const user = this.userService.user.getValue();
-    if(user.email){
-      if(this.selectedSize){
-        this.userService.addProductToBag(this.product, this.selectedSize, this.productModel.id);
-        this.snackBarService.snackBarMessage.next('This item has been added to your bag.');
-        if(!this.isItemInBag){
-          this.isItemInBag = true;
-          this.vmBagButtonStr = this.addOneMoreStr;
-        }
+    console.log(user);
+    if(selectedSize){
+      if(user.email){
+        userService.addProductToBag(version, selectedSize, productModel.id);
+        this.completeAddToBag();
       } else {
-        this.snackBarService.snackBarMessage.next('Please select a size.');
+        userService.addProductToSessBag(version, selectedSize, productModel.id);
+        this.completeAddToBag();
       }
     } else {
-      this.userService.openDialog('You must be signed in to add to bag.');
+      snackBarService.snackBarMessage.next('Please select a size.');
     }
-
   }
 }
 

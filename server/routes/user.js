@@ -8,9 +8,21 @@ const router = express.Router();
 router.get('/', (req, res, next) => {console.log(req.user); 
   const { user } = req;
   if (!user){
-    return res.status(500).json({ error: 'NO USER'});
+    return res.status(200).json({ error: 'NO USER'});
   }
   return res.status(200).json({user});
+});
+
+router.get('/session', (req, res, next) => {console.log(req.user); 
+  const { session } = req;
+  console.log(session);
+  if (!session){
+    return res.status(200).json({ error: 'NO USER SESSION'});
+  }
+  if(!session.user){
+    session.user = { shoppingBag:[], email: '' };
+  }
+  return res.status(200).json({sessUser: session.user});
 });
 
 router.post('/update', (req, res, next) => {
@@ -40,6 +52,19 @@ router.post('/update', (req, res, next) => {
       }).catch(err => console.log(err));
     }
   });
+});
+
+router.post('/update/guest/bag', async (req, res, next) => {
+  const { session, body } = req;
+  const { userBag } = body;
+  if(session.user){
+    session.user.shoppingBag = userBag;
+  } else {
+    session.user = { shoppingBag: userBag, email: '' };
+  }
+  const user = session.user;
+  console.log(session.user);
+  res.status(200).send({user});
 });
 
 router.post('/register', async (req, res, next) => {

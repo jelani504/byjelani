@@ -26,6 +26,7 @@ export class CheckoutComponent {
   card: any;
   cardHandler = this.onChange.bind(this);
   error: string;
+  public vmUser;
   public vmUserBag = [];
   public vmOrderTotal;
   public vmSelectedCountry = new BehaviorSubject({states: []});
@@ -39,6 +40,7 @@ export class CheckoutComponent {
     phone: new FormControl('', Validators.required),
     streetAddress: new FormControl('', Validators.required),
     city: new FormControl('', Validators.required),
+    email: new FormControl('', Validators.required)
   });
 
   constructor(
@@ -53,6 +55,7 @@ export class CheckoutComponent {
       this.vmSelectedCountry = val;
       console.log(val)
     });
+    this.vmUser = this.userService.user.getValue();
     userService.userBag.subscribe(bag => {this.vmUserBag = bag; console.log(this.vmUserBag, 'BAG');});
     this.userService.orderTotal.subscribe(orderTotal => {
       this.vmOrderTotal = {

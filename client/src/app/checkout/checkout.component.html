@@ -60,6 +60,13 @@
                     </mat-form-field>
                 </div>
               </div>
+              <div *ngIf="!vmUser.email" class="shipping-details row-container">
+                <div class="email-column">
+                  <mat-form-field>
+                    <input formControlName="email" matInput placeholder="Email" required>
+                    </mat-form-field>
+                </div>
+              </div>
             </form>
           <form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)" class="checkout">
             <div class="form-row">

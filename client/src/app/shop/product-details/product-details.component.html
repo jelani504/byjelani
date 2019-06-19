@@ -1,5 +1,5 @@
 <div class="details-container">
-    <div *ngIf="product">
+    <div *ngIf="version">
         <!-- <p 
           class="product-subbrand"
           [ngStyle.xs]="
@@ -22,17 +22,17 @@
                 fxFlex="0 1 calc(25% - 32px)"
             >   
                 <!-- <p class="product-model" [ngStyle.xs]="{'margin-top': '0px', 'margin-bottom': '30px'}">{{productModel.productModel}}</p> -->
-                <p class="product-name">{{product.name}}</p>
-                <p class="product-color">{{product.color}}</p>
-                <div *ngFor="let link of product.story.links" >
+                <p class="product-name">{{version.name}}</p>
+                <p class="product-color">{{version.color}}</p>
+                <div *ngFor="let link of version.story.links" >
                     <a href="{{link.url}}">{{link.title}}</a>
                     <br>
                 </div>
                 <p>
-                    <b>{{product.story.text}}</b>
+                    <b>{{version.story.text}}</b>
                 </p>
                 <p>
-                    {{product.description}}
+                    {{version.description}}
                 </p>
             </div>
             <div 
@@ -41,11 +41,11 @@
             >
             <!-- <img
             [ngStyle.xs]="{ 'height.px': 145 }"
-            src="{{product.img}}"
+            src="{{version.img}}"
             height="450"
             > -->
             <video width="600" height="400" autoplay loop>
-                <source src="{{product.vid}}" type="video/mp4">
+                <source src="{{version.vid}}" type="video/mp4">
               Your browser does not support the video tag.
               </video>
             </div>
@@ -53,14 +53,14 @@
                 class="product-purchase"
                 fxFlex="0 1 calc(25% - 32px)"
             >
-                <p class="price">{{product.price.usd.string}}</p>
-                <p class="free-shipping" *ngIf="product.freeShipping">
+                <p class="price">{{version.price.usd.string}}</p>
+                <p class="free-shipping" *ngIf="version.freeShipping">
                     free shipping
                 </p>
                 <mat-form-field>
                     <mat-label>SELECT A SIZE</mat-label>
                     <mat-select [(value)]="selectedSize">
-                        <mat-option *ngFor="let size of product.sizes" [disabled]="size.quantity < 1" value="{{size.size}}">
+                        <mat-option *ngFor="let size of version.sizes" [disabled]="size.quantity < 1" value="{{size.size}}">
                         {{size.size}}
                         </mat-option>
                     </mat-select>
@@ -71,7 +71,7 @@
             </div>
         </div>
     </div>
-    <div *ngIf="!product">
+    <div *ngIf="!version">
         <p class="no-product">Please select a product from the shop</p>
         <button [ngStyle.xs]="{'width': '40%'}" mat-button (click)="navigationService.navigateToShop()"> SHOP </button>
     </div>

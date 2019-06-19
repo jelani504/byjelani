@@ -24,14 +24,20 @@ export class UserService {
     ) {
       this.getUser().subscribe((res: {user: any}) => {
         const { user } = res
-        if(user.email){
+        if(user){
           this.user.next(user);
+        } else {
+          this.getSessUser().subscribe((res: {sessUser: any}) => {
+            const { sessUser } = res;
+            console.log(sessUser, 'SESSION USER', res);
+            this.user.next(sessUser);
+          });
         }
         console.log(user); 
       });
       this.user.subscribe( (user: {shoppingBag: any, email: String}) => {
         console.log(user, 'USER CHANGE');
-        if(user.email){
+        if(user){
           console.log(user.shoppingBag);
           this.userBag.next(user.shoppingBag);
         }
@@ -44,6 +50,14 @@ export class UserService {
 
   getUser(){
     return this._http.get(`${this.configService.apiOrigin}/api/user`, {
+      observe: 'body',
+      withCredentials: true,
+      headers: new HttpHeaders().append('Content-Type', 'application/json')
+    });
+  }
+
+  getSessUser(){
+    return this._http.get(`${this.configService.apiOrigin}/api/user/session`, {
       observe: 'body',
       withCredentials: true,
       headers: new HttpHeaders().append('Content-Type', 'application/json')
@@ -77,6 +91,14 @@ export class UserService {
     });
   }
 
+  updateSessBag(userBag){
+    return this._http.post(`${this.configService.apiOrigin}/api/user/update/guest/bag`, { userBag }, {
+      observe: 'body',
+      withCredentials: true,
+      headers: new HttpHeaders().append('Content-Type', 'application/json')
+    });
+  }
+
   addProductToBag(version, selectedSize, productID){
     const userBag = this.userBag.getValue();
     const isItemInBag = this.isItemInBag(version, selectedSize);
@@ -86,6 +108,18 @@ export class UserService {
     } else {
       const newBag = userBag.concat([{version, selectedSize, quantity: 1, productID}]);
       this.updateUser('shoppingBag', newBag).subscribe((res: {user: any}) => {this.user.next(res.user)});
+    }
+  }
+
+  addProductToSessBag(version, selectedSize, productID){
+    const userBag = this.userBag.getValue();
+    const isItemInBag = this.isItemInBag(version, selectedSize);
+    if(isItemInBag){
+      userBag[isItemInBag.index] = {version, selectedSize, quantity: isItemInBag.quantity + 1, productID};
+      this.updateSessBag(userBag).subscribe((res: {user: any}) => {console.log(res); this.user.next(res.user)});
+    } else {
+      const newBag = userBag.concat([{version, selectedSize, quantity: 1, productID}]);
+      this.updateSessBag(newBag).subscribe((res: {user: any}) => {console.log(res);  this.user.next(res.user)});
     }
   }
 
@@ -136,6 +170,7 @@ export class UserService {
   }
 
   editQuantityInBag(itemID: string, selectedSize, option){
+    const user = this.user.getValue();
     const userBag = this.userBag.getValue();
     userBag.forEach((item, index) => {
       if(item.version.id === itemID && item.selectedSize === selectedSize){
@@ -150,7 +185,11 @@ export class UserService {
         } else {
           userBag[index] = itemCopy;
         }
-        this.updateUser('shoppingBag', userBag).subscribe((res: {user: any}) => {this.user.next(res.user)});
+        if(!user.email){
+          this.updateSessBag(userBag).subscribe((res: {user: any}) => {this.user.next(res.user)});
+        } else {
+          this.updateUser('shoppingBag', userBag).subscribe((res: {user: any}) => {this.user.next(res.user)});
+        }
       }
     });
   }
