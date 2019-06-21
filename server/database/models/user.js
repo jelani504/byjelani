@@ -34,6 +34,9 @@ const userHelpers = {
   findOneUser: async email =>  await User.findOne({email}),
   clearBag: async email => {
     const user = await User.findOne({email});
+    if(!user){
+      return;
+    }
     user.shoppingBag = [];
     return await user.save();
   },

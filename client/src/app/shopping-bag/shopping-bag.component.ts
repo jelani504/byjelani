@@ -61,6 +61,8 @@ export class ShoppingBagComponent implements OnInit {
         },
         onApprove: (data, actions) => {
           return actions.order.capture().then((details) => {
+            console.log(details, 'DETAILS');
+            console.log(details.id === data.orderID)
             alert('Transaction completed by ' + details.payer.name.given_name);
             // Call your server to save the transaction
             return fetch(`${this.configService.apiOrigin}/api/orders/create/paypal`, {
@@ -72,7 +74,8 @@ export class ShoppingBagComponent implements OnInit {
                 orderID: data.orderID,
                 orderTotal: this.vmOrderTotal.orderTotal,
                 userBag: this.userBag,
-                email: this.userService.user.getValue().email
+                email: this.userService.user.getValue().email || details.payer.email_address,
+                details
               })
             }).then(res => console.log(res)).catch(err => console.log(err));
           });

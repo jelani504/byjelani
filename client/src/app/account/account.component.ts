@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from '../user.service';
 import { SnackbarService } from '../snackbar.service';
+import { NavigationService } from '../navigation.service';
 
 @Component({
   selector: 'app-account',
@@ -23,17 +24,9 @@ export class AccountComponent implements OnInit {
   });
   constructor(
     private userService: UserService,
-    private snackBarService: SnackbarService
-    ) {
-    userService.user.subscribe(user => {
-      const { email } = user;
-      if(!email){
-        this.userService.openDialog('You must be signed in to update account information.')
-        return;
-      }
-      this.vmUser = user;
-    })
-  }
+    private snackBarService: SnackbarService,
+    public navigationService: NavigationService
+  ) { userService.user.subscribe(user => this.vmUser = user); }
 
   ngOnInit() {
   }
@@ -50,6 +43,7 @@ export class AccountComponent implements OnInit {
   }
 
   saveChanges(){
+    console.log('SAVE CHANGES HIT');
     if(!this.vmUser._id){
       this.userService.openDialog('You must be signed in to update account information.')
       return ;

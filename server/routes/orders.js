@@ -171,11 +171,10 @@ router.post('/create/stripe', async (req, res, next) => {
 });
 
 router.post('/create/paypal', async (req, res, next) => {
+    const orderDate = new Date();
     console.log('USER ID NEXT');
-    console.log(req.user.id);
     // 2a. Get the order ID from the request body
-    const { orderID, orderTotal, userBag, email } = req.body;
-    const newOrder = { orderID, orderTotal };
+    const { orderID, orderTotal, userBag, email, details } = req.body;
     const orderTotalStr = orderTotal.toString();
     // 3. Call PayPal to get the transaction details
     let payPalrequest = new checkoutNodeJssdk.orders.OrdersGetRequest(orderID);
@@ -209,124 +208,83 @@ router.post('/create/paypal', async (req, res, next) => {
     
     request(options, async (error, response, body) => {
       if (error) throw new Error(error);
-      const { firstName } = req.user;
+      const firstName = details.payer.name.given_name;
       const bodyObj = JSON.parse(body);
+      console.log(bodyObj.payer.name.given_name, 'BODY');
+      console.log(details.payer.name.given_name, 'DETAILS');
       const shippingInfo = bodyObj.purchase_units[0].shipping;
       const transactionID = bodyObj.purchase_units[0].payments.captures[0].id;
       const transactionStatus = bodyObj.purchase_units[0].payments.captures[0].status;
+      const newOrder = { 
+        orderID,
+        orderTotal,
+        orderDate,
+        shippingInfo,
+        transactionID,
+        transactionStatus,
+        items: userBag.reduce((itemsArr, currentItem) => {
+          const { productID, version} = currentItem;
+          const versionID = version.id;
+          const productName = version.name;
+          const { img, color, price } = version;
+          // console.log(currentItem, 'CURRENT ITEM');
+          const { selectedSize, quantity, subBrand } = currentItem;
+          itemsArr.push({versionID, productName, selectedSize, quantity, subBrand, productID, img, color, price });
+          return itemsArr;
+        }, [])
+      };
       if(transactionStatus === 'COMPLETED'){
         newOrder.status = 'paid';
       }
-      newOrder.userID = req.user.id;
-      newOrder.shippingInfo = shippingInfo;
-      newOrder.transactionID = transactionID;
-      newOrder.transactionStatus = transactionStatus;
-      newOrder.items = userBag.reduce((itemsArr, currentItem) => {
-        const { productID, version} = currentItem;
-        const versionID = version.id;
-        const productName = version.name;
-        const { img, color, price } = version;
-        // console.log(currentItem, 'CURRENT ITEM');
-        const { selectedSize, quantity, subBrand } = currentItem;
-        itemsArr.push({versionID, productName, selectedSize, quantity, subBrand, productID, img, color, price });
-        return itemsArr;
-      }, []);
-
+      if(req.user){
+        newOrder.userID = req.user.id;
+      }
+      
       // 6. Save the transaction in your database with userbag, transaction ID, orderID, order status
       const dborder = await orderHelpers.createOrder(newOrder);
       // console.log(dborder, 'NEW ORDERRRR');
-      newOrder.items.forEach( (item) => {
-        console.log(item, "ITEM");
-        productHelpers.decreaseVersionQuantity(item.productID, item.versionID, item.selectedSize, item.quantity);
-      });
+      newOrder.items.forEach(item => productHelpers.decreaseVersionQuantity(item.productID, item.versionID, item.selectedSize, item.quantity));
       await userHelpers.clearBag(email);
       const msg = {
-        to: email,
+        to: 'jhankins02@gmail.com',
         from: 'orders@byjelani.com',
         subject: `JELANI Order Confirmation (${orderID})`,
         html: `
-        <style>  
-          .item-pic {
-            max-width: 237px !important;
-          }
-          .row {
-            display: flex;
-          }
-          .column {
-            flex: 50%;
-          }
-          .sum-item {
-            margin-right: 5%
-          }
-          .center {
-            justify-content: center;
-          }
-          .head-logo {
-            text-align: center;
-          }
-          .specs-container {
-            margin-top: 50px;
-            margin-left: 15%;
-          }
-          .item-desc {
-            margin-left: 5%
-          }
-          .product{
-            margin-bottom: 7.5%
-          }
-          .items-tag{
-            text-align: center;
-            margin-bottom: 5%
-          }
-        </style>
-        <div class="container">
-          <div class="head-logo">
-            <img src="https://lh3.googleusercontent.com/uM4tqk5l5e7tbBduMDn6vx-Tumoak62UqOtIMNsybHkNY7_lHhUJzQQz1t2SAYOvKzWW-GpvONuibQTdxxXT_LasS_l1kNyJ26TM8anv5NaRCJENfABO25Oy8FfMp8FewZ8TBNiOLNFRLyWWr2rNH3YFPzzQy2dwRgPP_9GGOvsDLjKSSnQGf9eymTqS3I-Ddn5yfpXrkqjgeby916xoPdCBO23HkXCfVyh6z4iAQQVbWPKv2tv4O9kA3id3AzixhhbmaJ1o5LgZxagXKU9HQ-WiqcFZgZ5Xfjwu7B4dADZMVrAc7TYYB5PR58wPDfvm_TRAzluPYG0cepc6jLMsHnOnWXLHSJD737tAvWQv_yqbOEDZkauxLddcK1RTESVLpNlfJLOhJ2vEaTTIY69y1ALcp0Uni8_dENaNRHoGa3Jv8j3ZhwUO0erC0jfkUzLLfrJzBNHaxf4V3bdMzewpCjq_HcN-UG9vrhz6AQrXf2pzgs1EYm-STqEEmUaUV3nm2dHM9hlXcI0ixM3JBGCxN2iG6eSBG_KbysHzpRHAhXhdFIDeV4pRNbcwmbJNOjC6VzZA8kzlTgOY8HLZEvYseA8_j0Lo7vtZv5N0SxfLsy3VSiI6Zik_aRleUAPXw58ushyv12EBHtU6QbjjeHTrJKo7gJgCN8M=w1102-h417-no" height="25%">
-          </div>
-          <p>Dear ${firstName}, </p>
-          <strong>Thank You for your order!</strong>
-          <p>Please allow up to two business days to process your order. Once it’s been processed, you’ll receive a shipment confirmation email with your order’s tracking number.</p>
-          <p>Below, you’ll find a copy of your receipt and order information. Please keep it for your records.</p>
-          <p>Questions? Please reply to this email with any questions or concerns. </p>
-          <div class="row specs-container">
-            <div class="column items">
-              <p class="items-tag"><b>ITEMS</b></p>
-              <div class="product">
-                <div class="row">
-                  <div class="column item-pic">
-                    <img src="https://lh3.googleusercontent.com/OaoOtPADlL3e3zJbNDrWeCMSG5jjNBcVAfcDnEpBa2o8wBAR7p_W7fDjJXo5fAuAEpe9kfeL1EJRhnqJACHxKZeCsNdI5Ri5WTfrH61CtXkp6t1Alumrje_4TZRpztaiJWcKg7Y-NBnyQYxmpBORHlaNjN4CrQXOHYRLPk3dUpuXj8rtpQdfU4KW4WxnqdYzz_i-3nNrM85KPVthGD0jsaKgIlroi2bxhy9OfWWKwF-cFau0nkaOF9eALKuQn5COKnyYpXynRmZ7Qob2i4ZJttzEG9zDQUeRx12z_NbBa4eYqNdPyg1G0iOFTiqpHDa4q7L9ELMOrK0ElIf-vHje30fVMJtnoOXfZBD4QQqoKOVHV5cUu1UYyoRGnoJTSC7rXoKC_tq5iRMPdk4NcOqvvKd0Mj5akkXUtAT5h3utE-i8N-BxjBE8-igBOFhO4Kh9-ykBV-6iMs4LTTcXPxTryLhHdsmNhSUtXHQmBbVT_WueEx2anq9uNhmiADhY9uB-CFm_89ryrFUl2pLkVvPswB_jgsK02RcxV5u4AbqfPiwUh6sdxfQblatmWvboAXTsviYkZDwq7pcOEsXxM-5hi-WQNuJ8pkL3L2i3YvroG5t7SXveH_6wfDYCas6poHjqJM6Na9TRtriQlUYVOJsMCZXtx-U2J4k=w1000-h632-no" height="150" width="237">
-                  </div>
-                  <div class="column item-desc">
-                    <p class="">${product.version.name}</p>
-                    <p class="">COLOR: ${product.version.color}</p>
-                    <p class="">SIZE: US ${product.selectedSize}</p>
-                    <p class="">PRICE: ${product.version.price.str}</p>
-                  </div> 
-                </div> 
-              </div>
-              <div class="product">
-                <div class="row">
-                  <div class="column item-pic">
-                  <img src="https://lh3.googleusercontent.com/OaoOtPADlL3e3zJbNDrWeCMSG5jjNBcVAfcDnEpBa2o8wBAR7p_W7fDjJXo5fAuAEpe9kfeL1EJRhnqJACHxKZeCsNdI5Ri5WTfrH61CtXkp6t1Alumrje_4TZRpztaiJWcKg7Y-NBnyQYxmpBORHlaNjN4CrQXOHYRLPk3dUpuXj8rtpQdfU4KW4WxnqdYzz_i-3nNrM85KPVthGD0jsaKgIlroi2bxhy9OfWWKwF-cFau0nkaOF9eALKuQn5COKnyYpXynRmZ7Qob2i4ZJttzEG9zDQUeRx12z_NbBa4eYqNdPyg1G0iOFTiqpHDa4q7L9ELMOrK0ElIf-vHje30fVMJtnoOXfZBD4QQqoKOVHV5cUu1UYyoRGnoJTSC7rXoKC_tq5iRMPdk4NcOqvvKd0Mj5akkXUtAT5h3utE-i8N-BxjBE8-igBOFhO4Kh9-ykBV-6iMs4LTTcXPxTryLhHdsmNhSUtXHQmBbVT_WueEx2anq9uNhmiADhY9uB-CFm_89ryrFUl2pLkVvPswB_jgsK02RcxV5u4AbqfPiwUh6sdxfQblatmWvboAXTsviYkZDwq7pcOEsXxM-5hi-WQNuJ8pkL3L2i3YvroG5t7SXveH_6wfDYCas6poHjqJM6Na9TRtriQlUYVOJsMCZXtx-U2J4k=w1000-h632-no" height="150" width="237">
-                  </div>
-                  <div class="column item-desc">
-                    <p class="">${product.version.name}</p>
-                    <p class="">COLOR: ${product.version.color}</p>
-                    <p class="">SIZE: US ${product.selectedSize}</p>
-                    <p class="">PRICE: ${product.version.price.str}</p>
-                  </div> 
-                </div> 
-              </div>
-            </div>
-            <div class="column">
-              <p class="sum-item"><b>ORDER ID:</b> ${newOrder.id}</p>
-              <p class="sum-item"><b>DATE PLACED:</b></p>
-              <p class="sum-item"><b>ORDER TOTAL:</b> ${newOrder.amount}</p>
-              <p class="sum-item"><b>PAYMENT METHOD:</b> CREDIT CARD</p>
-              <p><b>SHIPPING ADDRESS:</b></p>
-            </div>
-          </div>
-        </div>`,
+        <div style="margin: 5%">
+  <img href="https://localhost:4200" style="max-height: 50px;" src="https://lh3.googleusercontent.com/uM4tqk5l5e7tbBduMDn6vx-Tumoak62UqOtIMNsybHkNY7_lHhUJzQQz1t2SAYOvKzWW-GpvONuibQTdxxXT_LasS_l1kNyJ26TM8anv5NaRCJENfABO25Oy8FfMp8FewZ8TBNiOLNFRLyWWr2rNH3YFPzzQy2dwRgPP_9GGOvsDLjKSSnQGf9eymTqS3I-Ddn5yfpXrkqjgeby916xoPdCBO23HkXCfVyh6z4iAQQVbWPKv2tv4O9kA3id3AzixhhbmaJ1o5LgZxagXKU9HQ-WiqcFZgZ5Xfjwu7B4dADZMVrAc7TYYB5PR58wPDfvm_TRAzluPYG0cepc6jLMsHnOnWXLHSJD737tAvWQv_yqbOEDZkauxLddcK1RTESVLpNlfJLOhJ2vEaTTIY69y1ALcp0Uni8_dENaNRHoGa3Jv8j3ZhwUO0erC0jfkUzLLfrJzBNHaxf4V3bdMzewpCjq_HcN-UG9vrhz6AQrXf2pzgs1EYm-STqEEmUaUV3nm2dHM9hlXcI0ixM3JBGCxN2iG6eSBG_KbysHzpRHAhXhdFIDeV4pRNbcwmbJNOjC6VzZA8kzlTgOY8HLZEvYseA8_j0Lo7vtZv5N0SxfLsy3VSiI6Zik_aRleUAPXw58ushyv12EBHtU6QbjjeHTrJKo7gJgCN8M=w1102-h417-no">
+  <hr>
+  <p>Dear ${firstName}, </p>
+  <strong>Thank You for your order!</strong>
+  <p>Please allow up to two business days to process your order. Once it’s been processed, you’ll receive a shipment confirmation email with your order’s tracking number.</p>
+  <p>Below, you’ll find a copy of your receipt and order information. Please keep it for your records.</p>
+  <p>Questions? Please reply to this email with any questions or concerns. </p>
+  <div style="display: flex; margin-top: 50px;">
+    <div style="float: left; width: 50%;">
+      ${htmlItems(newOrder.items)}
+    </div>
+    <div style="float: left; width: 50%;">
+      <p style="margin-right: 5%;"><b>ORDER ID:</b> ${orderID}</p>
+      <p style="margin-right: 5%;">
+        <b>DATE PLACED:</b> ${orderDate.toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+      </p>
+      <p style="margin-right: 5%; margin-top: 0px;"><b>ORDER TOTAL:</b> $${newOrder.orderTotal}</p>
+      <p style="margin-right: 5%;"><b>PAYMENT METHOD:</b> CREDIT CARD</p>
+      <h4 style="margin-bottom: 0px;"><b>SHIPPING ADDRESS:</b></h4>
+      <p style="margin-right: 5%; margin-top: 5px;">
+        ${shippingInfo.name.full_name}
+        <br>
+        ${shippingInfo.address.address_line_1}
+        <br>
+        ${function(){ if(shippingInfo.address.address_line_2){ return `${shippingInfo.address.address_line_2} <br>`} return '';}()}
+        ${shippingInfo.address.admin_area_2}, ${shippingInfo.address.admin_area_1}
+        <br>
+        ${shippingInfo.address.country_code} ${shippingInfo.address.postal_code}
+        <br>
+      </p>
+    </div>
+  </div>
+  <div style="background-color:black; height:50px; margin-top:20px;"></div>
+</div>`,
       };
       sgMail.send(msg);
       // 7. Return a successful response to the client

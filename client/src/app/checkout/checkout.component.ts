@@ -49,7 +49,7 @@ export class CheckoutComponent {
     public navigationService: NavigationService,
     private orderService: OrderService,
     private snackbarService: SnackbarService,
-    private checkoutService: CheckoutService
+    public checkoutService: CheckoutService
   ) {
     this.orderForm.get('country').valueChanges.subscribe(val => {
       this.vmSelectedCountry = val;
