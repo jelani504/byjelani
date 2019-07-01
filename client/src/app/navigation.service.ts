@@ -45,4 +45,5 @@ export class NavigationService {
   navigateToGoogleAuth(){
     window.location.assign(this.configService.vmGoogleLink);
   }
+  navigateTo(link){ window.location.assign(link);}
 }

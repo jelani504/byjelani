@@ -9,17 +9,19 @@ import { ShoppingBagComponent } from './shopping-bag/shopping-bag.component';
 import { ProductDetailsComponent } from './shop/product-details/product-details.component';
 import { AdminComponent } from './admin/admin.component';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { PreorderComponent } from './preorder/preorder.component';
 
 const routes: Routes = [
-  { path: '', component: HomepageComponent, pathMatch: 'full'},
-  {path: 'login', component: LoginComponent},
-  {path: 'register', component: RegisterComponent},
-  {path: 'account', component: AccountComponent },
-  {path: 'shop', component: ShopComponent },
-  {path: 'shopping-bag', component: ShoppingBagComponent},
-  {path: 'checkout', component: CheckoutComponent},
-  {path: 'shop/:productSubBrand/:productModelID/:modelVersionID', component: ProductDetailsComponent },
-  {path: 'admin', component: AdminComponent}
+  { path: '', component: PreorderComponent, pathMatch: 'full'},
+  // { path: '', component: HomepageComponent, pathMatch: 'full'},
+  // {path: 'login', component: LoginComponent},
+  // {path: 'register', component: RegisterComponent},
+  // {path: 'account', component: AccountComponent },
+  // {path: 'shop', component: ShopComponent },
+  // {path: 'shopping-bag', component: ShoppingBagComponent},
+  // {path: 'checkout', component: CheckoutComponent},
+  // {path: 'shop/:productSubBrand/:productModelID/:modelVersionID', component: ProductDetailsComponent },
+  // {path: 'admin', component: AdminComponent}
 ];
 
 @NgModule({

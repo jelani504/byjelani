@@ -25,7 +25,12 @@
                 <p class="product-name">{{version.name}}</p>
                 <p class="product-color">{{version.color}}</p>
                 <div *ngFor="let link of version.story.links" >
-                    <a href="{{link.url}}">{{link.title}}</a>
+                    <button mat-raised-button (click)="navigationService.navigateTo(link.url)">
+                        <!-- {{link.title}} -->
+                           Moments in Black History: 
+                            The Man Who Revolutionized the Shoe Industry
+                
+                    </button>
                     <br>
                 </div>
                 <p>

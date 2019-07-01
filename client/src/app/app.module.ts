@@ -31,6 +31,7 @@ import { PromocodeService } from './promocode.service';
 import { AdminService } from './admin/admin.service';
 import { OrderService } from './order.service';
 import { CheckoutService } from './checkout/checkout.service';
+import { PreorderComponent } from './preorder/preorder.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { CheckoutService } from './checkout/checkout.service';
     ShoppingBagComponent,
     CheckoutComponent,
     SignInDialog,
-    AdminComponent
+    AdminComponent,
+    PreorderComponent
   ],
   imports: [
     BrowserModule,

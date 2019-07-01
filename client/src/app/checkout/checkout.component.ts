@@ -51,10 +51,7 @@ export class CheckoutComponent {
     private snackbarService: SnackbarService,
     public checkoutService: CheckoutService
   ) {
-    this.orderForm.get('country').valueChanges.subscribe(val => {
-      this.vmSelectedCountry = val;
-      console.log(val)
-    });
+    this.orderForm.get('country').valueChanges.subscribe(val => this.vmSelectedCountry = val);
     this.vmUser = this.userService.user.getValue();
     userService.userBag.subscribe(bag => {this.vmUserBag = bag; console.log(this.vmUserBag, 'BAG');});
     this.userService.orderTotal.subscribe(orderTotal => {
