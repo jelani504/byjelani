@@ -5,12 +5,15 @@
     font-family: "Bebas Neue", ;
 }
 .preorder-info{
-    line-height: 2;
+    line-height: 1.5;
     margin-top: 15%;
     text-align: center;
     font-size: 17px;
     color: white;
     font-family:  "Bebas Neue";
+    .mvp{
+        font-size: 104px;
+    }
 }
 .product-image-container{
     text-align: center;
