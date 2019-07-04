@@ -13,5 +13,8 @@ module.exports = (app) => {
   app.use('/api/orders', ordersRouter);
   app.use('/api/promocodes', promoCodesRouter);
   app.use('/api/admin', adminsRouter);
-  app.use('/api/countries', countriesRouter)
+  app.use('/api/countries', countriesRouter);
+  app.get('*', function(req, res){
+    res.redirect('/');
+  });
 };
