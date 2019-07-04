@@ -13,6 +13,8 @@ import { PreorderComponent } from './preorder/preorder.component';
 
 const routes: Routes = [
   { path: '', component: PreorderComponent, pathMatch: 'full'},
+  // {path: '404', component: NotFoundComponent},
+   {path: '**', redirectTo: '/'}
   // { path: '', component: HomepageComponent, pathMatch: 'full'},
   // {path: 'login', component: LoginComponent},
   // {path: 'register', component: RegisterComponent},
