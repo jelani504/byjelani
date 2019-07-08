@@ -20,12 +20,15 @@
   }
 
   .title-font{
-    font-family: "brandon-grotesque", sans-serif;
+    font-family: "Bebas Neue", "brandon-grotesque", sans-serif;
+    margin-top: 15px;
     font-weight: 500;
-    font-size: 40px;
+    font-size: 50px;
     font-style: normal;
     cursor: pointer;
     color: black;
+    width: 55%;
+    text-align: right;
   }
   mat-toolbar{
       background: white;
@@ -48,4 +51,9 @@
 .header, .header-row{
   min-height: 45px;
   height: 45px;
+  justify-content: center;
+}
+.header-buttons{
+  text-align: right;
+  width: 50%;
 }
